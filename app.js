@@ -1,4 +1,6 @@
 const TEXTGRID_URL = "input/text.TextGrid";
+const CHANT_ID = "sri-suktam";
+const RATINGS_STORAGE_KEY = `vedic-karaoke:ratings:${CHANT_ID}`;
 const AUDIO_FILES = {
   1: "input/audio.ogg",
   0.7: "input/audio70.ogg",
@@ -14,6 +16,8 @@ const segmentsRoot = document.querySelector("#segments");
 const stopButton = document.querySelector("#stopButton");
 const tempoControls = document.querySelector("#tempoControls");
 const repeatControls = document.querySelector("#repeatControls");
+const filterControls = document.querySelector("#filterControls");
+const resetProgressButton = document.querySelector("#resetProgressButton");
 
 let tiers = [];
 let segmentGroups = [];
@@ -28,6 +32,8 @@ let activeProgressButtons = [];
 let playbackRate = 1;
 let playbackRequestId = 0;
 let repeatCount = DEFAULT_REPEAT_COUNT;
+let activeRatingFilter = "all";
+let slokaRatings = loadSlokaRatings();
 
 init();
 
@@ -143,8 +149,10 @@ function findTier(hint) {
 }
 
 function buildSegmentGroups(slokaIntervals, padaIntervals) {
-  return slokaIntervals.map((sloka) => ({
+  return slokaIntervals.map((sloka, index) => ({
+    id: createSlokaId(sloka, index),
     sloka,
+    rating: getSlokaRating(createSlokaId(sloka, index)),
     padas: padaIntervals.filter((pada) => isInsideInterval(pada, sloka)),
   }));
 }
@@ -154,6 +162,53 @@ function isInsideInterval(child, parent) {
     child.xmin >= parent.xmin - GROUP_TIME_TOLERANCE &&
     child.xmax <= parent.xmax + GROUP_TIME_TOLERANCE
   );
+}
+
+function createSlokaId(sloka, index) {
+  return `${index}:${sloka.xmin.toFixed(3)}:${sloka.xmax.toFixed(3)}`;
+}
+
+function loadSlokaRatings() {
+  try {
+    return JSON.parse(localStorage.getItem(RATINGS_STORAGE_KEY)) || {};
+  } catch (error) {
+    console.warn("Nie udało się wczytać ocen ślok.", error);
+    return {};
+  }
+}
+
+function saveSlokaRatings() {
+  try {
+    localStorage.setItem(RATINGS_STORAGE_KEY, JSON.stringify(slokaRatings));
+  } catch (error) {
+    console.warn("Nie udało się zapisać ocen ślok.", error);
+  }
+}
+
+function getSlokaRating(id) {
+  const rating = Number(slokaRatings[id] || 0);
+  return Number.isInteger(rating) && rating >= 0 && rating <= 3 ? rating : 0;
+}
+
+function countVisibleGroups() {
+  if (activeRatingFilter === "all") {
+    return segmentGroups.length;
+  }
+
+  const maxRating = Number(activeRatingFilter);
+  return segmentGroups.filter((group) => group.rating <= maxRating).length;
+}
+
+function applyRatingFilter() {
+  const maxRating = activeRatingFilter === "all" ? null : Number(activeRatingFilter);
+
+  document.querySelectorAll(".segment-group").forEach((groupElement) => {
+    const rating = Number(groupElement.dataset.rating || 0);
+    const isVisible = maxRating === null || rating <= maxRating;
+    groupElement.hidden = !isVisible;
+  });
+
+  updateSummary();
 }
 
 function parseTextGrid(source) {
@@ -283,7 +338,12 @@ function updateSummary() {
     ? `audio ${formatRate(playbackRate)} gotowe`
     : `ładowanie audio ${formatRate(playbackRate)}...`;
   const padaCount = segmentGroups.reduce((count, group) => count + group.padas.length, 0);
-  summary.textContent = `${segmentGroups.length} ślok | ${padaCount} pāda | ${audioStatus}`;
+  const visibleGroups = countVisibleGroups();
+  const slokaSummary =
+    activeRatingFilter === "all"
+      ? `${segmentGroups.length} ślok`
+      : `${visibleGroups}/${segmentGroups.length} ślok`;
+  summary.textContent = `${slokaSummary} | ${padaCount} pāda | ${audioStatus}`;
 }
 
 function renderGroups(groups) {
@@ -296,21 +356,72 @@ function renderGroups(groups) {
     ...groups.map((group) => {
       const groupElement = document.createElement("article");
       groupElement.className = "segment-group";
+      groupElement.dataset.slokaId = group.id;
+      groupElement.dataset.rating = String(group.rating);
 
       const slokaButton = createSegmentButton(
         group.sloka,
         "",
         "sloka-button",
       );
+      const slokaHeader = document.createElement("div");
+      slokaHeader.className = "sloka-header";
+      slokaHeader.replaceChildren(slokaButton, createRatingControl(group, groupElement));
+
       const padasElement = document.createElement("div");
       padasElement.className = "pada-list";
 
       padasElement.replaceChildren(...renderPadaPairs(group.padas));
 
-      groupElement.replaceChildren(slokaButton, padasElement);
+      groupElement.replaceChildren(slokaHeader, padasElement);
       return groupElement;
     }),
   );
+  applyRatingFilter();
+}
+
+function createRatingControl(group, groupElement) {
+  const control = document.createElement("div");
+  control.className = "rating-control";
+  control.setAttribute("aria-label", "Ocena śloki");
+  updateRatingControl(control, group.rating);
+
+  for (let rating = 1; rating <= 3; rating += 1) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "rating-star";
+    button.dataset.rating = String(rating);
+    button.addEventListener("click", () => {
+      const nextRating = group.rating === rating ? 0 : rating;
+      setSlokaRating(group, groupElement, control, nextRating);
+    });
+    control.appendChild(button);
+  }
+
+  updateRatingControl(control, group.rating);
+  return control;
+}
+
+function updateRatingControl(control, rating) {
+  control.dataset.rating = String(rating);
+
+  [...control.querySelectorAll(".rating-star")].forEach((button) => {
+    const starRating = Number(button.dataset.rating);
+    const isFilled = starRating <= rating;
+    button.textContent = isFilled ? "★" : "☆";
+    button.classList.toggle("is-filled", isFilled);
+    button.setAttribute("aria-label", `Ustaw ocenę ${starRating}`);
+    button.setAttribute("aria-pressed", String(isFilled));
+  });
+}
+
+function setSlokaRating(group, groupElement, control, rating) {
+  group.rating = rating;
+  groupElement.dataset.rating = String(rating);
+  slokaRatings[group.id] = rating;
+  saveSlokaRatings();
+  updateRatingControl(control, rating);
+  applyRatingFilter();
 }
 
 function renderPadaPairs(padas) {
@@ -700,6 +811,35 @@ function setRepeatCount(count) {
   });
 }
 
+function setRatingFilter(filter) {
+  activeRatingFilter = filter;
+
+  [...filterControls.querySelectorAll("button")].forEach((button) => {
+    button.setAttribute("aria-pressed", String(button.dataset.filter === activeRatingFilter));
+  });
+
+  applyRatingFilter();
+}
+
+function resetProgress() {
+  slokaRatings = {};
+  saveSlokaRatings();
+
+  segmentGroups.forEach((group) => {
+    group.rating = 0;
+  });
+
+  document.querySelectorAll(".segment-group").forEach((groupElement) => {
+    groupElement.dataset.rating = "0";
+  });
+
+  document.querySelectorAll(".rating-control").forEach((control) => {
+    updateRatingControl(control, 0);
+  });
+
+  applyRatingFilter();
+}
+
 function formatRate(rate) {
   return `${Math.round(rate * 100)}%`;
 }
@@ -727,3 +867,13 @@ repeatControls.addEventListener("click", (event) => {
 
   setRepeatCount(Number(button.dataset.repeat));
 });
+filterControls.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-filter]");
+
+  if (!button) {
+    return;
+  }
+
+  setRatingFilter(button.dataset.filter);
+});
+resetProgressButton.addEventListener("click", resetProgress);

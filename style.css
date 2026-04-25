@@ -80,6 +80,19 @@ h1 {
   box-shadow: var(--shadow);
 }
 
+.audio-credit {
+  margin: -4px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.audio-credit a {
+  color: var(--accent-strong);
+  font-weight: 700;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 #summary {
   margin: 0;
   color: var(--muted);
@@ -110,7 +123,8 @@ h1 {
 }
 
 .tempo-controls,
-.repeat-controls {
+.repeat-controls,
+.filter-controls {
   display: grid;
   align-items: center;
   gap: 6px;
@@ -131,12 +145,14 @@ h1 {
 }
 
 .tempo-controls button,
-.repeat-controls button {
+.repeat-controls button,
+.filter-controls button {
   min-height: 40px;
 }
 
 .tempo-controls button[aria-pressed="true"],
-.repeat-controls button[aria-pressed="true"] {
+.repeat-controls button[aria-pressed="true"],
+.filter-controls button[aria-pressed="true"] {
   border-color: var(--accent);
   background: var(--accent);
   color: #fff;
@@ -155,6 +171,56 @@ h1 {
 .segment-group {
   display: grid;
   gap: 8px;
+}
+
+.segment-group[hidden] {
+  display: none;
+}
+
+.sloka-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.rating-control {
+  display: grid;
+  grid-template-columns: repeat(3, 34px);
+  gap: 4px;
+  align-items: stretch;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.rating-star {
+  min-height: 40px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: #9b9b91;
+  cursor: pointer;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.rating-star:hover {
+  border-color: var(--accent);
+}
+
+.rating-control[data-rating="1"] .rating-star.is-filled {
+  color: #c43d32;
+}
+
+.rating-control[data-rating="2"] .rating-star.is-filled {
+  color: #c79a13;
+}
+
+.rating-control[data-rating="3"] .rating-star.is-filled {
+  color: #24824f;
 }
 
 .segment-button {
@@ -345,6 +411,10 @@ h1 {
     display: contents;
   }
 
+  .filter-controls {
+    display: contents;
+  }
+
   .chant-image {
     width: min(100%, 380px);
   }
@@ -352,6 +422,15 @@ h1 {
   .segment-button {
     grid-template-columns: 1fr;
     gap: 6px;
+  }
+
+  .sloka-header {
+    grid-template-columns: 1fr;
+  }
+
+  .rating-control {
+    grid-template-columns: repeat(3, 1fr);
+    box-shadow: none;
   }
 
   .pada-list {
