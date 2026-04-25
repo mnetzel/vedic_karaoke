@@ -6,13 +6,14 @@ const AUDIO_FILES = {
 const SLOKA_TIER_HINT = "sloka";
 const PADA_TIER_HINT = "pada";
 const GROUP_TIME_TOLERANCE = 0.08;
-const REPEAT_COUNT = 5;
+const DEFAULT_REPEAT_COUNT = 5;
 const REPEAT_GAP_SECONDS = 1;
 
 const summary = document.querySelector("#summary");
 const segmentsRoot = document.querySelector("#segments");
 const stopButton = document.querySelector("#stopButton");
 const tempoControls = document.querySelector("#tempoControls");
+const repeatControls = document.querySelector("#repeatControls");
 
 let tiers = [];
 let segmentGroups = [];
@@ -26,6 +27,7 @@ let activeProgressFrame = null;
 let activeProgressButtons = [];
 let playbackRate = 1;
 let playbackRequestId = 0;
+let repeatCount = DEFAULT_REPEAT_COUNT;
 
 init();
 
@@ -358,8 +360,10 @@ function renderPadaPairs(padas) {
         { interval: second, button: secondButton },
       ],
     );
+    const combinedRepeatButton = createRepeatButton(combinedInterval, combinedButton);
+    const combinedControl = createCombinedControl(combinedRepeatButton, combinedButton);
 
-    row.replaceChildren(singleButtons, combinedButton);
+    row.replaceChildren(singleButtons, combinedControl);
     rows.push(row);
   }
 
@@ -373,12 +377,21 @@ function createPadaControl(segmentButton, repeatButton, extraClass = "") {
   return wrapper;
 }
 
+function createCombinedControl(repeatButton, segmentButton) {
+  const wrapper = document.createElement("div");
+  wrapper.className = "combined-control";
+  wrapper.replaceChildren(repeatButton, segmentButton);
+  return wrapper;
+}
+
 function createRepeatButton(interval, segmentButton) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "repeat-button";
-  button.textContent = "x5";
-  button.setAttribute("aria-label", `Powtórz pięć razy: ${interval.text}`);
+  button.textContent = formatRepeatCount();
+  button.dataset.repeatButton = "true";
+  button.dataset.repeatText = interval.text;
+  button.setAttribute("aria-label", `Powtórz ${formatRepeatCount()}: ${interval.text}`);
   button.addEventListener("click", () => playRepeatedInterval(interval, segmentButton, button));
   return button;
 }
@@ -477,11 +490,11 @@ async function playRepeatedInterval(interval, segmentButton, repeatButton) {
       selectedBuffer,
       start,
       playbackDuration,
-      REPEAT_COUNT,
+      repeatCount,
       REPEAT_GAP_SECONDS,
     );
     const totalDuration =
-      playbackDuration * REPEAT_COUNT + REPEAT_GAP_SECONDS * (REPEAT_COUNT - 1);
+      playbackDuration * repeatCount + REPEAT_GAP_SECONDS * (repeatCount - 1);
 
     activeSources = sources;
     activeTimer = window.setTimeout(() => {
@@ -493,7 +506,7 @@ async function playRepeatedInterval(interval, segmentButton, repeatButton) {
       segmentButton,
       context.currentTime,
       playbackDuration,
-      REPEAT_COUNT,
+      repeatCount,
       REPEAT_GAP_SECONDS,
     );
   } catch (error) {
@@ -673,8 +686,26 @@ function setPlaybackRate(rate) {
   loadAudioBuffer(playbackRate);
 }
 
+function setRepeatCount(count) {
+  repeatCount = count;
+
+  [...repeatControls.querySelectorAll("button")].forEach((button) => {
+    const isActive = Number(button.dataset.repeat) === repeatCount;
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+
+  document.querySelectorAll("[data-repeat-button='true']").forEach((button) => {
+    button.textContent = formatRepeatCount();
+    button.setAttribute("aria-label", `Powtórz ${formatRepeatCount()}: ${button.dataset.repeatText}`);
+  });
+}
+
 function formatRate(rate) {
   return `${Math.round(rate * 100)}%`;
+}
+
+function formatRepeatCount() {
+  return `x${repeatCount}`;
 }
 
 stopButton.addEventListener("click", stopPlayback);
@@ -686,4 +717,13 @@ tempoControls.addEventListener("click", (event) => {
   }
 
   setPlaybackRate(Number(button.dataset.rate));
+});
+repeatControls.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-repeat]");
+
+  if (!button) {
+    return;
+  }
+
+  setRepeatCount(Number(button.dataset.repeat));
 });

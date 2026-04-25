@@ -99,6 +99,7 @@ h1 {
   right: 18px;
   z-index: 20;
   display: grid;
+  gap: 8px;
   width: 104px;
   padding: 8px;
   border: 1px solid var(--line);
@@ -108,7 +109,8 @@ h1 {
   backdrop-filter: blur(8px);
 }
 
-.tempo-controls {
+.tempo-controls,
+.repeat-controls {
   display: grid;
   align-items: center;
   gap: 6px;
@@ -128,11 +130,13 @@ h1 {
   padding: 0 10px;
 }
 
-.tempo-controls button {
+.tempo-controls button,
+.repeat-controls button {
   min-height: 40px;
 }
 
-.tempo-controls button[aria-pressed="true"] {
+.tempo-controls button[aria-pressed="true"],
+.repeat-controls button[aria-pressed="true"] {
   border-color: var(--accent);
   background: var(--accent);
   color: #fff;
@@ -216,6 +220,13 @@ h1 {
 .pada-control {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 46px;
+  gap: 6px;
+  align-items: stretch;
+}
+
+.combined-control {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
   gap: 6px;
   align-items: stretch;
 }
@@ -330,6 +341,10 @@ h1 {
     display: contents;
   }
 
+  .repeat-controls {
+    display: contents;
+  }
+
   .chant-image {
     width: min(100%, 380px);
   }
@@ -349,6 +364,10 @@ h1 {
 
   .pada-control {
     grid-template-columns: minmax(0, 1fr) 44px;
+  }
+
+  .combined-control {
+    grid-template-columns: 44px minmax(0, 1fr);
   }
 
   .pada-combined {
