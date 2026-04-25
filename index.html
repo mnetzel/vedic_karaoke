@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vedic Karaoke</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="controls floating-controls" aria-label="Sterowanie">
+      <div id="tempoControls" class="tempo-controls" aria-label="Tempo odtwarzania">
+        <button type="button" data-rate="1" aria-pressed="true">100%</button>
+        <button type="button" data-rate="0.7" aria-pressed="false">70%</button>
+      </div>
+      <button id="stopButton" type="button" title="Zatrzymaj">Stop</button>
+    </div>
+
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand-panel">
+          <h1>Vedic Karaoke</h1>
+          <div class="chant-heading">
+            <p class="subtitle">Śri Suktam</p>
+            <img class="chant-image" src="input/image.jpg" alt="">
+          </div>
+          <p id="summary">Ładowanie TextGrida...</p>
+        </div>
+      </header>
+
+      <section id="segments" class="segments" aria-live="polite"></section>
+    </main>
+
+    <script src="app.js" charset="utf-8"></script>
+  </body>
+</html>
