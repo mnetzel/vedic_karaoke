@@ -3,8 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Vedic Karaoke</title>
-    <link rel="stylesheet" href="style.css?v=ratings2">
+    <script>
+      window.__assetVersion = Date.now();
+      document.write(`<link rel="stylesheet" href="style.css?v=${window.__assetVersion}">`);
+    </script>
   </head>
   <body>
     <div class="controls floating-controls" aria-label="Sterowanie">
@@ -47,6 +53,8 @@
       <section id="segments" class="segments" aria-live="polite"></section>
     </main>
 
-    <script src="app.js?v=ratings2" charset="utf-8"></script>
+    <script>
+      document.write(`<script src="app.js?v=${window.__assetVersion}" charset="utf-8"><\/script>`);
+    </script>
   </body>
 </html>

@@ -1,6 +1,7 @@
 const TEXTGRID_URL = "input/text.TextGrid";
 const CHANT_ID = "sri-suktam";
 const RATINGS_STORAGE_KEY = `vedic-karaoke:ratings:${CHANT_ID}`;
+const SETTINGS_STORAGE_KEY = `vedic-karaoke:settings:${CHANT_ID}`;
 const AUDIO_FILES = {
   1: "input/audio.ogg",
   0.7: "input/audio70.ogg",
@@ -29,10 +30,11 @@ let activeSources = [];
 let activeTimer = null;
 let activeProgressFrame = null;
 let activeProgressButtons = [];
-let playbackRate = 1;
+let savedSettings = loadSettings();
+let playbackRate = savedSettings.playbackRate;
 let playbackRequestId = 0;
-let repeatCount = DEFAULT_REPEAT_COUNT;
-let activeRatingFilter = "all";
+let repeatCount = savedSettings.repeatCount;
+let activeRatingFilter = savedSettings.ratingFilter;
 let slokaRatings = loadSlokaRatings();
 
 init();
@@ -61,6 +63,7 @@ async function init() {
 
     segmentGroups = buildSegmentGroups(slokaTier.intervals, padaTier.intervals);
     renderGroups(segmentGroups);
+    applySavedControls();
     updateSummary();
     loadAudioBuffer(playbackRate);
   } catch (error) {
@@ -188,6 +191,49 @@ function saveSlokaRatings() {
 function getSlokaRating(id) {
   const rating = Number(slokaRatings[id] || 0);
   return Number.isInteger(rating) && rating >= 0 && rating <= 3 ? rating : 0;
+}
+
+function loadSettings() {
+  const defaults = {
+    playbackRate: 1,
+    repeatCount: DEFAULT_REPEAT_COUNT,
+    ratingFilter: "all",
+  };
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(SETTINGS_STORAGE_KEY)) || {};
+    const playbackRate = AUDIO_FILES[saved.playbackRate] ? Number(saved.playbackRate) : defaults.playbackRate;
+    const repeatCount = [3, 4, 5].includes(Number(saved.repeatCount))
+      ? Number(saved.repeatCount)
+      : defaults.repeatCount;
+    const ratingFilter = ["all", "1", "2"].includes(saved.ratingFilter)
+      ? saved.ratingFilter
+      : defaults.ratingFilter;
+
+    return { playbackRate, repeatCount, ratingFilter };
+  } catch (error) {
+    console.warn("Nie udało się wczytać ustawień.", error);
+    return defaults;
+  }
+}
+
+function saveSettings() {
+  try {
+    localStorage.setItem(
+      SETTINGS_STORAGE_KEY,
+      JSON.stringify({ playbackRate, repeatCount, ratingFilter: activeRatingFilter }),
+    );
+  } catch (error) {
+    console.warn("Nie udało się zapisać ustawień.", error);
+  }
+}
+
+function applySavedControls() {
+  updatePlaybackRateButtons();
+  updateRepeatButtons();
+  updateRepeatButtonLabels();
+  updateFilterButtons();
+  applyRatingFilter();
 }
 
 function countVisibleGroups() {
@@ -787,11 +833,8 @@ function escapeHtml(value) {
 function setPlaybackRate(rate) {
   stopPlayback();
   playbackRate = rate;
-
-  [...tempoControls.querySelectorAll("button")].forEach((button) => {
-    const isActive = Number(button.dataset.rate) === playbackRate;
-    button.setAttribute("aria-pressed", String(isActive));
-  });
+  saveSettings();
+  updatePlaybackRateButtons();
 
   updateSummary();
   loadAudioBuffer(playbackRate);
@@ -799,12 +842,26 @@ function setPlaybackRate(rate) {
 
 function setRepeatCount(count) {
   repeatCount = count;
+  saveSettings();
+  updateRepeatButtons();
+  updateRepeatButtonLabels();
+}
 
+function updatePlaybackRateButtons() {
+  [...tempoControls.querySelectorAll("button")].forEach((button) => {
+    const isActive = Number(button.dataset.rate) === playbackRate;
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+}
+
+function updateRepeatButtons() {
   [...repeatControls.querySelectorAll("button")].forEach((button) => {
     const isActive = Number(button.dataset.repeat) === repeatCount;
     button.setAttribute("aria-pressed", String(isActive));
   });
+}
 
+function updateRepeatButtonLabels() {
   document.querySelectorAll("[data-repeat-button='true']").forEach((button) => {
     button.textContent = formatRepeatCount();
     button.setAttribute("aria-label", `Powtórz ${formatRepeatCount()}: ${button.dataset.repeatText}`);
@@ -813,12 +870,15 @@ function setRepeatCount(count) {
 
 function setRatingFilter(filter) {
   activeRatingFilter = filter;
+  saveSettings();
+  updateFilterButtons();
+  applyRatingFilter();
+}
 
+function updateFilterButtons() {
   [...filterControls.querySelectorAll("button")].forEach((button) => {
     button.setAttribute("aria-pressed", String(button.dataset.filter === activeRatingFilter));
   });
-
-  applyRatingFilter();
 }
 
 function resetProgress() {
