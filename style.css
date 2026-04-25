@@ -1,0 +1,361 @@
+:root {
+  color-scheme: light;
+  --bg: #f7f5ef;
+  --ink: #1c2521;
+  --muted: #65706a;
+  --line: #d9d4c8;
+  --surface: #ffffff;
+  --accent: #236f68;
+  --accent-strong: #174f4a;
+  --accent-soft: #e4f1ef;
+  --playing: #fff0c2;
+  --shadow: 0 12px 30px rgba(34, 43, 38, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.45;
+}
+
+button {
+  font: inherit;
+}
+
+.app-shell {
+  width: min(980px, calc(100% - 168px));
+  margin: 0 auto;
+  padding: 22px 0 40px;
+}
+
+.topbar {
+  display: grid;
+  justify-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+}
+
+.brand-panel {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.55rem, 4vw, 2.3rem);
+  line-height: 1.1;
+}
+
+.chant-heading {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--accent-strong);
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.chant-image {
+  width: min(380px, 92vw);
+  height: auto;
+  border-radius: 8px;
+  object-fit: contain;
+  box-shadow: var(--shadow);
+}
+
+#summary {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.96rem;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.floating-controls {
+  position: fixed;
+  top: 110px;
+  right: 18px;
+  z-index: 20;
+  display: grid;
+  width: 104px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(247, 245, 239, 0.92);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
+}
+
+.tempo-controls {
+  display: grid;
+  align-items: center;
+  gap: 6px;
+}
+
+.controls button {
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.controls button {
+  width: 100%;
+  padding: 0 10px;
+}
+
+.tempo-controls button {
+  min-height: 40px;
+}
+
+.tempo-controls button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+.controls button:hover,
+.segment-button:hover {
+  border-color: var(--accent);
+}
+
+.segments {
+  display: grid;
+  gap: 20px;
+}
+
+.segment-group {
+  display: grid;
+  gap: 8px;
+}
+
+.segment-button {
+  --progress: 0%;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(64px, 86px) 1fr;
+  gap: 14px;
+  align-items: start;
+  width: 100%;
+  min-height: 54px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.segment-button::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--progress);
+  background: rgba(35, 111, 104, 0.14);
+  pointer-events: none;
+  transition: width 60ms linear;
+}
+
+.sloka-button {
+  grid-template-columns: minmax(82px, 112px) 1fr;
+  min-height: 72px;
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.sloka-button .segment-text {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.pada-list {
+  display: grid;
+  gap: 12px;
+  padding-left: 24px;
+}
+
+.pada-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 220px);
+  gap: 8px;
+  align-items: stretch;
+}
+
+.pada-pair-singles {
+  display: grid;
+  gap: 8px;
+}
+
+.pada-control {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 46px;
+  gap: 6px;
+  align-items: stretch;
+}
+
+.pada-button {
+  min-height: 48px;
+  box-shadow: none;
+}
+
+.repeat-button {
+  min-height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--accent-strong);
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.repeat-button:hover {
+  border-color: var(--accent);
+}
+
+.repeat-button.is-playing {
+  border-color: #c49b21;
+  background: var(--playing);
+}
+
+.pada-combined {
+  position: relative;
+  grid-template-columns: 1fr;
+  align-content: center;
+  border-color: var(--accent);
+  background: #f4fbfa;
+  padding-left: 18px;
+}
+
+.pada-combined::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 8px;
+  width: 8px;
+  border-top: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+  border-radius: 5px 0 0 5px;
+  z-index: 2;
+}
+
+.pada-combined .segment-text {
+  display: none;
+}
+
+.pada-single {
+  width: calc(100% - 228px);
+}
+
+.segment-button.is-playing {
+  border-color: #c49b21;
+  background: var(--playing);
+}
+
+.segment-button.is-linked-playing {
+  border-color: #7fb3ad;
+}
+
+.segment-button.is-current-part {
+  border-color: #c49b21;
+  background: #fff7db;
+}
+
+.segment-time {
+  position: relative;
+  z-index: 1;
+  color: var(--accent-strong);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.86rem;
+  white-space: nowrap;
+}
+
+.segment-text {
+  position: relative;
+  z-index: 1;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.empty-state {
+  margin: 24px 0;
+  color: var(--muted);
+}
+
+@media (max-width: 620px) {
+  .app-shell {
+    width: min(100% - 18px, 980px);
+    padding-top: 12px;
+  }
+
+  .floating-controls {
+    position: sticky;
+    top: 8px;
+    right: auto;
+    width: min(100% - 18px, 420px);
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: 8px auto 0;
+  }
+
+  .tempo-controls {
+    display: contents;
+  }
+
+  .chant-image {
+    width: min(100%, 380px);
+  }
+
+  .segment-button {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .pada-list {
+    padding-left: 10px;
+  }
+
+  .pada-pair {
+    grid-template-columns: 1fr;
+  }
+
+  .pada-control {
+    grid-template-columns: minmax(0, 1fr) 44px;
+  }
+
+  .pada-combined {
+    min-height: 44px;
+  }
+
+  .pada-single {
+    width: 100%;
+  }
+}
