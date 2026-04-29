@@ -15,7 +15,7 @@
   <body>
     <div class="controls floating-controls" aria-label="Sterowanie">
       <div id="tempoControls" class="tempo-controls" aria-label="Tempo odtwarzania">
-        <button type="button" data-rate="0.7" aria-pressed="false">Slow</button>
+        <button type="button" data-rate="0.7" aria-pressed="false">Wolniej</button>
       </div>
       <div id="repeatControls" class="repeat-controls" aria-label="Liczba powtórzeń">
         <button type="button" data-repeat="3" aria-pressed="false">x3</button>
@@ -31,6 +31,14 @@
         <button type="button" data-script="Devanagari" aria-pressed="true">Devanagari</button>
         <button type="button" data-script="IAST" aria-pressed="false">IAST</button>
         <button type="button" data-script="PL" aria-pressed="false">PL</button>
+      </div>
+      <div id="translationControls" class="translation-controls" aria-label="Język tłumaczenia">
+        <button type="button" data-translation-language="eng" aria-pressed="false">
+          <img src="input/flag-gb.svg" alt="English">
+        </button>
+        <button type="button" data-translation-language="pl" aria-pressed="true">
+          <img src="input/flag-pl.svg" alt="Polski">
+        </button>
       </div>
       <button id="resetProgressButton" type="button" title="Resetuj oceny">Reset</button>
       <button id="stopButton" type="button" title="Zatrzymaj">Stop</button>
@@ -57,6 +65,24 @@
       <section id="segments" class="segments" aria-live="polite"></section>
     </main>
 
+    <div id="translationModal" class="translation-modal" hidden>
+      <div class="translation-backdrop" data-close-translation></div>
+      <section
+        class="translation-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="translationTitle"
+        tabindex="-1"
+      >
+        <button id="translationCloseButton" class="translation-close" type="button" aria-label="Close translation">
+          ×
+        </button>
+        <h2 id="translationTitle">Translation</h2>
+        <div id="translationBody" class="translation-body"></div>
+      </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
     <script>
       document.write(`<script src="app.js?v=${window.__assetVersion}" charset="utf-8"><\/script>`);
     </script>

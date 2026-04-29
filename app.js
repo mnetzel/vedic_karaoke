@@ -9,6 +9,21 @@ const AUDIO_FILES = {
 const TEXT_VARIANTS = ["Devanagari", "IAST", "PL"];
 const DEFAULT_TEXT_VARIANT = "Devanagari";
 const FALLBACK_TEXT_VARIANT = "IAST";
+const TRANSLATION_LANGUAGES = {
+  pl: {
+    url: "input/SriSuktam_translation_pl.md",
+    buttonLabel: "Tłumaczenie",
+    title: "Tłumaczenie",
+    missing: "Brak tłumaczenia dla tej śloki.",
+  },
+  eng: {
+    url: "input/SriSuktam_translation_eng.md",
+    buttonLabel: "Translation",
+    title: "Translation",
+    missing: "Translation not available for this śloka.",
+  },
+};
+const DEFAULT_TRANSLATION_LANGUAGE = "pl";
 const SLOKA_TIER_PREFIX = "sloka";
 const PADA_TIER_PREFIX = "pada";
 const GROUP_TIME_TOLERANCE = 0.08;
@@ -22,10 +37,17 @@ const tempoControls = document.querySelector("#tempoControls");
 const repeatControls = document.querySelector("#repeatControls");
 const filterControls = document.querySelector("#filterControls");
 const scriptControls = document.querySelector("#scriptControls");
+const translationControls = document.querySelector("#translationControls");
 const resetProgressButton = document.querySelector("#resetProgressButton");
+const translationModal = document.querySelector("#translationModal");
+const translationDialog = document.querySelector(".translation-dialog");
+const translationTitle = document.querySelector("#translationTitle");
+const translationBody = document.querySelector("#translationBody");
+const translationCloseButton = document.querySelector("#translationCloseButton");
 
 let tiers = [];
 let segmentGroups = [];
+let slokaTranslations = {};
 let activeButton = null;
 let audioContext = null;
 const audioBuffers = new Map();
@@ -40,6 +62,7 @@ let playbackRequestId = 0;
 let repeatCount = savedSettings.repeatCount;
 let activeRatingFilter = savedSettings.ratingFilter;
 let activeTextVariant = savedSettings.textVariant;
+let activeTranslationLanguage = savedSettings.translationLanguage;
 let slokaRatings = loadSlokaRatings();
 
 init();
@@ -68,6 +91,8 @@ async function init() {
     }
 
     segmentGroups = buildSegmentGroups(tierSet, slokaTier.intervals, padaTier.intervals);
+    slokaTranslations = await loadAllTranslationSections();
+    attachTranslations(segmentGroups, slokaTranslations);
     renderGroups(segmentGroups);
     applySavedControls();
     updateSummary();
@@ -249,6 +274,51 @@ function getIntervalText(interval) {
   return interval.text || "";
 }
 
+async function loadAllTranslationSections() {
+  const entries = await Promise.all(
+    Object.keys(TRANSLATION_LANGUAGES).map(async (language) => [
+      language,
+      await loadTranslationSections(language),
+    ]),
+  );
+
+  return Object.fromEntries(entries);
+}
+
+async function loadTranslationSections(language) {
+  const config = TRANSLATION_LANGUAGES[language];
+
+  try {
+    const response = await fetch(config.url);
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    return parseTranslationMarkdown(await response.text());
+  } catch (error) {
+    console.warn(`Nie udało się załadować ${config.url}.`, error);
+    return [];
+  }
+}
+
+function parseTranslationMarkdown(source) {
+  return source
+    .replace(/\r\n?/g, "\n")
+    .split(/^\s*---+\s*$/m)
+    .map((section) => section.trim())
+    .filter(Boolean);
+}
+
+function attachTranslations(groups, translations) {
+  groups.forEach((group, index) => {
+    group.translations = Object.keys(TRANSLATION_LANGUAGES).reduce((result, language) => {
+      result[language] = translations[language]?.[index] || "";
+      return result;
+    }, {});
+  });
+}
+
 function refreshVisibleTexts() {
   segmentGroups.forEach((group) => {
     group.sloka.text = resolveVariantText(group.sloka.texts);
@@ -303,6 +373,7 @@ function loadSettings() {
     repeatCount: DEFAULT_REPEAT_COUNT,
     ratingFilter: "all",
     textVariant: DEFAULT_TEXT_VARIANT,
+    translationLanguage: DEFAULT_TRANSLATION_LANGUAGE,
   };
 
   try {
@@ -317,8 +388,11 @@ function loadSettings() {
     const textVariant = TEXT_VARIANTS.includes(saved.textVariant)
       ? saved.textVariant
       : defaults.textVariant;
+    const translationLanguage = TRANSLATION_LANGUAGES[saved.translationLanguage]
+      ? saved.translationLanguage
+      : defaults.translationLanguage;
 
-    return { playbackRate, repeatCount, ratingFilter, textVariant };
+    return { playbackRate, repeatCount, ratingFilter, textVariant, translationLanguage };
   } catch (error) {
     console.warn("Nie udało się wczytać ustawień.", error);
     return defaults;
@@ -334,6 +408,7 @@ function saveSettings() {
         repeatCount,
         ratingFilter: activeRatingFilter,
         textVariant: activeTextVariant,
+        translationLanguage: activeTranslationLanguage,
       }),
     );
   } catch (error) {
@@ -347,6 +422,8 @@ function applySavedControls() {
   updateRepeatButtonLabels();
   updateFilterButtons();
   updateScriptButtons();
+  updateTranslationLanguageButtons();
+  updatePlaybackRateLabel();
   applyRatingFilter();
 }
 
@@ -526,7 +603,13 @@ function renderGroups(groups) {
       );
       const slokaHeader = document.createElement("div");
       slokaHeader.className = "sloka-header";
-      slokaHeader.replaceChildren(slokaButton, createRatingControl(group, groupElement));
+      const slokaActions = document.createElement("div");
+      slokaActions.className = "sloka-actions";
+      const translationButton = createTranslationButton(group);
+      slokaActions.replaceChildren(
+        ...[translationButton, createRatingControl(group, groupElement)].filter(Boolean),
+      );
+      slokaHeader.replaceChildren(slokaButton, slokaActions);
 
       const padasElement = document.createElement("div");
       padasElement.className = "pada-list";
@@ -538,6 +621,37 @@ function renderGroups(groups) {
     }),
   );
   applyRatingFilter();
+}
+
+function createTranslationButton(group) {
+  if (!hasAnyTranslation(group)) {
+    return null;
+  }
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "translation-button";
+  button.dataset.translationButton = "true";
+  button._group = group;
+  updateTranslationButtonLabel(button);
+  button.addEventListener("click", () => openTranslationModal(group));
+  return button;
+}
+
+function hasAnyTranslation(group) {
+  return Object.values(group.translations || {}).some(Boolean);
+}
+
+function updateTranslationButtonLabels() {
+  document.querySelectorAll("[data-translation-button='true']").forEach((button) => {
+    updateTranslationButtonLabel(button);
+  });
+}
+
+function updateTranslationButtonLabel(button) {
+  const config = getActiveTranslationConfig();
+  button.textContent = config.buttonLabel;
+  button.setAttribute("aria-label", `${config.buttonLabel}: ${getIntervalText(button._group.sloka)}`);
 }
 
 function createRatingControl(group, groupElement) {
@@ -989,6 +1103,14 @@ function updatePlaybackRateButtons() {
   });
 }
 
+function updatePlaybackRateLabel() {
+  const slowButton = tempoControls.querySelector("button[data-rate='0.7']");
+
+  if (slowButton) {
+    slowButton.textContent = activeTranslationLanguage === "pl" ? "Wolniej" : "Slow";
+  }
+}
+
 function togglePlaybackRate(rate) {
   setPlaybackRate(playbackRate === rate ? 1 : rate);
 }
@@ -1029,11 +1151,31 @@ function setTextVariant(variant) {
   saveSettings();
   updateScriptButtons();
   refreshVisibleTexts();
+  updateTranslationButtonLabels();
 }
 
 function updateScriptButtons() {
   [...scriptControls.querySelectorAll("button")].forEach((button) => {
     button.setAttribute("aria-pressed", String(button.dataset.script === activeTextVariant));
+  });
+}
+
+function setTranslationLanguage(language) {
+  activeTranslationLanguage = TRANSLATION_LANGUAGES[language]
+    ? language
+    : DEFAULT_TRANSLATION_LANGUAGE;
+  saveSettings();
+  updateTranslationLanguageButtons();
+  updateTranslationButtonLabels();
+  updatePlaybackRateLabel();
+}
+
+function updateTranslationLanguageButtons() {
+  [...translationControls.querySelectorAll("button")].forEach((button) => {
+    button.setAttribute(
+      "aria-pressed",
+      String(button.dataset.translationLanguage === activeTranslationLanguage),
+    );
   });
 }
 
@@ -1058,6 +1200,38 @@ function resetProgress() {
   });
 
   applyRatingFilter();
+}
+
+function openTranslationModal(group) {
+  const config = getActiveTranslationConfig();
+  const markdown = group.translations?.[activeTranslationLanguage] || config.missing;
+
+  translationTitle.textContent = config.title;
+  translationBody.innerHTML = renderMarkdown(markdown);
+  translationModal.hidden = false;
+  document.body.classList.add("modal-open");
+  translationDialog.focus();
+}
+
+function getActiveTranslationConfig() {
+  return TRANSLATION_LANGUAGES[activeTranslationLanguage] ||
+    TRANSLATION_LANGUAGES[DEFAULT_TRANSLATION_LANGUAGE];
+}
+
+function closeTranslationModal() {
+  translationModal.hidden = true;
+  translationBody.replaceChildren();
+  document.body.classList.remove("modal-open");
+}
+
+function renderMarkdown(markdown) {
+  if (window.marked?.parse) {
+    return window.marked.parse(markdown);
+  }
+
+  return `<p>${escapeHtml(markdown)
+    .replace(/\n{2,}/g, "</p><p>")
+    .replace(/\n/g, "<br>")}</p>`;
 }
 
 function formatRate(rate) {
@@ -1105,4 +1279,24 @@ scriptControls.addEventListener("click", (event) => {
 
   setTextVariant(button.dataset.script);
 });
+translationControls.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-translation-language]");
+
+  if (!button) {
+    return;
+  }
+
+  setTranslationLanguage(button.dataset.translationLanguage);
+});
 resetProgressButton.addEventListener("click", resetProgress);
+translationCloseButton.addEventListener("click", closeTranslationModal);
+translationModal.addEventListener("click", (event) => {
+  if (event.target.closest("[data-close-translation]")) {
+    closeTranslationModal();
+  }
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !translationModal.hidden) {
+    closeTranslationModal();
+  }
+});
