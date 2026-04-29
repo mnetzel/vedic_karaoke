@@ -1,4 +1,4 @@
-const TEXTGRID_URL = "input/text.TextGrid";
+const TEXTGRID_URL = "input/sri_suktam.TextGrid";
 const CHANT_ID = "sri-suktam";
 const RATINGS_STORAGE_KEY = `vedic-karaoke:ratings:${CHANT_ID}`;
 const SETTINGS_STORAGE_KEY = `vedic-karaoke:settings:${CHANT_ID}`;
@@ -6,8 +6,11 @@ const AUDIO_FILES = {
   1: "input/audio.ogg",
   0.7: "input/audio70.ogg",
 };
-const SLOKA_TIER_HINT = "sloka";
-const PADA_TIER_HINT = "pada";
+const TEXT_VARIANTS = ["Devanagari", "IAST", "PL"];
+const DEFAULT_TEXT_VARIANT = "Devanagari";
+const FALLBACK_TEXT_VARIANT = "IAST";
+const SLOKA_TIER_PREFIX = "sloka";
+const PADA_TIER_PREFIX = "pada";
 const GROUP_TIME_TOLERANCE = 0.08;
 const DEFAULT_REPEAT_COUNT = 5;
 const REPEAT_GAP_SECONDS = 1;
@@ -18,6 +21,7 @@ const stopButton = document.querySelector("#stopButton");
 const tempoControls = document.querySelector("#tempoControls");
 const repeatControls = document.querySelector("#repeatControls");
 const filterControls = document.querySelector("#filterControls");
+const scriptControls = document.querySelector("#scriptControls");
 const resetProgressButton = document.querySelector("#resetProgressButton");
 
 let tiers = [];
@@ -35,6 +39,7 @@ let playbackRate = savedSettings.playbackRate;
 let playbackRequestId = 0;
 let repeatCount = savedSettings.repeatCount;
 let activeRatingFilter = savedSettings.ratingFilter;
+let activeTextVariant = savedSettings.textVariant;
 let slokaRatings = loadSlokaRatings();
 
 init();
@@ -54,21 +59,22 @@ async function init() {
       throw new Error("Brak niepustych segmentów w TextGridzie.");
     }
 
-    const slokaTier = findTier(SLOKA_TIER_HINT);
-    const padaTier = findTier(PADA_TIER_HINT);
+    const tierSet = buildTierSet(tiers);
+    const slokaTier = getVariantTier(tierSet.sloka, activeTextVariant);
+    const padaTier = getVariantTier(tierSet.pada, activeTextVariant);
 
     if (!slokaTier || !padaTier) {
-      throw new Error("TextGrid musi zawierać warstwy Śloka i pāda.");
+      throw new Error("TextGrid musi zawierać warstwy sloka-* i pada-*.");
     }
 
-    segmentGroups = buildSegmentGroups(slokaTier.intervals, padaTier.intervals);
+    segmentGroups = buildSegmentGroups(tierSet, slokaTier.intervals, padaTier.intervals);
     renderGroups(segmentGroups);
     applySavedControls();
     updateSummary();
     loadAudioBuffer(playbackRate);
   } catch (error) {
     console.error(error);
-    summary.textContent = "Nie udało się załadować input/text.TextGrid.";
+    summary.textContent = `Nie udało się załadować ${TEXTGRID_URL}.`;
     segmentsRoot.innerHTML = `<p class="empty-state">${escapeHtml(error.message)}</p>`;
   }
 }
@@ -147,17 +153,59 @@ function normalizeLabel(value) {
     .toLowerCase();
 }
 
-function findTier(hint) {
-  return tiers.find((tier) => normalizeLabel(tier.name) === hint);
+function buildTierSet(sourceTiers) {
+  return sourceTiers.reduce(
+    (tierSet, tier) => {
+      const info = parseTierName(tier.name);
+
+      if (info && tierSet[info.kind]) {
+        tierSet[info.kind][info.variant] = tier;
+      }
+
+      return tierSet;
+    },
+    { sloka: {}, pada: {} },
+  );
 }
 
-function buildSegmentGroups(slokaIntervals, padaIntervals) {
-  return slokaIntervals.map((sloka, index) => ({
-    id: createSlokaId(sloka, index),
-    sloka,
-    rating: getSlokaRating(createSlokaId(sloka, index)),
-    padas: padaIntervals.filter((pada) => isInsideInterval(pada, sloka)),
-  }));
+function parseTierName(name) {
+  const [kind, ...variantParts] = String(name).split("-");
+  const normalizedKind = normalizeLabel(kind);
+  const variant = normalizeVariantName(variantParts.join("-"));
+
+  if (!variant || (normalizedKind !== SLOKA_TIER_PREFIX && normalizedKind !== PADA_TIER_PREFIX)) {
+    return null;
+  }
+
+  return { kind: normalizedKind, variant };
+}
+
+function normalizeVariantName(value) {
+  const normalized = normalizeLabel(value);
+  return TEXT_VARIANTS.find((variant) => normalizeLabel(variant) === normalized) || "";
+}
+
+function getVariantTier(variantTiers, requestedVariant) {
+  return (
+    variantTiers[requestedVariant] ||
+    variantTiers[FALLBACK_TEXT_VARIANT] ||
+    variantTiers[DEFAULT_TEXT_VARIANT] ||
+    Object.values(variantTiers)[0]
+  );
+}
+
+function buildSegmentGroups(tierSet, baseSlokaIntervals, basePadaIntervals) {
+  return baseSlokaIntervals.map((sloka, index) => {
+    const id = createSlokaId(sloka, index);
+    return {
+      id,
+      sloka: createVariantInterval(sloka, tierSet.sloka, index),
+      rating: getSlokaRating(id),
+      padas: basePadaIntervals
+        .map((pada, padaIndex) => createVariantInterval(pada, tierSet.pada, padaIndex))
+        .filter((pada) => isInsideInterval(pada, sloka)),
+    };
+  });
 }
 
 function isInsideInterval(child, parent) {
@@ -165,6 +213,62 @@ function isInsideInterval(child, parent) {
     child.xmin >= parent.xmin - GROUP_TIME_TOLERANCE &&
     child.xmax <= parent.xmax + GROUP_TIME_TOLERANCE
   );
+}
+
+function createVariantInterval(baseInterval, variantTiers, index) {
+  const texts = {};
+
+  TEXT_VARIANTS.forEach((variant) => {
+    const interval = variantTiers[variant]?.intervals[index];
+    texts[variant] = interval?.text || "";
+  });
+
+  return {
+    xmin: baseInterval.xmin,
+    xmax: baseInterval.xmax,
+    text: resolveVariantText(texts),
+    texts,
+  };
+}
+
+function resolveVariantText(texts) {
+  return (
+    texts[activeTextVariant] ||
+    texts[FALLBACK_TEXT_VARIANT] ||
+    texts[DEFAULT_TEXT_VARIANT] ||
+    Object.values(texts).find(Boolean) ||
+    ""
+  );
+}
+
+function getIntervalText(interval) {
+  if (interval.texts) {
+    return resolveVariantText(interval.texts);
+  }
+
+  return interval.text || "";
+}
+
+function refreshVisibleTexts() {
+  segmentGroups.forEach((group) => {
+    group.sloka.text = resolveVariantText(group.sloka.texts);
+    group.padas.forEach((pada) => {
+      pada.text = resolveVariantText(pada.texts);
+    });
+  });
+
+  document.querySelectorAll("[data-segment-text]").forEach((element) => {
+    element.textContent = getIntervalText(element._interval);
+  });
+
+  document.querySelectorAll("[data-segment-label]").forEach((element) => {
+    element.setAttribute("aria-label", createSegmentAriaLabel(element._label, element._interval));
+  });
+
+  document.querySelectorAll("[data-repeat-button='true']").forEach((button) => {
+    button.dataset.repeatText = getIntervalText(button._interval);
+    updateRepeatButtonLabel(button);
+  });
 }
 
 function createSlokaId(sloka, index) {
@@ -198,6 +302,7 @@ function loadSettings() {
     playbackRate: 1,
     repeatCount: DEFAULT_REPEAT_COUNT,
     ratingFilter: "all",
+    textVariant: DEFAULT_TEXT_VARIANT,
   };
 
   try {
@@ -209,8 +314,11 @@ function loadSettings() {
     const ratingFilter = ["all", "1", "2"].includes(saved.ratingFilter)
       ? saved.ratingFilter
       : defaults.ratingFilter;
+    const textVariant = TEXT_VARIANTS.includes(saved.textVariant)
+      ? saved.textVariant
+      : defaults.textVariant;
 
-    return { playbackRate, repeatCount, ratingFilter };
+    return { playbackRate, repeatCount, ratingFilter, textVariant };
   } catch (error) {
     console.warn("Nie udało się wczytać ustawień.", error);
     return defaults;
@@ -221,7 +329,12 @@ function saveSettings() {
   try {
     localStorage.setItem(
       SETTINGS_STORAGE_KEY,
-      JSON.stringify({ playbackRate, repeatCount, ratingFilter: activeRatingFilter }),
+      JSON.stringify({
+        playbackRate,
+        repeatCount,
+        ratingFilter: activeRatingFilter,
+        textVariant: activeTextVariant,
+      }),
     );
   } catch (error) {
     console.warn("Nie udało się zapisać ustawień.", error);
@@ -233,6 +346,7 @@ function applySavedControls() {
   updateRepeatButtons();
   updateRepeatButtonLabels();
   updateFilterButtons();
+  updateScriptButtons();
   applyRatingFilter();
 }
 
@@ -506,7 +620,8 @@ function renderPadaPairs(padas) {
     const combinedInterval = {
       xmin: first.xmin,
       xmax: second.xmax,
-      text: `${first.text}\n${second.text}`,
+      text: `${getIntervalText(first)}\n${getIntervalText(second)}`,
+      texts: combineIntervalTexts(first, second),
     };
     const combinedButton = createSegmentButton(
       combinedInterval,
@@ -541,14 +656,24 @@ function createCombinedControl(repeatButton, segmentButton) {
   return wrapper;
 }
 
+function combineIntervalTexts(first, second) {
+  return TEXT_VARIANTS.reduce((texts, variant) => {
+    const firstText = first.texts?.[variant] || "";
+    const secondText = second.texts?.[variant] || "";
+    texts[variant] = [firstText, secondText].filter(Boolean).join("\n");
+    return texts;
+  }, {});
+}
+
 function createRepeatButton(interval, segmentButton) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "repeat-button";
   button.textContent = formatRepeatCount();
   button.dataset.repeatButton = "true";
-  button.dataset.repeatText = interval.text;
-  button.setAttribute("aria-label", `Powtórz ${formatRepeatCount()}: ${interval.text}`);
+  button._interval = interval;
+  button.dataset.repeatText = getIntervalText(interval);
+  updateRepeatButtonLabel(button);
   button.addEventListener("click", () => playRepeatedInterval(interval, segmentButton, button));
   return button;
 }
@@ -557,17 +682,27 @@ function createSegmentButton(interval, label, className, linkedParts = []) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = `segment-button ${className}`;
+  button.dataset.segmentLabel = "true";
+  button._interval = interval;
+  button._label = label;
   const timeLabel = label
     ? `${escapeHtml(label)}<br>${formatTime(interval.xmin)}-${formatTime(interval.xmax)}`
     : `${formatTime(interval.xmin)}-${formatTime(interval.xmax)}`;
 
   button.innerHTML = `
     <span class="segment-time">${timeLabel}</span>
-    <span class="segment-text">${escapeHtml(interval.text)}</span>
+    <span class="segment-text" data-segment-text></span>
   `;
+  const textElement = button.querySelector("[data-segment-text]");
+  textElement._interval = interval;
+  textElement.textContent = getIntervalText(interval);
   button.addEventListener("click", () => playInterval(interval, button, linkedParts));
-  button.setAttribute("aria-label", label ? `${label}: ${interval.text}` : interval.text);
+  button.setAttribute("aria-label", createSegmentAriaLabel(label, interval));
   return button;
+}
+
+function createSegmentAriaLabel(label, interval) {
+  return label ? `${label}: ${getIntervalText(interval)}` : getIntervalText(interval);
 }
 
 async function playInterval(interval, button, linkedParts = []) {
@@ -854,6 +989,10 @@ function updatePlaybackRateButtons() {
   });
 }
 
+function togglePlaybackRate(rate) {
+  setPlaybackRate(playbackRate === rate ? 1 : rate);
+}
+
 function updateRepeatButtons() {
   [...repeatControls.querySelectorAll("button")].forEach((button) => {
     const isActive = Number(button.dataset.repeat) === repeatCount;
@@ -863,9 +1002,13 @@ function updateRepeatButtons() {
 
 function updateRepeatButtonLabels() {
   document.querySelectorAll("[data-repeat-button='true']").forEach((button) => {
-    button.textContent = formatRepeatCount();
-    button.setAttribute("aria-label", `Powtórz ${formatRepeatCount()}: ${button.dataset.repeatText}`);
+    updateRepeatButtonLabel(button);
   });
+}
+
+function updateRepeatButtonLabel(button) {
+  button.textContent = formatRepeatCount();
+  button.setAttribute("aria-label", `Powtórz ${formatRepeatCount()}: ${button.dataset.repeatText}`);
 }
 
 function setRatingFilter(filter) {
@@ -881,7 +1024,24 @@ function updateFilterButtons() {
   });
 }
 
+function setTextVariant(variant) {
+  activeTextVariant = TEXT_VARIANTS.includes(variant) ? variant : DEFAULT_TEXT_VARIANT;
+  saveSettings();
+  updateScriptButtons();
+  refreshVisibleTexts();
+}
+
+function updateScriptButtons() {
+  [...scriptControls.querySelectorAll("button")].forEach((button) => {
+    button.setAttribute("aria-pressed", String(button.dataset.script === activeTextVariant));
+  });
+}
+
 function resetProgress() {
+  if (!window.confirm("Do you really want to reset your learning progress?")) {
+    return;
+  }
+
   slokaRatings = {};
   saveSlokaRatings();
 
@@ -916,7 +1076,7 @@ tempoControls.addEventListener("click", (event) => {
     return;
   }
 
-  setPlaybackRate(Number(button.dataset.rate));
+  togglePlaybackRate(Number(button.dataset.rate));
 });
 repeatControls.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-repeat]");
@@ -935,5 +1095,14 @@ filterControls.addEventListener("click", (event) => {
   }
 
   setRatingFilter(button.dataset.filter);
+});
+scriptControls.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-script]");
+
+  if (!button) {
+    return;
+  }
+
+  setTextVariant(button.dataset.script);
 });
 resetProgressButton.addEventListener("click", resetProgress);

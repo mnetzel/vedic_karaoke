@@ -15,8 +15,7 @@
   <body>
     <div class="controls floating-controls" aria-label="Sterowanie">
       <div id="tempoControls" class="tempo-controls" aria-label="Tempo odtwarzania">
-        <button type="button" data-rate="1" aria-pressed="true">100%</button>
-        <button type="button" data-rate="0.7" aria-pressed="false">70%</button>
+        <button type="button" data-rate="0.7" aria-pressed="false">Slow</button>
       </div>
       <div id="repeatControls" class="repeat-controls" aria-label="Liczba powtórzeń">
         <button type="button" data-repeat="3" aria-pressed="false">x3</button>
@@ -27,6 +26,11 @@
         <button type="button" data-filter="all" aria-pressed="true">★★★</button>
         <button type="button" data-filter="2" aria-pressed="false">★★</button>
         <button type="button" data-filter="1" aria-pressed="false">★</button>
+      </div>
+      <div id="scriptControls" class="script-controls" aria-label="Wariant tekstu">
+        <button type="button" data-script="Devanagari" aria-pressed="true">Devanagari</button>
+        <button type="button" data-script="IAST" aria-pressed="false">IAST</button>
+        <button type="button" data-script="PL" aria-pressed="false">PL</button>
       </div>
       <button id="resetProgressButton" type="button" title="Resetuj oceny">Reset</button>
       <button id="stopButton" type="button" title="Zatrzymaj">Stop</button>

@@ -30,7 +30,7 @@ button {
 }
 
 .app-shell {
-  width: min(980px, calc(100% - 168px));
+  width: min(980px, calc(100% - 190px));
   margin: 0 auto;
   padding: 22px 0 40px;
 }
@@ -113,7 +113,7 @@ h1 {
   z-index: 20;
   display: grid;
   gap: 8px;
-  width: 104px;
+  width: 118px;
   padding: 8px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -124,10 +124,17 @@ h1 {
 
 .tempo-controls,
 .repeat-controls,
-.filter-controls {
+.filter-controls,
+.script-controls {
   display: grid;
   align-items: center;
   gap: 6px;
+}
+
+.repeat-controls,
+.filter-controls {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
 }
 
 .controls button {
@@ -144,15 +151,23 @@ h1 {
   padding: 0 10px;
 }
 
-.tempo-controls button,
 .repeat-controls button,
 .filter-controls button {
+  padding: 0;
+  font-size: 0.88rem;
+}
+
+.tempo-controls button,
+.repeat-controls button,
+.filter-controls button,
+.script-controls button {
   min-height: 40px;
 }
 
 .tempo-controls button[aria-pressed="true"],
 .repeat-controls button[aria-pressed="true"],
-.filter-controls button[aria-pressed="true"] {
+.filter-controls button[aria-pressed="true"],
+.script-controls button[aria-pressed="true"] {
   border-color: var(--accent);
   background: var(--accent);
   color: #fff;
@@ -399,7 +414,8 @@ h1 {
     top: 8px;
     right: auto;
     width: min(100% - 18px, 420px);
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 6px;
     margin: 8px auto 0;
   }
 
@@ -413,6 +429,29 @@ h1 {
 
   .filter-controls {
     display: contents;
+  }
+
+  .script-controls {
+    display: contents;
+  }
+
+  .repeat-controls button,
+  .filter-controls button {
+    grid-column: span 1;
+    min-width: 0;
+  }
+
+  .tempo-controls button,
+  .script-controls button,
+  #resetProgressButton,
+  #stopButton {
+    grid-column: span 2;
+    min-width: 0;
+    padding: 0 4px;
+  }
+
+  .script-controls button {
+    font-size: 0.82rem;
   }
 
   .chant-image {
