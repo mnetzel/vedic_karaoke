@@ -1,33 +1,78 @@
-const TEXTGRID_URL = "input/sri_suktam.TextGrid";
-const CHANT_ID = "sri-suktam";
-const RATINGS_STORAGE_KEY = `vedic-karaoke:ratings:${CHANT_ID}`;
-const SETTINGS_STORAGE_KEY = `vedic-karaoke:settings:${CHANT_ID}`;
-const AUDIO_FILES = {
-  0: {
-    1: "input/audio.ogg",
-    0.7: "input/audio70.ogg",
+const CHANTS = {
+  "sri-suktam": {
+    title: "Śri Suktam",
+    folder: "input/sri-suktam",
+    image: "input/sri-suktam/Sri_Suktam.jpg",
+    textGrid: "input/sri-suktam/Sri_Suktam.TextGrid",
+    audioCredit: {
+      label: "Shantala Sriramaiah",
+      url: "https://on.soundcloud.com/ifmZR7Az24mCGEZPSR",
+    },
+    translations: {
+      pl: "input/sri-suktam/SriSuktam_translation_pl.md",
+      eng: "input/sri-suktam/SriSuktam_translation_eng.md",
+    },
+    audio: {
+      0: {
+        1: "input/sri-suktam/Sri_Suktam.ogg",
+        0.7: "input/sri-suktam/Sri_Suktam_tempo_70.ogg",
+        1.25: "input/sri-suktam/Sri_Suktam_tempo_125.ogg",
+      },
+      1: {
+        1: "input/sri-suktam/Sri_Suktam_pitch_up_1_semitone.ogg",
+        0.7: "input/sri-suktam/Sri_Suktam_pitch_up_1_semitone_70.ogg",
+        1.25: "input/sri-suktam/Sri_Suktam_pitch_up_1_semitone_tempo_125.ogg",
+      },
+      2: {
+        1: "input/sri-suktam/Sri_Suktam_pitch_up_2_semitones.ogg",
+        0.7: "input/sri-suktam/Sri_Suktam_pitch_up_2_semitones_70.ogg",
+        1.25: "input/sri-suktam/Sri_Suktam_pitch_up_2_semitones_tempo_125.ogg",
+      },
+    },
   },
-  1: {
-    1: "input/Sri_Suktam_mono_pitch_up_1_semitone.ogg",
-    0.7: "input/Sri_Suktam_mono_pitch_up_1_semitone_70.ogg",
-  },
-  2: {
-    1: "input/Sri_Suktam_mono_pitch_up_2_semitones.ogg",
-    0.7: "input/Sri_Suktam_mono_pitch_up_2_semitones_70.ogg",
+  "sri-rudram": {
+    title: "Śri Rudram",
+    folder: "input/sri-rudram",
+    image: "input/sri-rudram/Sri_Rudram.jpg",
+    textGrid: "input/sri-rudram/Sri_Rudram.TextGrid",
+    audioCredit: null,
+    translations: {
+      pl: "input/sri-rudram/SriRudram_translation_pl.md",
+      eng: "input/sri-rudram/SriRudram_translation_eng.md",
+    },
+    audio: {
+      0: {
+        1: "input/sri-rudram/Sri_Rudram.ogg",
+        0.7: "input/sri-rudram/Sri_Rudram_tempo_70.ogg",
+        1.25: "input/sri-rudram/Sri_Rudram_tempo_125.ogg",
+      },
+      1: {
+        1: "input/sri-rudram/Sri_Rudram_pitch_up_1_semitone.ogg",
+        0.7: "input/sri-rudram/Sri_Rudram_pitch_up_1_semitone_70.ogg",
+        1.25: "input/sri-rudram/Sri_Rudram_pitch_up_1_semitone_tempo_125.ogg",
+      },
+      2: {
+        1: "input/sri-rudram/Sri_Rudram_pitch_up_2_semitones.ogg",
+        0.7: "input/sri-rudram/Sri_Rudram_pitch_up_2_semitones_70.ogg",
+        1.25: "input/sri-rudram/Sri_Rudram_pitch_up_2_semitones_tempo_125.ogg",
+      },
+    },
   },
 };
+const DEFAULT_CHANT_ID = "sri-suktam";
+const SETTINGS_STORAGE_KEY = "vedic-karaoke:settings";
+const LEGACY_SETTINGS_STORAGE_KEY = "vedic-karaoke:settings:sri-suktam";
+const FULL_CHANT_FAST_RATE = 1.25;
 const TEXT_VARIANTS = ["Devanagari", "IAST", "PL"];
 const DEFAULT_TEXT_VARIANT = "Devanagari";
 const FALLBACK_TEXT_VARIANT = "IAST";
 const TRANSLATION_LANGUAGES = {
   pl: {
-    url: "input/SriSuktam_translation_pl.md",
     buttonLabel: "Tłumaczenie",
     title: "Tłumaczenie",
     missing: "Brak tłumaczenia dla tej śloki.",
   },
   eng: {
-    url: "input/SriSuktam_translation_eng.md",
     buttonLabel: "Translation",
     title: "Translation",
     missing: "Translation not available for this śloka.",
@@ -40,10 +85,19 @@ const GROUP_TIME_TOLERANCE = 0.08;
 const DEFAULT_REPEAT_COUNT = 5;
 const REPEAT_GAP_SECONDS = 1;
 
+const chantChooser = document.querySelector("#chantChooser");
+const karaokeView = document.querySelector("#karaokeView");
+const chantChoiceButtons = [...document.querySelectorAll("[data-chant-id]")];
+const chantTitle = document.querySelector("#chantTitle");
+const chantImage = document.querySelector("#chantImage");
+const audioCredit = document.querySelector("#audioCredit");
+const audioCreditLink = document.querySelector("#audioCreditLink");
+const changeChantButton = document.querySelector("#changeChantButton");
 const summary = document.querySelector("#summary");
 const segmentsRoot = document.querySelector("#segments");
 const stopButton = document.querySelector("#stopButton");
 const fullChantButton = document.querySelector("#fullChantButton");
+const fullChantFastButton = document.querySelector("#fullChantFastButton");
 const tempoControls = document.querySelector("#tempoControls");
 const repeatControls = document.querySelector("#repeatControls");
 const filterControls = document.querySelector("#filterControls");
@@ -64,11 +118,14 @@ let activeButton = null;
 let audioContext = null;
 const audioBuffers = new Map();
 const audioLoadPromises = new Map();
+let activeChantId = null;
+let activeChant = null;
 let activeSources = [];
 let activeTimer = null;
 let activeProgressFrame = null;
 let activeProgressButtons = [];
 let activeFullChantGroup = null;
+let chantLoadRequestId = 0;
 let savedSettings = loadSettings();
 let playbackRate = savedSettings.playbackRate;
 let pitchShift = savedSettings.pitchShift;
@@ -77,19 +134,103 @@ let repeatCount = savedSettings.repeatCount;
 let activeRatingFilter = savedSettings.ratingFilter;
 let activeTextVariant = savedSettings.textVariant;
 let activeTranslationLanguage = savedSettings.translationLanguage;
-let slokaRatings = loadSlokaRatings();
+let slokaRatings = {};
 
 init();
 
-async function init() {
+function init() {
+  renderChantChooser();
+  window.addEventListener("hashchange", handleRouteChange);
+  handleRouteChange();
+}
+
+function handleRouteChange() {
+  const chantId = getChantIdFromHash();
+
+  if (!chantId) {
+    showChantChooser();
+    return;
+  }
+
+  loadChant(chantId);
+}
+
+function renderChantChooser() {
+  chantChoiceButtons.forEach((button) => {
+    const chant = CHANTS[button.dataset.chantId];
+
+    if (!chant) {
+      return;
+    }
+
+    const image = button.querySelector("[data-chant-image]");
+    const title = button.querySelector("[data-chant-title]");
+
+    if (image) {
+      image.src = chant.image;
+      image.alt = "";
+    }
+
+    if (title) {
+      title.textContent = chant.title;
+    }
+
+    button.addEventListener("click", () => {
+      window.location.hash = button.dataset.chantId;
+    });
+  });
+}
+
+function showChantChooser() {
+  chantLoadRequestId += 1;
+  stopPlayback();
+  activeChantId = null;
+  activeChant = null;
+  document.body.classList.remove("has-active-chant");
+  chantChooser.hidden = false;
+  karaokeView.hidden = true;
+}
+
+async function loadChant(chantId) {
+  const chant = CHANTS[chantId];
+  const requestId = chantLoadRequestId + 1;
+
+  if (!chant) {
+    showChantChooser();
+    return;
+  }
+
+  chantLoadRequestId = requestId;
+  stopPlayback();
+  activeChantId = chantId;
+  activeChant = chant;
+  tiers = [];
+  segmentGroups = [];
+  slokaTranslations = {};
+  slokaRatings = loadSlokaRatings();
+  audioBuffers.clear();
+  audioLoadPromises.clear();
+  activeFullChantGroup = null;
+  document.body.classList.add("has-active-chant");
+  chantChooser.hidden = true;
+  karaokeView.hidden = false;
+  updateChantHeader();
+  segmentsRoot.innerHTML = "";
+  summary.textContent = `Ładowanie ${chant.title}...`;
+
   try {
-    const response = await fetch(TEXTGRID_URL);
+    const response = await fetch(chant.textGrid);
 
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
 
     const textGrid = await readTextGridResponse(response);
+
+    if (requestId !== chantLoadRequestId) {
+      return;
+    }
+
     tiers = parseTextGrid(textGrid).filter((tier) => tier.intervals.length > 0);
 
     if (tiers.length === 0) {
@@ -106,6 +247,11 @@ async function init() {
 
     segmentGroups = buildSegmentGroups(tierSet, slokaTier.intervals, padaTier.intervals);
     slokaTranslations = await loadAllTranslationSections();
+
+    if (requestId !== chantLoadRequestId) {
+      return;
+    }
+
     attachTranslations(segmentGroups, slokaTranslations);
     renderGroups(segmentGroups);
     applySavedControls();
@@ -113,9 +259,32 @@ async function init() {
     loadAudioBuffer(playbackRate, pitchShift);
   } catch (error) {
     console.error(error);
-    summary.textContent = `Nie udało się załadować ${TEXTGRID_URL}.`;
+    summary.textContent = `Nie udało się załadować ${chant.textGrid}.`;
     segmentsRoot.innerHTML = `<p class="empty-state">${escapeHtml(error.message)}</p>`;
   }
+}
+
+function getChantIdFromHash() {
+  const id = decodeURIComponent(window.location.hash.replace(/^#/, "").trim());
+  return CHANTS[id] ? id : "";
+}
+
+function updateChantHeader() {
+  chantTitle.textContent = activeChant.title;
+  chantImage.src = activeChant.image;
+  chantImage.alt = "";
+
+  if (activeChant.audioCredit) {
+    audioCredit.hidden = false;
+    audioCreditLink.textContent = activeChant.audioCredit.label;
+    audioCreditLink.href = activeChant.audioCredit.url;
+  } else {
+    audioCredit.hidden = true;
+    audioCreditLink.removeAttribute("href");
+    audioCreditLink.textContent = "";
+  }
+
+  document.title = `${activeChant.title} | Vedic Karaoke`;
 }
 
 async function loadAudioBuffer(rate, pitch = pitchShift) {
@@ -159,11 +328,19 @@ async function loadAudioBuffer(rate, pitch = pitchShift) {
 }
 
 function getAudioKey(rate, pitch = pitchShift) {
-  return `${pitch}:${getRateKey(rate)}`;
+  return `${activeChantId}:${pitch}:${getRateKey(rate)}`;
 }
 
 function getAudioFile(rate, pitch = pitchShift) {
-  return AUDIO_FILES[pitch]?.[getRateKey(rate)] || AUDIO_FILES[0][getRateKey(rate)];
+  return getAudioFileForChant(activeChant, rate, pitch);
+}
+
+function getAudioFileForChant(chant, rate, pitch = 0) {
+  if (!chant) {
+    return "";
+  }
+
+  return chant.audio?.[pitch]?.[getRateKey(rate)] || chant.audio?.[0]?.[getRateKey(rate)] || "";
 }
 
 function getRateKey(rate) {
@@ -309,10 +486,14 @@ async function loadAllTranslationSections() {
 }
 
 async function loadTranslationSections(language) {
-  const config = TRANSLATION_LANGUAGES[language];
+  const url = activeChant?.translations?.[language];
+
+  if (!url) {
+    return [];
+  }
 
   try {
-    const response = await fetch(config.url);
+    const response = await fetch(url);
 
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
@@ -320,7 +501,7 @@ async function loadTranslationSections(language) {
 
     return parseTranslationMarkdown(await response.text());
   } catch (error) {
-    console.warn(`Nie udało się załadować ${config.url}.`, error);
+    console.warn(`Nie udało się załadować ${url}.`, error);
     return [];
   }
 }
@@ -370,7 +551,7 @@ function createSlokaId(sloka, index) {
 
 function loadSlokaRatings() {
   try {
-    return JSON.parse(localStorage.getItem(RATINGS_STORAGE_KEY)) || {};
+    return JSON.parse(localStorage.getItem(getRatingsStorageKey())) || {};
   } catch (error) {
     console.warn("Nie udało się wczytać ocen ślok.", error);
     return {};
@@ -379,10 +560,14 @@ function loadSlokaRatings() {
 
 function saveSlokaRatings() {
   try {
-    localStorage.setItem(RATINGS_STORAGE_KEY, JSON.stringify(slokaRatings));
+    localStorage.setItem(getRatingsStorageKey(), JSON.stringify(slokaRatings));
   } catch (error) {
     console.warn("Nie udało się zapisać ocen ślok.", error);
   }
+}
+
+function getRatingsStorageKey() {
+  return `vedic-karaoke:ratings:${activeChantId || DEFAULT_CHANT_ID}`;
 }
 
 function getSlokaRating(id) {
@@ -401,11 +586,14 @@ function loadSettings() {
   };
 
   try {
-    const saved = JSON.parse(localStorage.getItem(SETTINGS_STORAGE_KEY)) || {};
-    const playbackRate = getAudioFile(Number(saved.playbackRate), Number(saved.pitchShift || 0))
+    const saved =
+      JSON.parse(localStorage.getItem(SETTINGS_STORAGE_KEY) ||
+      localStorage.getItem(LEGACY_SETTINGS_STORAGE_KEY)) || {};
+    const defaultChant = CHANTS[DEFAULT_CHANT_ID];
+    const playbackRate = getAudioFileForChant(defaultChant, Number(saved.playbackRate), Number(saved.pitchShift || 0))
       ? Number(saved.playbackRate)
       : defaults.playbackRate;
-    const pitchShift = AUDIO_FILES[Number(saved.pitchShift)]
+    const pitchShift = defaultChant.audio[Number(saved.pitchShift)]
       ? Number(saved.pitchShift)
       : defaults.pitchShift;
     const repeatCount = [3, 4, 5].includes(Number(saved.repeatCount))
@@ -979,8 +1167,8 @@ async function playRepeatedInterval(interval, segmentButton, repeatButton) {
   }
 }
 
-async function playFullChant() {
-  if (activeButton === fullChantButton) {
+async function playFullChant(selectedRate = playbackRate, triggerButton = fullChantButton) {
+  if (activeButton === triggerButton) {
     stopPlayback();
     return;
   }
@@ -989,7 +1177,6 @@ async function playFullChant() {
     return;
   }
 
-  const selectedRate = playbackRate;
   const selectedPitchShift = pitchShift;
   const requestId = beginPlayback();
   const firstSloka = segmentGroups[0].sloka;
@@ -997,15 +1184,15 @@ async function playFullChant() {
   const chantStart = Math.max(0, firstSloka.xmin);
   const chantEnd = Math.max(chantStart + 0.01, lastSloka.xmax);
 
-  activeButton = fullChantButton;
+  activeButton = triggerButton;
   activeProgressButtons = [
-    fullChantButton,
+    triggerButton,
     ...segmentGroups.map((group) => group.slokaButton).filter(Boolean),
   ];
   activeProgressButtons.forEach((button) => button.style.setProperty("--progress", "0%"));
   document.body.classList.add("full-chant-mode");
-  fullChantButton.classList.add("is-playing");
-  fullChantButton.setAttribute("aria-pressed", "true");
+  triggerButton.classList.add("is-playing");
+  triggerButton.setAttribute("aria-pressed", "true");
   segmentGroups.forEach((group) => {
     if (group.element) {
       group.element.hidden = false;
@@ -1017,7 +1204,7 @@ async function playFullChant() {
 
     if (
       requestId !== playbackRequestId ||
-      selectedRate !== playbackRate ||
+      (triggerButton === fullChantButton && selectedRate !== playbackRate) ||
       selectedPitchShift !== pitchShift
     ) {
       stopPlayback();
@@ -1040,7 +1227,7 @@ async function playFullChant() {
         stopPlayback();
       }
     }, playbackDuration * 1000 + 80);
-    animateFullChantProgress(context.currentTime, chantStart, chantEnd, selectedRate);
+    animateFullChantProgress(context.currentTime, chantStart, chantEnd, selectedRate, triggerButton);
   } catch (error) {
     console.error(error);
     summary.textContent = error.message || "Nie udało się odtworzyć całego chant.";
@@ -1062,6 +1249,10 @@ function stopPlayback() {
 
   if (fullChantButton) {
     fullChantButton.setAttribute("aria-pressed", "false");
+  }
+
+  if (fullChantFastButton) {
+    fullChantFastButton.setAttribute("aria-pressed", "false");
   }
 
   if (activeProgressFrame) {
@@ -1190,7 +1381,7 @@ function animateRepeatedProgress(button, startedAt, playbackDuration, repeatCoun
   activeProgressFrame = window.requestAnimationFrame(draw);
 }
 
-function animateFullChantProgress(startedAt, chantStart, chantEnd, rate) {
+function animateFullChantProgress(startedAt, chantStart, chantEnd, rate, button) {
   if (activeProgressFrame) {
     window.cancelAnimationFrame(activeProgressFrame);
   }
@@ -1199,7 +1390,7 @@ function animateFullChantProgress(startedAt, chantStart, chantEnd, rate) {
   const playbackDuration = Math.max(0.01, (chantEnd - chantStart) / rate);
 
   const draw = () => {
-    if (activeButton !== fullChantButton) {
+    if (activeButton !== button) {
       return;
     }
 
@@ -1207,7 +1398,7 @@ function animateFullChantProgress(startedAt, chantStart, chantEnd, rate) {
     const progress = Math.min(1, Math.max(0, elapsed / playbackDuration));
     const textGridTime = chantStart + elapsed * rate;
 
-    fullChantButton.style.setProperty("--progress", `${progress * 100}%`);
+    button.style.setProperty("--progress", `${progress * 100}%`);
     updateFullChantSlokaProgress(textGridTime);
 
     if (progress < 1) {
@@ -1219,7 +1410,7 @@ function animateFullChantProgress(startedAt, chantStart, chantEnd, rate) {
 }
 
 function updateFullChantSlokaProgress(textGridTime) {
-  let currentGroup = null;
+  const currentGroup = getFullChantFocusGroup(textGridTime);
 
   segmentGroups.forEach((group) => {
     const button = group.slokaButton;
@@ -1235,7 +1426,6 @@ function updateFullChantSlokaProgress(textGridTime) {
       progress = 1;
     } else if (textGridTime >= group.sloka.xmin) {
       progress = (textGridTime - group.sloka.xmin) / duration;
-      currentGroup = group;
     }
 
     button.style.setProperty("--progress", `${Math.min(1, Math.max(0, progress)) * 100}%`);
@@ -1246,6 +1436,28 @@ function updateFullChantSlokaProgress(textGridTime) {
     activeFullChantGroup = currentGroup;
     scrollFullChantGroupIntoView(currentGroup);
   }
+}
+
+function getFullChantFocusGroup(textGridTime) {
+  for (let index = 0; index < segmentGroups.length; index += 1) {
+    const group = segmentGroups[index];
+    const previousGroup = segmentGroups[index - 1];
+    const nextGroup = segmentGroups[index + 1];
+    const focusStart = previousGroup
+      ? previousGroup.sloka.xmax + Math.max(0, group.sloka.xmin - previousGroup.sloka.xmax) / 2
+      : group.sloka.xmin;
+    const focusEnd = nextGroup
+      ? group.sloka.xmax + Math.max(0, nextGroup.sloka.xmin - group.sloka.xmax) / 2
+      : group.sloka.xmax;
+
+    if (textGridTime >= focusStart && textGridTime < focusEnd) {
+      return group;
+    }
+  }
+
+  return textGridTime < segmentGroups[0]?.sloka.xmin
+    ? segmentGroups[0] || null
+    : segmentGroups[segmentGroups.length - 1] || null;
 }
 
 function scrollFullChantGroupIntoView(group) {
@@ -1325,8 +1537,17 @@ function updatePlaybackRateLabel() {
 function updatePitchButtons() {
   [...pitchControls.querySelectorAll("button")].forEach((button) => {
     const isActive = Number(button.dataset.pitch) === pitchShift;
+    button.textContent = formatPitchButtonLabel(Number(button.dataset.pitch));
     button.setAttribute("aria-pressed", String(isActive));
   });
+}
+
+function formatPitchButtonLabel(value) {
+  if (activeTranslationLanguage === "pl") {
+    return value === 1 ? "Tonacja+" : "Tonacja++";
+  }
+
+  return value === 1 ? "Pitch+" : "Pitch++";
 }
 
 function togglePlaybackRate(rate) {
@@ -1386,6 +1607,8 @@ function setTranslationLanguage(language) {
   updateTranslationLanguageButtons();
   updateTranslationButtonLabels();
   updatePlaybackRateLabel();
+  updatePitchButtons();
+  updateChangeChantLabel();
   updateFullChantLabel();
 }
 
@@ -1467,9 +1690,24 @@ function formatRepeatCount() {
 
 function updateFullChantLabel() {
   fullChantButton.textContent = activeTranslationLanguage === "pl" ? "Cały tekst" : "Full chant";
+  fullChantFastButton.textContent = activeTranslationLanguage === "pl"
+    ? "Cały tekst szybciej"
+    : "Full chant faster";
 }
 
-fullChantButton.addEventListener("click", playFullChant);
+function updateChangeChantLabel() {
+  changeChantButton.textContent = activeTranslationLanguage === "pl" ? "Strona główna" : "Main page";
+}
+
+fullChantButton.addEventListener("click", () => playFullChant());
+fullChantFastButton.addEventListener("click", () => playFullChant(
+  FULL_CHANT_FAST_RATE,
+  fullChantFastButton,
+));
+changeChantButton.addEventListener("click", () => {
+  window.location.hash = "";
+  showChantChooser();
+});
 stopButton.addEventListener("click", stopPlayback);
 tempoControls.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-rate]");

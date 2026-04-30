@@ -31,51 +31,78 @@
     </div>
 
     <main class="app-shell">
-      <header class="topbar">
-        <div class="brand-panel">
-          <h1>Vedic Karaoke</h1>
-          <div class="chant-heading">
-            <p class="subtitle">Śri Suktam</p>
-            <img class="chant-image" src="input/image.jpg" alt="">
-            <p class="audio-credit">
-              Audio by
-              <a href="https://on.soundcloud.com/ifmZR7Az24mCGEZPSR" target="_blank" rel="noopener noreferrer">
-                Shantala Sriramaiah
-              </a>
-            </p>
+      <section id="chantChooser" class="chant-chooser" aria-labelledby="chantChooserTitle">
+        <div class="chooser-header">
+          <h1 id="chantChooserTitle">Vedic Karaoke</h1>
+        </div>
+        <div class="chant-options">
+          <button class="chant-card" type="button" data-chant-id="sri-suktam">
+            <img data-chant-image alt="">
+            <span data-chant-title>Śri Suktam</span>
+          </button>
+          <button class="chant-card" type="button" data-chant-id="sri-rudram">
+            <img data-chant-image alt="">
+            <span data-chant-title>Śri Rudram</span>
+          </button>
+        </div>
+      </section>
+
+      <div id="karaokeView" hidden>
+        <header class="topbar">
+          <div class="brand-panel">
+            <h1>Vedic Karaoke</h1>
+            <button id="changeChantButton" class="change-chant-button" type="button">Strona główna</button>
+            <div class="chant-heading">
+              <p id="chantTitle" class="subtitle">Śri Suktam</p>
+              <img id="chantImage" class="chant-image" src="input/sri-suktam/Sri_Suktam.jpg" alt="">
+              <p id="audioCredit" class="audio-credit">
+                Audio by
+                <a
+                  id="audioCreditLink"
+                  href="https://on.soundcloud.com/ifmZR7Az24mCGEZPSR"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Shantala Sriramaiah
+                </a>
+              </p>
+            </div>
+            <p id="summary">Ładowanie TextGrida...</p>
           </div>
-          <p id="summary">Ładowanie TextGrida...</p>
-        </div>
-      </header>
+        </header>
 
-      <section class="top-controls" aria-label="Ustawienia">
-        <div id="translationControls" class="translation-controls" aria-label="Język tłumaczenia">
-          <button type="button" data-translation-language="eng" aria-pressed="false">
-            <img src="input/flag-gb.svg" alt="English">
+        <section class="top-controls" aria-label="Ustawienia">
+          <div id="translationControls" class="translation-controls" aria-label="Język tłumaczenia">
+            <button type="button" data-translation-language="eng" aria-pressed="false">
+              <img src="input/flag-gb.svg" alt="English">
+            </button>
+            <button type="button" data-translation-language="pl" aria-pressed="true">
+              <img src="input/flag-pl.svg" alt="Polski">
+            </button>
+          </div>
+          <div id="repeatControls" class="repeat-controls" aria-label="Liczba powtórzeń">
+            <button type="button" data-repeat="3" aria-pressed="false">x3</button>
+            <button type="button" data-repeat="4" aria-pressed="false">x4</button>
+            <button type="button" data-repeat="5" aria-pressed="true">x5</button>
+          </div>
+          <div id="pitchControls" class="pitch-controls" aria-label="Wysokość dźwięku">
+            <button type="button" data-pitch="1" aria-pressed="false">Pitch+</button>
+            <button type="button" data-pitch="2" aria-pressed="false">Pitch++</button>
+          </div>
+          <button id="resetProgressButton" type="button" title="Resetuj oceny">Reset</button>
+        </section>
+
+        <section class="full-chant-panel">
+          <button id="fullChantButton" class="full-chant-button" type="button" aria-pressed="false">
+            Full chant
           </button>
-          <button type="button" data-translation-language="pl" aria-pressed="true">
-            <img src="input/flag-pl.svg" alt="Polski">
+          <button id="fullChantFastButton" class="full-chant-button" type="button" aria-pressed="false">
+            Full chant faster
           </button>
-        </div>
-        <div id="repeatControls" class="repeat-controls" aria-label="Liczba powtórzeń">
-          <button type="button" data-repeat="3" aria-pressed="false">x3</button>
-          <button type="button" data-repeat="4" aria-pressed="false">x4</button>
-          <button type="button" data-repeat="5" aria-pressed="true">x5</button>
-        </div>
-        <div id="pitchControls" class="pitch-controls" aria-label="Wysokość dźwięku">
-          <button type="button" data-pitch="1" aria-pressed="false">Pitch+</button>
-          <button type="button" data-pitch="2" aria-pressed="false">Pitch++</button>
-        </div>
-        <button id="resetProgressButton" type="button" title="Resetuj oceny">Reset</button>
-      </section>
+        </section>
 
-      <section class="full-chant-panel">
-        <button id="fullChantButton" class="full-chant-button" type="button" aria-pressed="false">
-          Full chant
-        </button>
-      </section>
-
-      <section id="segments" class="segments" aria-live="polite"></section>
+        <section id="segments" class="segments" aria-live="polite"></section>
+      </div>
     </main>
 
     <div id="translationModal" class="translation-modal" hidden>

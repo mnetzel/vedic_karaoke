@@ -39,6 +39,66 @@ button {
   padding: 22px 0 40px;
 }
 
+.chant-chooser[hidden],
+#karaokeView[hidden] {
+  display: none;
+}
+
+body:not(.has-active-chant) .floating-controls {
+  display: none;
+}
+
+.chant-chooser {
+  min-height: 100vh;
+  display: grid;
+  align-content: center;
+  gap: 28px;
+}
+
+.chooser-header {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+.chant-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.chant-card {
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+  align-content: start;
+  min-height: 260px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--accent-strong);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+
+.chant-card:hover {
+  border-color: var(--accent);
+}
+
+.chant-card img {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 4 / 3;
+  border-radius: 7px;
+  object-fit: contain;
+}
+
+.chant-card span {
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  font-weight: 700;
+}
+
 .topbar {
   display: grid;
   justify-items: center;
@@ -51,13 +111,28 @@ button {
 .brand-panel {
   display: grid;
   justify-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 h1 {
   margin: 0;
   font-size: clamp(1.55rem, 4vw, 2.3rem);
   line-height: 1.1;
+}
+
+.change-chant-button {
+  min-height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--accent-strong);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.change-chant-button:hover {
+  border-color: var(--accent);
 }
 
 .chant-heading {
@@ -234,6 +309,9 @@ h1 {
 }
 
 .full-chant-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
   margin: 0 0 18px;
 }
 
@@ -640,6 +718,25 @@ body.full-chant-mode .sloka-button {
 
   .top-controls {
     grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .chant-chooser {
+    min-height: calc(100vh - 24px);
+    gap: 18px;
+  }
+
+  .chant-options {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .chant-card {
+    min-height: auto;
+    padding: 14px;
+  }
+
+  .full-chant-panel {
+    grid-template-columns: 1fr;
   }
 
   .top-controls .translation-controls {
