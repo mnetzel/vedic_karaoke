@@ -813,7 +813,7 @@ body.full-chant-mode .sloka-button {
   }
 
   .sloka-actions {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .translation-button {
