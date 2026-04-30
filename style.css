@@ -220,6 +220,11 @@ h1 {
   gap: 6px;
 }
 
+.floating-controls .tempo-controls {
+  width: 88px;
+  justify-self: center;
+}
+
 .repeat-controls,
 .filter-controls,
 .translation-controls {
@@ -243,6 +248,10 @@ h1 {
   background: var(--surface);
   color: var(--ink);
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .top-controls button {
@@ -252,6 +261,10 @@ h1 {
   background: var(--surface);
   color: var(--ink);
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .controls button {
@@ -771,6 +784,10 @@ body.full-chant-mode .sloka-button {
   .floating-controls .filter-controls,
   .floating-controls .script-controls {
     display: contents;
+  }
+
+  .floating-controls .tempo-controls {
+    width: auto;
   }
 
   .floating-controls .filter-controls button,
