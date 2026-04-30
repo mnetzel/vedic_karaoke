@@ -1034,12 +1034,14 @@ function createSegmentButton(interval, label, className, linkedParts = []) {
   button.dataset.segmentLabel = "true";
   button._interval = interval;
   button._label = label;
-  const timeLabel = label
-    ? `${escapeHtml(label)}<br>${formatTime(interval.xmin)}-${formatTime(interval.xmax)}`
-    : `${formatTime(interval.xmin)}-${formatTime(interval.xmax)}`;
+  const visibleLabel = className.includes("pada-combined") ? label : "";
+
+  if (visibleLabel) {
+    button.classList.add("has-segment-meta");
+  }
 
   button.innerHTML = `
-    <span class="segment-time">${timeLabel}</span>
+    ${visibleLabel ? `<span class="segment-time">${escapeHtml(visibleLabel)}</span>` : ""}
     <span class="segment-text" data-segment-text></span>
   `;
   const textElement = button.querySelector("[data-segment-text]");
@@ -1476,12 +1478,6 @@ function updateLinkedProgress(currentTime, linkedParts) {
     part.button.style.setProperty("--progress", `${progress * 100}%`);
     part.button.classList.toggle("is-current-part", progress > 0 && progress < 1);
   });
-}
-
-function formatTime(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const rest = seconds - minutes * 60;
-  return `${minutes}:${rest.toFixed(1).padStart(4, "0")}`;
 }
 
 function escapeHtml(value) {

@@ -429,12 +429,13 @@ h1 {
   --progress: 0%;
   position: relative;
   display: grid;
-  grid-template-columns: minmax(64px, 86px) 1fr;
+  grid-template-columns: 1fr;
   gap: 14px;
-  align-items: start;
+  align-items: center;
+  justify-items: center;
   width: 100%;
   min-height: 54px;
-  padding: 12px 14px;
+  padding: 5px 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface);
@@ -456,16 +457,14 @@ h1 {
 }
 
 .sloka-button {
-  grid-template-columns: minmax(82px, 112px) 1fr;
-  min-height: 116px;
-  height: 116px;
+  min-height: 86px;
+  height: 86px;
   border-color: var(--accent);
   background: var(--accent-soft);
 }
 
 .sloka-button .segment-text {
   display: -webkit-box;
-  min-height: 5.8em;
   overflow: hidden;
   font-size: 1.05rem;
   font-weight: 400;
@@ -507,8 +506,17 @@ h1 {
 }
 
 .pada-button {
-  min-height: 48px;
+  min-height: 50px;
+  height: 50px;
   box-shadow: none;
+}
+
+.pada-button .segment-text {
+  display: -webkit-box;
+  overflow: hidden;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .repeat-button {
@@ -535,6 +543,7 @@ h1 {
   position: relative;
   grid-template-columns: 1fr;
   align-content: center;
+  justify-items: center;
   border-color: var(--accent);
   background: #f4fbfa;
   padding-left: 18px;
@@ -556,6 +565,12 @@ h1 {
 
 .pada-combined .segment-text {
   display: none;
+}
+
+.pada-combined .segment-time {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .pada-single {
@@ -588,8 +603,11 @@ h1 {
 .segment-text {
   position: relative;
   z-index: 1;
+  width: fit-content;
+  max-width: 100%;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+  text-align: left;
 }
 
 body.full-chant-mode .segments {
@@ -606,7 +624,7 @@ body.full-chant-mode .pada-list {
 }
 
 body.full-chant-mode .sloka-button {
-  min-height: 116px;
+  min-height: 86px;
 }
 
 .empty-state {
@@ -782,12 +800,12 @@ body.full-chant-mode .sloka-button {
   }
 
   .sloka-button {
-    height: 150px;
-    min-height: 150px;
+    height: 108px;
+    min-height: 108px;
   }
 
   .sloka-button .segment-text {
-    min-height: 5.8em;
+    min-height: 0;
   }
 
   .sloka-header {
@@ -817,6 +835,11 @@ body.full-chant-mode .sloka-button {
 
   .pada-control {
     grid-template-columns: minmax(0, 1fr) 44px;
+  }
+
+  .pada-button {
+    min-height: 66px;
+    height: 66px;
   }
 
   .combined-control {
