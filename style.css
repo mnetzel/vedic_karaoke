@@ -110,6 +110,14 @@ h1 {
   flex: 0 0 auto;
 }
 
+.top-controls {
+  display: grid;
+  grid-template-columns: minmax(76px, 104px) minmax(132px, 170px) minmax(132px, 170px) minmax(86px, 1fr);
+  gap: 8px;
+  align-items: stretch;
+  margin: 0 0 12px;
+}
+
 .floating-controls {
   position: fixed;
   top: 110px;
@@ -130,7 +138,8 @@ h1 {
 .repeat-controls,
 .filter-controls,
 .script-controls,
-.translation-controls {
+.translation-controls,
+.pitch-controls {
   display: grid;
   align-items: center;
   gap: 6px;
@@ -147,7 +156,21 @@ h1 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.pitch-controls {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+}
+
 .controls button {
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.top-controls button {
   min-height: 40px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -161,9 +184,15 @@ h1 {
   padding: 0 10px;
 }
 
+.top-controls button {
+  width: 100%;
+  padding: 0 10px;
+}
+
 .repeat-controls button,
 .filter-controls button,
-.translation-controls button {
+.translation-controls button,
+.pitch-controls button {
   padding: 0;
   font-size: 0.88rem;
 }
@@ -172,7 +201,8 @@ h1 {
 .repeat-controls button,
 .filter-controls button,
 .script-controls button,
-.translation-controls button {
+.translation-controls button,
+.pitch-controls button {
   min-height: 40px;
 }
 
@@ -180,7 +210,8 @@ h1 {
 .repeat-controls button[aria-pressed="true"],
 .filter-controls button[aria-pressed="true"],
 .script-controls button[aria-pressed="true"],
-.translation-controls button[aria-pressed="true"] {
+.translation-controls button[aria-pressed="true"],
+.pitch-controls button[aria-pressed="true"] {
   border-color: var(--accent);
   background: var(--accent);
   color: #fff;
@@ -197,8 +228,43 @@ h1 {
 }
 
 .controls button:hover,
+.top-controls button:hover,
 .segment-button:hover {
   border-color: var(--accent);
+}
+
+.full-chant-panel {
+  margin: 0 0 18px;
+}
+
+.full-chant-button {
+  --progress: 0%;
+  position: relative;
+  width: 100%;
+  min-height: 54px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--accent-strong);
+  cursor: pointer;
+  font-weight: 700;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.full-chant-button::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--progress);
+  background: rgba(35, 111, 104, 0.14);
+  pointer-events: none;
+  transition: width 60ms linear;
+}
+
+.full-chant-button.is-playing {
+  border-color: #c49b21;
+  background: var(--playing);
 }
 
 .segments {
@@ -313,14 +379,21 @@ h1 {
 
 .sloka-button {
   grid-template-columns: minmax(82px, 112px) 1fr;
-  min-height: 72px;
+  min-height: 116px;
+  height: 116px;
   border-color: var(--accent);
   background: var(--accent-soft);
 }
 
 .sloka-button .segment-text {
+  display: -webkit-box;
+  min-height: 5.8em;
+  overflow: hidden;
   font-size: 1.05rem;
-  font-weight: 700;
+  font-weight: 400;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
 }
 
 .pada-list {
@@ -441,6 +514,23 @@ h1 {
   overflow-wrap: anywhere;
 }
 
+body.full-chant-mode .segments {
+  gap: 10px;
+}
+
+body.full-chant-mode .sloka-header {
+  grid-template-columns: 1fr;
+}
+
+body.full-chant-mode .sloka-actions,
+body.full-chant-mode .pada-list {
+  display: none;
+}
+
+body.full-chant-mode .sloka-button {
+  min-height: 116px;
+}
+
 .empty-state {
   margin: 24px 0;
   color: var(--muted);
@@ -548,46 +638,37 @@ h1 {
     margin: 8px auto 0;
   }
 
-  .tempo-controls {
+  .top-controls {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .top-controls .translation-controls {
+    grid-column: span 2;
+  }
+
+  .top-controls .repeat-controls,
+  .top-controls .pitch-controls,
+  #resetProgressButton {
+    grid-column: span 3;
+  }
+
+  .floating-controls .tempo-controls,
+  .floating-controls .filter-controls,
+  .floating-controls .script-controls {
     display: contents;
   }
 
-  .repeat-controls {
-    display: contents;
-  }
-
-  .filter-controls {
-    display: contents;
-  }
-
-  .script-controls {
-    display: contents;
-  }
-
-  .translation-controls {
-    display: contents;
-  }
-
-  .repeat-controls button,
-  .filter-controls button,
-  .translation-controls button {
+  .floating-controls .filter-controls button,
+  .floating-controls #stopButton {
     grid-column: span 1;
     min-width: 0;
   }
 
-  .tempo-controls button,
-  .script-controls button {
+  .floating-controls .tempo-controls button,
+  .floating-controls .script-controls button {
     grid-column: span 2;
     min-width: 0;
     padding: 0 4px;
-  }
-
-  #resetProgressButton,
-  #stopButton {
-    grid-column: span 1;
-    min-width: 0;
-    padding: 0 4px;
-    font-size: 0.82rem;
   }
 
   .script-controls button {
@@ -601,6 +682,15 @@ h1 {
   .segment-button {
     grid-template-columns: 1fr;
     gap: 6px;
+  }
+
+  .sloka-button {
+    height: 150px;
+    min-height: 150px;
+  }
+
+  .sloka-button .segment-text {
+    min-height: 5.8em;
   }
 
   .sloka-header {

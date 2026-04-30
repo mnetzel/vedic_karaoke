@@ -3,8 +3,18 @@ const CHANT_ID = "sri-suktam";
 const RATINGS_STORAGE_KEY = `vedic-karaoke:ratings:${CHANT_ID}`;
 const SETTINGS_STORAGE_KEY = `vedic-karaoke:settings:${CHANT_ID}`;
 const AUDIO_FILES = {
-  1: "input/audio.ogg",
-  0.7: "input/audio70.ogg",
+  0: {
+    1: "input/audio.ogg",
+    0.7: "input/audio70.ogg",
+  },
+  1: {
+    1: "input/Sri_Suktam_mono_pitch_up_1_semitone.ogg",
+    0.7: "input/Sri_Suktam_mono_pitch_up_1_semitone_70.ogg",
+  },
+  2: {
+    1: "input/Sri_Suktam_mono_pitch_up_2_semitones.ogg",
+    0.7: "input/Sri_Suktam_mono_pitch_up_2_semitones_70.ogg",
+  },
 };
 const TEXT_VARIANTS = ["Devanagari", "IAST", "PL"];
 const DEFAULT_TEXT_VARIANT = "Devanagari";
@@ -33,11 +43,13 @@ const REPEAT_GAP_SECONDS = 1;
 const summary = document.querySelector("#summary");
 const segmentsRoot = document.querySelector("#segments");
 const stopButton = document.querySelector("#stopButton");
+const fullChantButton = document.querySelector("#fullChantButton");
 const tempoControls = document.querySelector("#tempoControls");
 const repeatControls = document.querySelector("#repeatControls");
 const filterControls = document.querySelector("#filterControls");
 const scriptControls = document.querySelector("#scriptControls");
 const translationControls = document.querySelector("#translationControls");
+const pitchControls = document.querySelector("#pitchControls");
 const resetProgressButton = document.querySelector("#resetProgressButton");
 const translationModal = document.querySelector("#translationModal");
 const translationDialog = document.querySelector(".translation-dialog");
@@ -56,8 +68,10 @@ let activeSources = [];
 let activeTimer = null;
 let activeProgressFrame = null;
 let activeProgressButtons = [];
+let activeFullChantGroup = null;
 let savedSettings = loadSettings();
 let playbackRate = savedSettings.playbackRate;
+let pitchShift = savedSettings.pitchShift;
 let playbackRequestId = 0;
 let repeatCount = savedSettings.repeatCount;
 let activeRatingFilter = savedSettings.ratingFilter;
@@ -96,7 +110,7 @@ async function init() {
     renderGroups(segmentGroups);
     applySavedControls();
     updateSummary();
-    loadAudioBuffer(playbackRate);
+    loadAudioBuffer(playbackRate, pitchShift);
   } catch (error) {
     console.error(error);
     summary.textContent = `Nie udało się załadować ${TEXTGRID_URL}.`;
@@ -104,8 +118,9 @@ async function init() {
   }
 }
 
-async function loadAudioBuffer(rate) {
-  const key = getRateKey(rate);
+async function loadAudioBuffer(rate, pitch = pitchShift) {
+  const key = getAudioKey(rate, pitch);
+  const audioFile = getAudioFile(rate, pitch);
 
   if (audioBuffers.has(key)) {
     return audioBuffers.get(key);
@@ -117,7 +132,7 @@ async function loadAudioBuffer(rate) {
 
   try {
     updateSummary();
-    const promise = fetch(AUDIO_FILES[key])
+    const promise = fetch(audioFile)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`);
@@ -138,9 +153,17 @@ async function loadAudioBuffer(rate) {
   } catch (error) {
     audioLoadPromises.delete(key);
     console.error(error);
-    summary.textContent = `Nie udało się załadować ${AUDIO_FILES[key]}.`;
+    summary.textContent = `Nie udało się załadować ${audioFile}.`;
     throw error;
   }
+}
+
+function getAudioKey(rate, pitch = pitchShift) {
+  return `${pitch}:${getRateKey(rate)}`;
+}
+
+function getAudioFile(rate, pitch = pitchShift) {
+  return AUDIO_FILES[pitch]?.[getRateKey(rate)] || AUDIO_FILES[0][getRateKey(rate)];
 }
 
 function getRateKey(rate) {
@@ -370,6 +393,7 @@ function getSlokaRating(id) {
 function loadSettings() {
   const defaults = {
     playbackRate: 1,
+    pitchShift: 0,
     repeatCount: DEFAULT_REPEAT_COUNT,
     ratingFilter: "all",
     textVariant: DEFAULT_TEXT_VARIANT,
@@ -378,7 +402,12 @@ function loadSettings() {
 
   try {
     const saved = JSON.parse(localStorage.getItem(SETTINGS_STORAGE_KEY)) || {};
-    const playbackRate = AUDIO_FILES[saved.playbackRate] ? Number(saved.playbackRate) : defaults.playbackRate;
+    const playbackRate = getAudioFile(Number(saved.playbackRate), Number(saved.pitchShift || 0))
+      ? Number(saved.playbackRate)
+      : defaults.playbackRate;
+    const pitchShift = AUDIO_FILES[Number(saved.pitchShift)]
+      ? Number(saved.pitchShift)
+      : defaults.pitchShift;
     const repeatCount = [3, 4, 5].includes(Number(saved.repeatCount))
       ? Number(saved.repeatCount)
       : defaults.repeatCount;
@@ -392,7 +421,7 @@ function loadSettings() {
       ? saved.translationLanguage
       : defaults.translationLanguage;
 
-    return { playbackRate, repeatCount, ratingFilter, textVariant, translationLanguage };
+    return { playbackRate, pitchShift, repeatCount, ratingFilter, textVariant, translationLanguage };
   } catch (error) {
     console.warn("Nie udało się wczytać ustawień.", error);
     return defaults;
@@ -405,6 +434,7 @@ function saveSettings() {
       SETTINGS_STORAGE_KEY,
       JSON.stringify({
         playbackRate,
+        pitchShift,
         repeatCount,
         ratingFilter: activeRatingFilter,
         textVariant: activeTextVariant,
@@ -418,16 +448,22 @@ function saveSettings() {
 
 function applySavedControls() {
   updatePlaybackRateButtons();
+  updatePitchButtons();
   updateRepeatButtons();
   updateRepeatButtonLabels();
   updateFilterButtons();
   updateScriptButtons();
   updateTranslationLanguageButtons();
   updatePlaybackRateLabel();
+  updateFullChantLabel();
   applyRatingFilter();
 }
 
 function countVisibleGroups() {
+  if (document.body.classList.contains("full-chant-mode")) {
+    return segmentGroups.length;
+  }
+
   if (activeRatingFilter === "all") {
     return segmentGroups.length;
   }
@@ -437,6 +473,14 @@ function countVisibleGroups() {
 }
 
 function applyRatingFilter() {
+  if (document.body.classList.contains("full-chant-mode")) {
+    document.querySelectorAll(".segment-group").forEach((groupElement) => {
+      groupElement.hidden = false;
+    });
+    updateSummary();
+    return;
+  }
+
   const maxRating = activeRatingFilter === "all" ? null : Number(activeRatingFilter);
 
   document.querySelectorAll(".segment-group").forEach((groupElement) => {
@@ -570,10 +614,11 @@ function updateSummary() {
     return;
   }
 
-  const key = getRateKey(playbackRate);
+  const key = getAudioKey(playbackRate, pitchShift);
+  const audioLabel = `${formatPitch(pitchShift)} ${formatRate(playbackRate)}`.trim();
   const audioStatus = audioBuffers.has(key)
-    ? `audio ${formatRate(playbackRate)} gotowe`
-    : `ładowanie audio ${formatRate(playbackRate)}...`;
+    ? `audio ${audioLabel} gotowe`
+    : `ładowanie audio ${audioLabel}...`;
   const padaCount = segmentGroups.reduce((count, group) => count + group.padas.length, 0);
   const visibleGroups = countVisibleGroups();
   const slokaSummary =
@@ -601,6 +646,8 @@ function renderGroups(groups) {
         "",
         "sloka-button",
       );
+      group.element = groupElement;
+      group.slokaButton = slokaButton;
       const slokaHeader = document.createElement("div");
       slokaHeader.className = "sloka-header";
       const slokaActions = document.createElement("div");
@@ -821,6 +868,7 @@ function createSegmentAriaLabel(label, interval) {
 
 async function playInterval(interval, button, linkedParts = []) {
   const selectedRate = playbackRate;
+  const selectedPitchShift = pitchShift;
   const requestId = beginPlayback();
 
   if (activeButton) {
@@ -833,9 +881,13 @@ async function playInterval(interval, button, linkedParts = []) {
   linkedParts.forEach((part) => part.button.classList.add("is-linked-playing"));
 
   try {
-    const selectedBuffer = await loadAudioBuffer(selectedRate);
+    const selectedBuffer = await loadAudioBuffer(selectedRate, selectedPitchShift);
 
-    if (requestId !== playbackRequestId || selectedRate !== playbackRate) {
+    if (
+      requestId !== playbackRequestId ||
+      selectedRate !== playbackRate ||
+      selectedPitchShift !== pitchShift
+    ) {
       stopPlayback();
       return;
     }
@@ -867,6 +919,7 @@ async function playInterval(interval, button, linkedParts = []) {
 
 async function playRepeatedInterval(interval, segmentButton, repeatButton) {
   const selectedRate = playbackRate;
+  const selectedPitchShift = pitchShift;
   const requestId = beginPlayback();
 
   activeButton = segmentButton;
@@ -875,9 +928,13 @@ async function playRepeatedInterval(interval, segmentButton, repeatButton) {
   activeProgressButtons = [segmentButton, repeatButton];
 
   try {
-    const selectedBuffer = await loadAudioBuffer(selectedRate);
+    const selectedBuffer = await loadAudioBuffer(selectedRate, selectedPitchShift);
 
-    if (requestId !== playbackRequestId || selectedRate !== playbackRate) {
+    if (
+      requestId !== playbackRequestId ||
+      selectedRate !== playbackRate ||
+      selectedPitchShift !== pitchShift
+    ) {
       stopPlayback();
       return;
     }
@@ -922,7 +979,77 @@ async function playRepeatedInterval(interval, segmentButton, repeatButton) {
   }
 }
 
+async function playFullChant() {
+  if (activeButton === fullChantButton) {
+    stopPlayback();
+    return;
+  }
+
+  if (segmentGroups.length === 0) {
+    return;
+  }
+
+  const selectedRate = playbackRate;
+  const selectedPitchShift = pitchShift;
+  const requestId = beginPlayback();
+  const firstSloka = segmentGroups[0].sloka;
+  const lastSloka = segmentGroups[segmentGroups.length - 1].sloka;
+  const chantStart = Math.max(0, firstSloka.xmin);
+  const chantEnd = Math.max(chantStart + 0.01, lastSloka.xmax);
+
+  activeButton = fullChantButton;
+  activeProgressButtons = [
+    fullChantButton,
+    ...segmentGroups.map((group) => group.slokaButton).filter(Boolean),
+  ];
+  activeProgressButtons.forEach((button) => button.style.setProperty("--progress", "0%"));
+  document.body.classList.add("full-chant-mode");
+  fullChantButton.classList.add("is-playing");
+  fullChantButton.setAttribute("aria-pressed", "true");
+  segmentGroups.forEach((group) => {
+    if (group.element) {
+      group.element.hidden = false;
+    }
+  });
+
+  try {
+    const selectedBuffer = await loadAudioBuffer(selectedRate, selectedPitchShift);
+
+    if (
+      requestId !== playbackRequestId ||
+      selectedRate !== playbackRate ||
+      selectedPitchShift !== pitchShift
+    ) {
+      stopPlayback();
+      return;
+    }
+
+    const context = getAudioContext();
+
+    if (context.state === "suspended") {
+      await context.resume();
+    }
+
+    const start = chantStart / selectedRate;
+    const playbackDuration = (chantEnd - chantStart) / selectedRate;
+    const sources = playSegmentNormal(context, selectedBuffer, start, playbackDuration);
+
+    activeSources = sources;
+    activeTimer = window.setTimeout(() => {
+      if (activeSources === sources) {
+        stopPlayback();
+      }
+    }, playbackDuration * 1000 + 80);
+    animateFullChantProgress(context.currentTime, chantStart, chantEnd, selectedRate);
+  } catch (error) {
+    console.error(error);
+    summary.textContent = error.message || "Nie udało się odtworzyć całego chant.";
+    stopPlayback();
+  }
+}
+
 function stopPlayback() {
+  const wasFullChantMode = document.body.classList.contains("full-chant-mode");
   playbackRequestId += 1;
   activeProgressButtons.forEach((button) => {
     button.classList.remove("is-playing", "is-linked-playing", "is-current-part");
@@ -930,6 +1057,12 @@ function stopPlayback() {
   });
   activeProgressButtons = [];
   activeButton = null;
+  activeFullChantGroup = null;
+  document.body.classList.remove("full-chant-mode");
+
+  if (fullChantButton) {
+    fullChantButton.setAttribute("aria-pressed", "false");
+  }
 
   if (activeProgressFrame) {
     window.cancelAnimationFrame(activeProgressFrame);
@@ -949,6 +1082,10 @@ function stopPlayback() {
     }
   });
   activeSources = [];
+
+  if (wasFullChantMode) {
+    applyRatingFilter();
+  }
 }
 
 function beginPlayback() {
@@ -1053,6 +1190,71 @@ function animateRepeatedProgress(button, startedAt, playbackDuration, repeatCoun
   activeProgressFrame = window.requestAnimationFrame(draw);
 }
 
+function animateFullChantProgress(startedAt, chantStart, chantEnd, rate) {
+  if (activeProgressFrame) {
+    window.cancelAnimationFrame(activeProgressFrame);
+  }
+
+  const context = getAudioContext();
+  const playbackDuration = Math.max(0.01, (chantEnd - chantStart) / rate);
+
+  const draw = () => {
+    if (activeButton !== fullChantButton) {
+      return;
+    }
+
+    const elapsed = context.currentTime - startedAt;
+    const progress = Math.min(1, Math.max(0, elapsed / playbackDuration));
+    const textGridTime = chantStart + elapsed * rate;
+
+    fullChantButton.style.setProperty("--progress", `${progress * 100}%`);
+    updateFullChantSlokaProgress(textGridTime);
+
+    if (progress < 1) {
+      activeProgressFrame = window.requestAnimationFrame(draw);
+    }
+  };
+
+  activeProgressFrame = window.requestAnimationFrame(draw);
+}
+
+function updateFullChantSlokaProgress(textGridTime) {
+  let currentGroup = null;
+
+  segmentGroups.forEach((group) => {
+    const button = group.slokaButton;
+
+    if (!button) {
+      return;
+    }
+
+    const duration = Math.max(0.01, group.sloka.xmax - group.sloka.xmin);
+    let progress = 0;
+
+    if (textGridTime >= group.sloka.xmax) {
+      progress = 1;
+    } else if (textGridTime >= group.sloka.xmin) {
+      progress = (textGridTime - group.sloka.xmin) / duration;
+      currentGroup = group;
+    }
+
+    button.style.setProperty("--progress", `${Math.min(1, Math.max(0, progress)) * 100}%`);
+    button.classList.toggle("is-current-part", currentGroup === group);
+  });
+
+  if (currentGroup && currentGroup !== activeFullChantGroup) {
+    activeFullChantGroup = currentGroup;
+    scrollFullChantGroupIntoView(currentGroup);
+  }
+}
+
+function scrollFullChantGroupIntoView(group) {
+  group.element?.scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+  });
+}
+
 function updateLinkedProgress(currentTime, linkedParts) {
   linkedParts.forEach((part) => {
     const duration = Math.max(0.01, part.interval.xmax - part.interval.xmin);
@@ -1086,7 +1288,16 @@ function setPlaybackRate(rate) {
   updatePlaybackRateButtons();
 
   updateSummary();
-  loadAudioBuffer(playbackRate);
+  loadAudioBuffer(playbackRate, pitchShift);
+}
+
+function setPitchShift(value) {
+  stopPlayback();
+  pitchShift = pitchShift === value ? 0 : value;
+  saveSettings();
+  updatePitchButtons();
+  updateSummary();
+  loadAudioBuffer(playbackRate, pitchShift);
 }
 
 function setRepeatCount(count) {
@@ -1109,6 +1320,13 @@ function updatePlaybackRateLabel() {
   if (slowButton) {
     slowButton.textContent = activeTranslationLanguage === "pl" ? "Wolniej" : "Slow";
   }
+}
+
+function updatePitchButtons() {
+  [...pitchControls.querySelectorAll("button")].forEach((button) => {
+    const isActive = Number(button.dataset.pitch) === pitchShift;
+    button.setAttribute("aria-pressed", String(isActive));
+  });
 }
 
 function togglePlaybackRate(rate) {
@@ -1168,6 +1386,7 @@ function setTranslationLanguage(language) {
   updateTranslationLanguageButtons();
   updateTranslationButtonLabels();
   updatePlaybackRateLabel();
+  updateFullChantLabel();
 }
 
 function updateTranslationLanguageButtons() {
@@ -1238,10 +1457,19 @@ function formatRate(rate) {
   return `${Math.round(rate * 100)}%`;
 }
 
+function formatPitch(value) {
+  return value > 0 ? `+${value}` : "";
+}
+
 function formatRepeatCount() {
   return `x${repeatCount}`;
 }
 
+function updateFullChantLabel() {
+  fullChantButton.textContent = activeTranslationLanguage === "pl" ? "Cały tekst" : "Full chant";
+}
+
+fullChantButton.addEventListener("click", playFullChant);
 stopButton.addEventListener("click", stopPlayback);
 tempoControls.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-rate]");
@@ -1260,6 +1488,15 @@ repeatControls.addEventListener("click", (event) => {
   }
 
   setRepeatCount(Number(button.dataset.repeat));
+});
+pitchControls.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-pitch]");
+
+  if (!button) {
+    return;
+  }
+
+  setPitchShift(Number(button.dataset.pitch));
 });
 filterControls.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-filter]");

@@ -17,11 +17,6 @@
       <div id="tempoControls" class="tempo-controls" aria-label="Tempo odtwarzania">
         <button type="button" data-rate="0.7" aria-pressed="false">Wolniej</button>
       </div>
-      <div id="repeatControls" class="repeat-controls" aria-label="Liczba powtórzeń">
-        <button type="button" data-repeat="3" aria-pressed="false">x3</button>
-        <button type="button" data-repeat="4" aria-pressed="false">x4</button>
-        <button type="button" data-repeat="5" aria-pressed="true">x5</button>
-      </div>
       <div id="filterControls" class="filter-controls" aria-label="Filtr ślok">
         <button type="button" data-filter="all" aria-pressed="true">★★★</button>
         <button type="button" data-filter="2" aria-pressed="false">★★</button>
@@ -32,15 +27,6 @@
         <button type="button" data-script="IAST" aria-pressed="false">IAST</button>
         <button type="button" data-script="PL" aria-pressed="false">PL</button>
       </div>
-      <div id="translationControls" class="translation-controls" aria-label="Język tłumaczenia">
-        <button type="button" data-translation-language="eng" aria-pressed="false">
-          <img src="input/flag-gb.svg" alt="English">
-        </button>
-        <button type="button" data-translation-language="pl" aria-pressed="true">
-          <img src="input/flag-pl.svg" alt="Polski">
-        </button>
-      </div>
-      <button id="resetProgressButton" type="button" title="Resetuj oceny">Reset</button>
       <button id="stopButton" type="button" title="Zatrzymaj">Stop</button>
     </div>
 
@@ -61,6 +47,33 @@
           <p id="summary">Ładowanie TextGrida...</p>
         </div>
       </header>
+
+      <section class="top-controls" aria-label="Ustawienia">
+        <div id="translationControls" class="translation-controls" aria-label="Język tłumaczenia">
+          <button type="button" data-translation-language="eng" aria-pressed="false">
+            <img src="input/flag-gb.svg" alt="English">
+          </button>
+          <button type="button" data-translation-language="pl" aria-pressed="true">
+            <img src="input/flag-pl.svg" alt="Polski">
+          </button>
+        </div>
+        <div id="repeatControls" class="repeat-controls" aria-label="Liczba powtórzeń">
+          <button type="button" data-repeat="3" aria-pressed="false">x3</button>
+          <button type="button" data-repeat="4" aria-pressed="false">x4</button>
+          <button type="button" data-repeat="5" aria-pressed="true">x5</button>
+        </div>
+        <div id="pitchControls" class="pitch-controls" aria-label="Wysokość dźwięku">
+          <button type="button" data-pitch="1" aria-pressed="false">Pitch+</button>
+          <button type="button" data-pitch="2" aria-pressed="false">Pitch++</button>
+        </div>
+        <button id="resetProgressButton" type="button" title="Resetuj oceny">Reset</button>
+      </section>
+
+      <section class="full-chant-panel">
+        <button id="fullChantButton" class="full-chant-button" type="button" aria-pressed="false">
+          Full chant
+        </button>
+      </section>
 
       <section id="segments" class="segments" aria-live="polite"></section>
     </main>
