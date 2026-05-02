@@ -34,6 +34,7 @@ const CHANTS = {
   "sri-rudram": {
     title: "Śri Rudram",
     layout: "collection",
+    combinePhrasePairs: false,
     folder: "input/sri-rudram",
     image: "input/sri-rudram/Sri_Rudram.jpg",
     audioCredit: null,
@@ -1192,7 +1193,7 @@ function renderGroups(groups) {
       const padasElement = document.createElement("div");
       padasElement.className = "pada-list";
 
-      padasElement.replaceChildren(...renderPadaPairs(group.padas));
+      padasElement.replaceChildren(...renderPadaPairs(group.padas, shouldCombinePhrasePairs()));
 
       groupElement.replaceChildren(
         ...[slokaHeader, group.padas.length > 0 ? padasElement : null].filter(Boolean),
@@ -1201,6 +1202,10 @@ function renderGroups(groups) {
     }),
   );
   applyRatingFilter();
+}
+
+function shouldCombinePhrasePairs() {
+  return activeSection?.combinePhrasePairs ?? activeChant?.combinePhrasePairs ?? true;
 }
 
 function createTranslationButton(group) {
@@ -1278,7 +1283,19 @@ function setSlokaRating(group, groupElement, control, rating) {
   applyRatingFilter();
 }
 
-function renderPadaPairs(padas) {
+function renderPadaPairs(padas, combinePhrasePairs = true) {
+  if (!combinePhrasePairs) {
+    return padas.map((phrase, index) => {
+      const button = createSegmentButton(
+        phrase,
+        formatPhraseLabel(index + 1),
+        "pada-button",
+      );
+
+      return createPadaControl(button, createRepeatButton(phrase, button));
+    });
+  }
+
   const rows = [];
 
   for (let index = 0; index < padas.length; index += 2) {
