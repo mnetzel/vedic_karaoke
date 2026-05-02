@@ -980,6 +980,7 @@ function applySavedControls() {
   updateFullChantLabel();
   updateTextSizeButton();
   updateHidePadasButton();
+  updatePhraseButtonLabels();
   applyRatingFilter();
 }
 
@@ -1287,7 +1288,7 @@ function renderPadaPairs(padas) {
     if (!second) {
       const singleButton = createSegmentButton(
         first,
-        `Phrase ${index + 1}`,
+        formatPhraseLabel(index + 1),
         "pada-button",
       );
 
@@ -1302,8 +1303,8 @@ function renderPadaPairs(padas) {
 
     const singleButtons = document.createElement("div");
     singleButtons.className = "pada-pair-singles";
-    const firstButton = createSegmentButton(first, `Phrase ${index + 1}`, "pada-button");
-    const secondButton = createSegmentButton(second, `Phrase ${index + 2}`, "pada-button");
+    const firstButton = createSegmentButton(first, formatPhraseLabel(index + 1), "pada-button");
+    const secondButton = createSegmentButton(second, formatPhraseLabel(index + 2), "pada-button");
 
     singleButtons.replaceChildren(
       createPadaControl(firstButton, createRepeatButton(first, firstButton)),
@@ -1318,13 +1319,15 @@ function renderPadaPairs(padas) {
     };
     const combinedButton = createSegmentButton(
       combinedInterval,
-      `Phrase ${index + 1}+${index + 2}`,
+      formatPhraseRangeLabel(index + 1, index + 2),
       "pada-button pada-combined",
       [
         { interval: first, button: firstButton },
         { interval: second, button: secondButton },
       ],
     );
+    combinedButton.dataset.phraseStart = String(index + 1);
+    combinedButton.dataset.phraseEnd = String(index + 2);
     const combinedRepeatButton = createRepeatButton(combinedInterval, combinedButton);
     const combinedControl = createCombinedControl(combinedRepeatButton, combinedButton);
 
@@ -1333,6 +1336,29 @@ function renderPadaPairs(padas) {
   }
 
   return rows;
+}
+
+function formatPhraseLabel(index) {
+  return `${activeTranslationLanguage === "pl" ? "Fraza" : "Phrase"} ${index}`;
+}
+
+function formatPhraseRangeLabel(start, end) {
+  return `${activeTranslationLanguage === "pl" ? "Frazy" : "Phrases"} ${start}+${end}`;
+}
+
+function updatePhraseButtonLabels() {
+  document.querySelectorAll("[data-phrase-start][data-phrase-end]").forEach((button) => {
+    const label = formatPhraseRangeLabel(button.dataset.phraseStart, button.dataset.phraseEnd);
+    const labelElement = button.querySelector(".segment-time");
+
+    button._label = label;
+
+    if (labelElement) {
+      labelElement.textContent = label;
+    }
+
+    button.setAttribute("aria-label", createSegmentAriaLabel(label, button._interval));
+  });
 }
 
 function createPadaControl(segmentButton, repeatButton, extraClass = "") {
@@ -2004,6 +2030,7 @@ function setTranslationLanguage(language) {
   updateChangeChantLabel();
   updateTextSizeButton();
   updateHidePadasButton();
+  updatePhraseButtonLabels();
   updateFullChantLabel();
   updateSummary();
 }
