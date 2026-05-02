@@ -257,6 +257,7 @@ h1 {
 }
 
 .tempo-controls,
+.text-size-controls,
 .repeat-controls,
 .filter-controls,
 .script-controls,
@@ -268,6 +269,11 @@ h1 {
 }
 
 .floating-controls .tempo-controls {
+  width: 88px;
+  justify-self: center;
+}
+
+.floating-controls .text-size-controls {
   width: 88px;
   justify-self: center;
 }
@@ -284,7 +290,7 @@ h1 {
 }
 
 .pitch-controls {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 4px;
 }
 
@@ -333,6 +339,7 @@ h1 {
 }
 
 .tempo-controls button,
+.text-size-controls button,
 .repeat-controls button,
 .filter-controls button,
 .script-controls button,
@@ -341,7 +348,33 @@ h1 {
   min-height: 40px;
 }
 
+.text-size-controls button {
+  gap: 3px;
+}
+
+.size-a {
+  font-weight: 400;
+  line-height: 1;
+}
+
+.size-a.is-active {
+  font-weight: 800;
+}
+
+.size-a-small {
+  font-size: 0.78rem;
+}
+
+.size-a-medium {
+  font-size: 1rem;
+}
+
+.size-a-large {
+  font-size: 1.22rem;
+}
+
 .tempo-controls button[aria-pressed="true"],
+#hidePadasButton[aria-pressed="true"],
 .repeat-controls button[aria-pressed="true"],
 .filter-controls button[aria-pressed="true"],
 .script-controls button[aria-pressed="true"],
@@ -536,6 +569,43 @@ h1 {
   line-height: 1.45;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
+}
+
+body.text-size-medium .sloka-button,
+body.text-size-large .sloka-button,
+body.text-size-medium .pada-button,
+body.text-size-large .pada-button {
+  min-height: unset;
+  height: auto;
+}
+
+body.text-size-medium .sloka-button .segment-text,
+body.text-size-large .sloka-button .segment-text,
+body.text-size-medium .pada-button .segment-text,
+body.text-size-large .pada-button .segment-text {
+  display: block;
+  -webkit-line-clamp: unset;
+}
+
+body.text-size-medium .sloka-button .segment-text {
+  font-size: 1.6rem;
+}
+
+body.text-size-large .sloka-button .segment-text {
+  font-size: 2.2rem;
+}
+
+body.text-size-medium .pada-button .segment-text {
+  font-size: 1.6rem;
+}
+
+body.text-size-large .pada-button .segment-text {
+  font-size: 2.2rem;
+}
+
+body.text-size-medium .pada-combined .segment-text,
+body.text-size-large .pada-combined .segment-text {
+  display: none;
 }
 
 .pada-list {
@@ -837,12 +907,17 @@ body.full-chant-mode .sloka-button {
   }
 
   .floating-controls .tempo-controls,
+  .floating-controls .text-size-controls,
   .floating-controls .filter-controls,
   .floating-controls .script-controls {
     display: contents;
   }
 
   .floating-controls .tempo-controls {
+    width: auto;
+  }
+
+  .floating-controls .text-size-controls {
     width: auto;
   }
 
@@ -853,6 +928,8 @@ body.full-chant-mode .sloka-button {
   }
 
   .floating-controls .tempo-controls button,
+  .floating-controls .text-size-controls button,
+  .floating-controls #hidePadasButton,
   .floating-controls .script-controls button {
     grid-column: span 2;
     min-width: 0;
@@ -939,4 +1016,33 @@ body.full-chant-mode .sloka-button {
     max-height: 88vh;
     padding: 18px;
   }
+}
+
+@media (orientation: landscape) and (max-height: 520px) and (min-width: 621px) and (pointer: coarse) {
+  .floating-controls {
+    right: 12px;
+    top: 12px;
+  }
+
+  #karaokeView {
+    margin-left: -73px;
+    margin-right: 52px;
+  }
+}
+
+body.text-size-medium .sloka-button,
+body.text-size-large .sloka-button,
+body.text-size-medium .pada-button,
+body.text-size-large .pada-button {
+  min-height: 0;
+  height: auto;
+}
+
+body.text-size-medium .pada-combined,
+body.text-size-large .pada-combined {
+  min-height: 44px;
+}
+
+body.padas-hidden .pada-list {
+  display: none;
 }

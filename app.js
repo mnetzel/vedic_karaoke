@@ -46,22 +46,9 @@ const CHANTS = {
           pl: "input/sri-rudram/Namakam_translation_pl.md",
           eng: "input/sri-rudram/Namakam_translation_eng.md",
         },
-        audio: {
-          0: {
-            1: "input/sri-rudram/Namakam.ogg",
-            0.7: "input/sri-rudram/Namakam_tempo_70.ogg",
-            1.25: "input/sri-rudram/Namakam_tempo_125.ogg",
-          },
-          1: {
-            1: "input/sri-rudram/Namakam_pitch_up_1_semitone.ogg",
-            0.7: "input/sri-rudram/Namakam_pitch_up_1_semitone_70.ogg",
-            1.25: "input/sri-rudram/Namakam_pitch_up_1_semitone_tempo_125.ogg",
-          },
-          2: {
-            1: "input/sri-rudram/Namakam_pitch_up_2_semitones.ogg",
-            0.7: "input/sri-rudram/Namakam_pitch_up_2_semitones_70.ogg",
-            1.25: "input/sri-rudram/Namakam_pitch_up_2_semitones_tempo_125.ogg",
-          },
+        anuvakaAudio: {
+          folder: "input/sri-rudram/namakam-anuvakas",
+          prefix: "Namakam_anuvaka_",
         },
       },
       camakam: {
@@ -143,11 +130,14 @@ const stopButton = document.querySelector("#stopButton");
 const fullChantButton = document.querySelector("#fullChantButton");
 const fullChantFastButton = document.querySelector("#fullChantFastButton");
 const tempoControls = document.querySelector("#tempoControls");
+const textSizeButton = document.querySelector("#textSizeButton");
+const hidePadasButton = document.querySelector("#hidePadasButton");
 const repeatControls = document.querySelector("#repeatControls");
 const filterControls = document.querySelector("#filterControls");
 const scriptControls = document.querySelector("#scriptControls");
 const translationControls = document.querySelector("#translationControls");
 const pitchControls = document.querySelector("#pitchControls");
+const pitchButton = document.querySelector("#pitchButton");
 const resetProgressButton = document.querySelector("#resetProgressButton");
 const translationModal = document.querySelector("#translationModal");
 const translationDialog = document.querySelector(".translation-dialog");
@@ -181,6 +171,8 @@ let repeatCount = savedSettings.repeatCount;
 let activeRatingFilter = savedSettings.ratingFilter;
 let activeTextVariant = savedSettings.textVariant;
 let activeTranslationLanguage = savedSettings.translationLanguage;
+let textSizeLevel = savedSettings.textSizeLevel;
+let padasHidden = savedSettings.padasHidden;
 let slokaRatings = {};
 
 init();
@@ -595,10 +587,14 @@ async function loadAudioBuffer(rate, pitch = pitchShift) {
 }
 
 function getAudioKey(rate, pitch = pitchShift) {
-  return `${[activeChantId, activeSectionId, pitch, getRateKey(rate)].filter(Boolean).join(":")}`;
+  return `${[activeChantId, activeSectionId, activeAnuvaka?.id, pitch, getRateKey(rate)].filter(Boolean).join(":")}`;
 }
 
 function getAudioFile(rate, pitch = pitchShift) {
+  if (activeAnuvaka && activeSection?.anuvakaAudio) {
+    return getAnuvakaAudioFile(activeSection.anuvakaAudio, activeAnuvaka, rate, pitch);
+  }
+
   return getAudioFileFromMap(getActiveAudioMap(), rate, pitch);
 }
 
@@ -620,6 +616,33 @@ function getActiveAudioMap() {
 
 function getRateKey(rate) {
   return String(rate);
+}
+
+function getAnuvakaAudioFile(audioConfig, anuvaka, rate, pitch = 0) {
+  const number = String(anuvaka.label).padStart(2, "0");
+  return `${audioConfig.folder}/${audioConfig.prefix}${number}${getAudioVariantSuffix(rate, pitch)}.ogg`;
+}
+
+function getAudioVariantSuffix(rate, pitch = 0) {
+  const pitchSuffix = pitch > 0 ? `_pitch_up_${pitch}_semitone${pitch > 1 ? "s" : ""}` : "";
+
+  if (Number(rate) === 0.7) {
+    return `${pitchSuffix}${pitch > 0 ? "_70" : "_tempo_70"}`;
+  }
+
+  if (Number(rate) === FULL_CHANT_FAST_RATE) {
+    return `${pitchSuffix}_tempo_125`;
+  }
+
+  return pitchSuffix;
+}
+
+function getActiveAudioOffset() {
+  return activeAnuvaka && activeSection?.anuvakaAudio ? activeAnuvaka.xmin : 0;
+}
+
+function getAudioStartForInterval(interval, rate) {
+  return Math.max(0, interval.xmin - getActiveAudioOffset()) / rate;
 }
 
 function getAudioContext() {
@@ -867,6 +890,8 @@ function loadSettings() {
     ratingFilter: "all",
     textVariant: DEFAULT_TEXT_VARIANT,
     translationLanguage: DEFAULT_TRANSLATION_LANGUAGE,
+    textSizeLevel: 0,
+    padasHidden: false,
   };
 
   try {
@@ -892,8 +917,21 @@ function loadSettings() {
     const translationLanguage = TRANSLATION_LANGUAGES[saved.translationLanguage]
       ? saved.translationLanguage
       : defaults.translationLanguage;
+    const textSizeLevel = [0, 1, 2].includes(Number(saved.textSizeLevel))
+      ? Number(saved.textSizeLevel)
+      : defaults.textSizeLevel;
+    const padasHidden = Boolean(saved.padasHidden);
 
-    return { playbackRate, pitchShift, repeatCount, ratingFilter, textVariant, translationLanguage };
+    return {
+      playbackRate,
+      pitchShift,
+      repeatCount,
+      ratingFilter,
+      textVariant,
+      translationLanguage,
+      textSizeLevel,
+      padasHidden,
+    };
   } catch (error) {
     console.warn("Nie udało się wczytać ustawień.", error);
     return defaults;
@@ -911,6 +949,8 @@ function saveSettings() {
         ratingFilter: activeRatingFilter,
         textVariant: activeTextVariant,
         translationLanguage: activeTranslationLanguage,
+        textSizeLevel,
+        padasHidden,
       }),
     );
   } catch (error) {
@@ -928,6 +968,8 @@ function applySavedControls() {
   updateTranslationLanguageButtons();
   updatePlaybackRateLabel();
   updateFullChantLabel();
+  updateTextSizeButton();
+  updateHidePadasButton();
   applyRatingFilter();
 }
 
@@ -1379,7 +1421,7 @@ async function playInterval(interval, button, linkedParts = []) {
       await context.resume();
     }
 
-    const start = Math.max(0, interval.xmin) / selectedRate;
+    const start = getAudioStartForInterval(interval, selectedRate);
     const duration = Math.max(0.01, interval.xmax - interval.xmin);
     const playbackDuration = duration / selectedRate;
     const sources = playSegmentNormal(context, selectedBuffer, start, playbackDuration);
@@ -1426,7 +1468,7 @@ async function playRepeatedInterval(interval, segmentButton, repeatButton) {
       await context.resume();
     }
 
-    const start = Math.max(0, interval.xmin) / selectedRate;
+    const start = getAudioStartForInterval(interval, selectedRate);
     const duration = Math.max(0.01, interval.xmax - interval.xmin);
     const playbackDuration = duration / selectedRate;
     const sources = playRepeatedSegment(
@@ -1507,10 +1549,12 @@ async function playFullChant(selectedRate = playbackRate, triggerButton = fullCh
       await context.resume();
     }
 
-    const start = activeAnuvaka ? activeAnuvaka.xmin / selectedRate : 0;
-    const playbackDuration = activeAnuvaka
-      ? Math.max(0.01, (activeAnuvaka.xmax - activeAnuvaka.xmin) / selectedRate)
-      : selectedBuffer.duration;
+    const start = getActiveAudioOffset() > 0 ? 0 : textGridStart / selectedRate;
+    const playbackDuration = getActiveAudioOffset() > 0
+      ? selectedBuffer.duration
+      : activeAnuvaka
+        ? Math.max(0.01, (activeAnuvaka.xmax - activeAnuvaka.xmin) / selectedRate)
+        : selectedBuffer.duration;
     const sources = playSegmentNormal(context, selectedBuffer, start, playbackDuration);
 
     activeSources = sources;
@@ -1797,11 +1841,27 @@ function setPlaybackRate(rate) {
 
 function setPitchShift(value) {
   stopPlayback();
-  pitchShift = pitchShift === value ? 0 : value;
+  pitchShift = value;
   saveSettings();
   updatePitchButtons();
   updateSummary();
   loadAudioBuffer(playbackRate, pitchShift);
+}
+
+function cyclePitchShift() {
+  setPitchShift((pitchShift + 1) % 3);
+}
+
+function cycleTextSize() {
+  textSizeLevel = (textSizeLevel + 1) % 3;
+  saveSettings();
+  updateTextSizeButton();
+}
+
+function togglePadasVisibility() {
+  padasHidden = !padasHidden;
+  saveSettings();
+  updateHidePadasButton();
 }
 
 function setRepeatCount(count) {
@@ -1827,19 +1887,49 @@ function updatePlaybackRateLabel() {
 }
 
 function updatePitchButtons() {
-  [...pitchControls.querySelectorAll("button")].forEach((button) => {
-    const isActive = Number(button.dataset.pitch) === pitchShift;
-    button.textContent = formatPitchButtonLabel(Number(button.dataset.pitch));
-    button.setAttribute("aria-pressed", String(isActive));
-  });
+  pitchButton.textContent = formatPitchButtonLabel(pitchShift);
+  pitchButton.setAttribute("aria-pressed", String(pitchShift > 0));
 }
 
 function formatPitchButtonLabel(value) {
   if (activeTranslationLanguage === "pl") {
-    return value === 1 ? "Tonacja+" : "Tonacja++";
+    return value === 0 ? "Tonacja" : `Tonacja${"+".repeat(value)}`;
   }
 
-  return value === 1 ? "Pitch+" : "Pitch++";
+  return value === 0 ? "Pitch" : `Pitch${"+".repeat(value)}`;
+}
+
+function updateTextSizeButton() {
+  document.body.classList.toggle("text-size-medium", textSizeLevel === 1);
+  document.body.classList.toggle("text-size-large", textSizeLevel === 2);
+  textSizeButton.dataset.textSize = String(textSizeLevel);
+  textSizeButton.setAttribute("aria-pressed", String(textSizeLevel > 0));
+  textSizeButton.setAttribute("aria-label", formatTextSizeLabel());
+  [...textSizeButton.querySelectorAll(".size-a")].forEach((letter, index) => {
+    letter.classList.toggle("is-active", index <= textSizeLevel);
+  });
+}
+
+function formatTextSizeLabel() {
+  if (activeTranslationLanguage === "pl") {
+    return ["Standardowy tekst", "Większy tekst", "Największy tekst"][textSizeLevel];
+  }
+
+  return ["Standard text", "Larger text", "Largest text"][textSizeLevel];
+}
+
+function updateHidePadasButton() {
+  document.body.classList.toggle("padas-hidden", padasHidden);
+  hidePadasButton.textContent = formatHidePadasLabel();
+  hidePadasButton.setAttribute("aria-pressed", String(padasHidden));
+}
+
+function formatHidePadasLabel() {
+  if (activeTranslationLanguage === "pl") {
+    return padasHidden ? "Pokaż pady" : "Ukryj pady";
+  }
+
+  return padasHidden ? "Show padas" : "Hide padas";
 }
 
 function togglePlaybackRate(rate) {
@@ -1901,6 +1991,8 @@ function setTranslationLanguage(language) {
   updatePlaybackRateLabel();
   updatePitchButtons();
   updateChangeChantLabel();
+  updateTextSizeButton();
+  updateHidePadasButton();
   updateFullChantLabel();
 }
 
@@ -2012,6 +2104,7 @@ sectionBackButton.addEventListener("click", () => {
   }
 });
 stopButton.addEventListener("click", stopPlayback);
+hidePadasButton.addEventListener("click", togglePadasVisibility);
 tempoControls.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-rate]");
 
@@ -2031,14 +2124,15 @@ repeatControls.addEventListener("click", (event) => {
   setRepeatCount(Number(button.dataset.repeat));
 });
 pitchControls.addEventListener("click", (event) => {
-  const button = event.target.closest("button[data-pitch]");
+  const button = event.target.closest("button");
 
   if (!button) {
     return;
   }
 
-  setPitchShift(Number(button.dataset.pitch));
+  cyclePitchShift();
 });
+textSizeButton.addEventListener("click", cycleTextSize);
 filterControls.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-filter]");
 

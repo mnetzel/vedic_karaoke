@@ -17,6 +17,14 @@
       <div id="tempoControls" class="tempo-controls" aria-label="Tempo odtwarzania">
         <button type="button" data-rate="0.7" aria-pressed="false">Wolniej</button>
       </div>
+      <div id="textSizeControls" class="text-size-controls" aria-label="Rozmiar tekstu">
+        <button id="textSizeButton" type="button" aria-pressed="false">
+          <span class="size-a size-a-small">A</span>
+          <span class="size-a size-a-medium">A</span>
+          <span class="size-a size-a-large">A</span>
+        </button>
+      </div>
+      <button id="hidePadasButton" type="button" aria-pressed="false">Ukryj pady</button>
       <div id="filterControls" class="filter-controls" aria-label="Filtr ślok">
         <button type="button" data-filter="all" aria-pressed="true">★★★</button>
         <button type="button" data-filter="2" aria-pressed="false">★★</button>
@@ -105,8 +113,7 @@
             <button type="button" data-repeat="5" aria-pressed="true">x5</button>
           </div>
           <div id="pitchControls" class="pitch-controls" aria-label="Wysokość dźwięku">
-            <button type="button" data-pitch="1" aria-pressed="false">Pitch+</button>
-            <button type="button" data-pitch="2" aria-pressed="false">Pitch++</button>
+            <button id="pitchButton" type="button" aria-pressed="false">Pitch</button>
           </div>
           <button id="resetProgressButton" type="button" title="Resetuj oceny">Reset</button>
         </section>
