@@ -101,7 +101,9 @@ const TRANSLATION_LANGUAGES = {
 };
 const DEFAULT_TRANSLATION_LANGUAGE = "pl";
 const SLOKA_TIER_PREFIX = "sloka";
-const PADA_TIER_PREFIX = "pada";
+const PHRASE_TIER_PREFIX = "phrase";
+const LEGACY_PADA_TIER_PREFIX = "pada";
+const PHRASE_TIER_KEY = "pada";
 const GROUP_TIME_TOLERANCE = 0.08;
 const DEFAULT_REPEAT_COUNT = 5;
 const REPEAT_GAP_SECONDS = 1;
@@ -696,11 +698,19 @@ function parseTierName(name) {
   const normalizedKind = normalizeLabel(kind);
   const variant = normalizeVariantName(variantParts.join("-"));
 
-  if (!variant || (normalizedKind !== SLOKA_TIER_PREFIX && normalizedKind !== PADA_TIER_PREFIX)) {
+  if (!variant) {
     return null;
   }
 
-  return { kind: normalizedKind, variant };
+  if (normalizedKind === SLOKA_TIER_PREFIX) {
+    return { kind: SLOKA_TIER_PREFIX, variant };
+  }
+
+  if ([PHRASE_TIER_PREFIX, LEGACY_PADA_TIER_PREFIX].includes(normalizedKind)) {
+    return { kind: PHRASE_TIER_KEY, variant };
+  }
+
+  return null;
 }
 
 function normalizeVariantName(value) {
@@ -1133,13 +1143,14 @@ function updateSummary() {
   const audioStatus = audioBuffers.has(key)
     ? `audio ${audioLabel} gotowe`
     : `ładowanie audio ${audioLabel}...`;
-  const padaCount = segmentGroups.reduce((count, group) => count + group.padas.length, 0);
+  const phraseCount = segmentGroups.reduce((count, group) => count + group.padas.length, 0);
+  const phraseLabel = activeTranslationLanguage === "pl" ? "fraz" : "phrases";
   const visibleGroups = countVisibleGroups();
   const slokaSummary =
     activeRatingFilter === "all"
       ? `${segmentGroups.length} ślok`
       : `${visibleGroups}/${segmentGroups.length} ślok`;
-  summary.textContent = `${slokaSummary} | ${padaCount} pāda | ${audioStatus}`;
+  summary.textContent = `${slokaSummary} | ${phraseCount} ${phraseLabel} | ${audioStatus}`;
 }
 
 function renderGroups(groups) {
@@ -1276,7 +1287,7 @@ function renderPadaPairs(padas) {
     if (!second) {
       const singleButton = createSegmentButton(
         first,
-        `Pāda ${index + 1}`,
+        `Phrase ${index + 1}`,
         "pada-button",
       );
 
@@ -1291,8 +1302,8 @@ function renderPadaPairs(padas) {
 
     const singleButtons = document.createElement("div");
     singleButtons.className = "pada-pair-singles";
-    const firstButton = createSegmentButton(first, `Pāda ${index + 1}`, "pada-button");
-    const secondButton = createSegmentButton(second, `Pāda ${index + 2}`, "pada-button");
+    const firstButton = createSegmentButton(first, `Phrase ${index + 1}`, "pada-button");
+    const secondButton = createSegmentButton(second, `Phrase ${index + 2}`, "pada-button");
 
     singleButtons.replaceChildren(
       createPadaControl(firstButton, createRepeatButton(first, firstButton)),
@@ -1307,7 +1318,7 @@ function renderPadaPairs(padas) {
     };
     const combinedButton = createSegmentButton(
       combinedInterval,
-      `Pāda ${index + 1}+${index + 2}`,
+      `Phrase ${index + 1}+${index + 2}`,
       "pada-button pada-combined",
       [
         { interval: first, button: firstButton },
@@ -1926,10 +1937,10 @@ function updateHidePadasButton() {
 
 function formatHidePadasLabel() {
   if (activeTranslationLanguage === "pl") {
-    return padasHidden ? "Pokaż pady" : "Ukryj pady";
+    return padasHidden ? "Pokaż frazy" : "Ukryj frazy";
   }
 
-  return padasHidden ? "Show padas" : "Hide padas";
+  return padasHidden ? "Show phrases" : "Hide phrases";
 }
 
 function togglePlaybackRate(rate) {
@@ -1994,6 +2005,7 @@ function setTranslationLanguage(language) {
   updateTextSizeButton();
   updateHidePadasButton();
   updateFullChantLabel();
+  updateSummary();
 }
 
 function updateTranslationLanguageButtons() {
