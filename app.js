@@ -1,6 +1,7 @@
 const CHANTS = {
   "sri-suktam": {
     title: "Śri Suktam",
+    layout: "single",
     folder: "input/sri-suktam",
     image: "input/sri-suktam/Sri_Suktam.jpg",
     textGrid: "input/sri-suktam/Sri_Suktam.TextGrid",
@@ -32,29 +33,62 @@ const CHANTS = {
   },
   "sri-rudram": {
     title: "Śri Rudram",
+    layout: "collection",
     folder: "input/sri-rudram",
     image: "input/sri-rudram/Sri_Rudram.jpg",
-    textGrid: "input/sri-rudram/Sri_Rudram.TextGrid",
     audioCredit: null,
-    translations: {
-      pl: "input/sri-rudram/SriRudram_translation_pl.md",
-      eng: "input/sri-rudram/SriRudram_translation_eng.md",
-    },
-    audio: {
-      0: {
-        1: "input/sri-rudram/Sri_Rudram.ogg",
-        0.7: "input/sri-rudram/Sri_Rudram_tempo_70.ogg",
-        1.25: "input/sri-rudram/Sri_Rudram_tempo_125.ogg",
+    sections: {
+      namakam: {
+        title: "Namakam",
+        textGrid: "input/sri-rudram/Namakam.TextGrid",
+        anuvakaTier: "anuvaka",
+        translations: {
+          pl: "input/sri-rudram/Namakam_translation_pl.md",
+          eng: "input/sri-rudram/Namakam_translation_eng.md",
+        },
+        audio: {
+          0: {
+            1: "input/sri-rudram/Namakam.ogg",
+            0.7: "input/sri-rudram/Namakam_tempo_70.ogg",
+            1.25: "input/sri-rudram/Namakam_tempo_125.ogg",
+          },
+          1: {
+            1: "input/sri-rudram/Namakam_pitch_up_1_semitone.ogg",
+            0.7: "input/sri-rudram/Namakam_pitch_up_1_semitone_70.ogg",
+            1.25: "input/sri-rudram/Namakam_pitch_up_1_semitone_tempo_125.ogg",
+          },
+          2: {
+            1: "input/sri-rudram/Namakam_pitch_up_2_semitones.ogg",
+            0.7: "input/sri-rudram/Namakam_pitch_up_2_semitones_70.ogg",
+            1.25: "input/sri-rudram/Namakam_pitch_up_2_semitones_tempo_125.ogg",
+          },
+        },
       },
-      1: {
-        1: "input/sri-rudram/Sri_Rudram_pitch_up_1_semitone.ogg",
-        0.7: "input/sri-rudram/Sri_Rudram_pitch_up_1_semitone_70.ogg",
-        1.25: "input/sri-rudram/Sri_Rudram_pitch_up_1_semitone_tempo_125.ogg",
-      },
-      2: {
-        1: "input/sri-rudram/Sri_Rudram_pitch_up_2_semitones.ogg",
-        0.7: "input/sri-rudram/Sri_Rudram_pitch_up_2_semitones_70.ogg",
-        1.25: "input/sri-rudram/Sri_Rudram_pitch_up_2_semitones_tempo_125.ogg",
+      camakam: {
+        title: "Camakam",
+        textGrid: "input/sri-rudram/Camakam.TextGrid",
+        anuvakaTier: "anuvaka",
+        translations: {
+          pl: "input/sri-rudram/Camakam_translation_pl.md",
+          eng: "input/sri-rudram/Camakam_translation_eng.md",
+        },
+        audio: {
+          0: {
+            1: "input/sri-rudram/Camakam.ogg",
+            0.7: "input/sri-rudram/Camakam_tempo_70.ogg",
+            1.25: "input/sri-rudram/Camakam_tempo_125.ogg",
+          },
+          1: {
+            1: "input/sri-rudram/Camakam_pitch_up_1_semitone.ogg",
+            0.7: "input/sri-rudram/Camakam_pitch_up_1_semitone_70.ogg",
+            1.25: "input/sri-rudram/Camakam_pitch_up_1_semitone_tempo_125.ogg",
+          },
+          2: {
+            1: "input/sri-rudram/Camakam_pitch_up_2_semitones.ogg",
+            0.7: "input/sri-rudram/Camakam_pitch_up_2_semitones_70.ogg",
+            1.25: "input/sri-rudram/Camakam_pitch_up_2_semitones_tempo_125.ogg",
+          },
+        },
       },
     },
   },
@@ -86,8 +120,18 @@ const DEFAULT_REPEAT_COUNT = 5;
 const REPEAT_GAP_SECONDS = 1;
 
 const chantChooser = document.querySelector("#chantChooser");
+const collectionChooser = document.querySelector("#collectionChooser");
 const karaokeView = document.querySelector("#karaokeView");
 const chantChoiceButtons = [...document.querySelectorAll("[data-chant-id]")];
+const collectionTitle = document.querySelector("#collectionTitle");
+const collectionImage = document.querySelector("#collectionImage");
+const collectionHomeButton = document.querySelector("#collectionHomeButton");
+const sectionChooserPanel = document.querySelector("#sectionChooserPanel");
+const sectionOptions = document.querySelector("#sectionOptions");
+const anuvakaChooserPanel = document.querySelector("#anuvakaChooserPanel");
+const sectionBackButton = document.querySelector("#sectionBackButton");
+const sectionTitle = document.querySelector("#sectionTitle");
+const anuvakaOptions = document.querySelector("#anuvakaOptions");
 const chantTitle = document.querySelector("#chantTitle");
 const chantImage = document.querySelector("#chantImage");
 const audioCredit = document.querySelector("#audioCredit");
@@ -120,6 +164,9 @@ const audioBuffers = new Map();
 const audioLoadPromises = new Map();
 let activeChantId = null;
 let activeChant = null;
+let activeSectionId = null;
+let activeSection = null;
+let activeAnuvaka = null;
 let activeSources = [];
 let activeTimer = null;
 let activeProgressFrame = null;
@@ -145,14 +192,31 @@ function init() {
 }
 
 function handleRouteChange() {
-  const chantId = getChantIdFromHash();
+  const route = getRouteFromHash();
 
-  if (!chantId) {
+  if (!route.chantId) {
     showChantChooser();
     return;
   }
 
-  loadChant(chantId);
+  const chant = CHANTS[route.chantId];
+
+  if (chant.layout === "collection") {
+    if (!route.sectionId) {
+      showCollectionChooser(route.chantId);
+      return;
+    }
+
+    if (!route.anuvakaId) {
+      showAnuvakaChooser(route.chantId, route.sectionId);
+      return;
+    }
+
+    loadChant(route.chantId, route.sectionId, route.anuvakaId);
+    return;
+  }
+
+  loadChant(route.chantId);
 }
 
 function renderChantChooser() {
@@ -186,16 +250,132 @@ function showChantChooser() {
   stopPlayback();
   activeChantId = null;
   activeChant = null;
+  activeSectionId = null;
+  activeSection = null;
+  activeAnuvaka = null;
   document.body.classList.remove("has-active-chant");
   chantChooser.hidden = false;
+  collectionChooser.hidden = true;
   karaokeView.hidden = true;
+  document.title = "Vedic Karaoke";
 }
 
-async function loadChant(chantId) {
+function showCollectionChooser(chantId) {
   const chant = CHANTS[chantId];
-  const requestId = chantLoadRequestId + 1;
 
   if (!chant) {
+    showChantChooser();
+    return;
+  }
+
+  chantLoadRequestId += 1;
+  stopPlayback();
+  activeChantId = chantId;
+  activeChant = chant;
+  activeSectionId = null;
+  activeSection = null;
+  activeAnuvaka = null;
+  document.body.classList.remove("has-active-chant");
+  chantChooser.hidden = true;
+  collectionChooser.hidden = false;
+  karaokeView.hidden = true;
+  collectionTitle.textContent = chant.title;
+  collectionImage.src = chant.image;
+  updateChangeChantLabel();
+  sectionChooserPanel.hidden = false;
+  anuvakaChooserPanel.hidden = true;
+  renderSectionOptions(chantId);
+  document.title = `${chant.title} | Vedic Karaoke`;
+}
+
+function renderSectionOptions(chantId) {
+  const chant = CHANTS[chantId];
+  const buttons = Object.entries(chant.sections || {}).map(([sectionId, section]) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "chant-card section-card";
+    button.innerHTML = `<span>${escapeHtml(section.title)}</span>`;
+    button.addEventListener("click", () => {
+      window.location.hash = `${chantId}/${sectionId}`;
+    });
+    return button;
+  });
+
+  sectionOptions.replaceChildren(...buttons);
+}
+
+async function showAnuvakaChooser(chantId, sectionId) {
+  const chant = CHANTS[chantId];
+  const section = chant?.sections?.[sectionId];
+  const requestId = chantLoadRequestId + 1;
+
+  if (!chant || !section) {
+    showCollectionChooser(chantId);
+    return;
+  }
+
+  chantLoadRequestId = requestId;
+  stopPlayback();
+  activeChantId = chantId;
+  activeChant = chant;
+  activeSectionId = sectionId;
+  activeSection = section;
+  activeAnuvaka = null;
+  document.body.classList.remove("has-active-chant");
+  chantChooser.hidden = true;
+  collectionChooser.hidden = false;
+  karaokeView.hidden = true;
+  collectionTitle.textContent = chant.title;
+  collectionImage.src = chant.image;
+  updateChangeChantLabel();
+  sectionChooserPanel.hidden = true;
+  anuvakaChooserPanel.hidden = false;
+  sectionTitle.textContent = section.title;
+  anuvakaOptions.innerHTML = '<p class="empty-state">Ładowanie anuvak...</p>';
+  document.title = `${section.title} | ${chant.title} | Vedic Karaoke`;
+
+  try {
+    const data = await loadTextGridData(section);
+
+    if (requestId !== chantLoadRequestId) {
+      return;
+    }
+
+    const anuvakas = getAnuvakaIntervals(data.tiers, section);
+
+    if (anuvakas.length === 0) {
+      throw new Error("TextGrid nie zawiera warstwy anuvaka.");
+    }
+
+    renderAnuvakaOptions(chantId, sectionId, anuvakas);
+  } catch (error) {
+    console.error(error);
+    anuvakaOptions.innerHTML = `<p class="empty-state">Nie udało się załadować ${escapeHtml(section.textGrid)}: ${escapeHtml(error.message)}</p>`;
+  }
+}
+
+function renderAnuvakaOptions(chantId, sectionId, anuvakas) {
+  const buttons = anuvakas.map((anuvaka) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "anuvaka-button";
+    button.textContent = formatAnuvakaLabel(anuvaka);
+    button.addEventListener("click", () => {
+      window.location.hash = `${chantId}/${sectionId}/${anuvaka.id}`;
+    });
+    return button;
+  });
+
+  anuvakaOptions.replaceChildren(...buttons);
+}
+
+async function loadChant(chantId, sectionId = "", anuvakaId = "") {
+  const chant = CHANTS[chantId];
+  const section = sectionId ? chant?.sections?.[sectionId] : null;
+  const unit = section || chant;
+  const requestId = chantLoadRequestId + 1;
+
+  if (!chant || !unit) {
     showChantChooser();
     return;
   }
@@ -204,48 +384,60 @@ async function loadChant(chantId) {
   stopPlayback();
   activeChantId = chantId;
   activeChant = chant;
+  activeSectionId = sectionId || null;
+  activeSection = section;
+  activeAnuvaka = null;
   tiers = [];
   segmentGroups = [];
   slokaTranslations = {};
-  slokaRatings = loadSlokaRatings();
+  slokaRatings = {};
   audioBuffers.clear();
   audioLoadPromises.clear();
   activeFullChantGroup = null;
   document.body.classList.add("has-active-chant");
   chantChooser.hidden = true;
+  collectionChooser.hidden = true;
   karaokeView.hidden = false;
   updateChantHeader();
   segmentsRoot.innerHTML = "";
-  summary.textContent = `Ładowanie ${chant.title}...`;
+  summary.textContent = `Ładowanie ${getActiveTitle()}...`;
 
   try {
-    const response = await fetch(chant.textGrid);
-
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-
-    const textGrid = await readTextGridResponse(response);
+    const data = await loadTextGridData(unit);
 
     if (requestId !== chantLoadRequestId) {
       return;
     }
 
-    tiers = parseTextGrid(textGrid).filter((tier) => tier.intervals.length > 0);
+    tiers = data.tiers;
 
     if (tiers.length === 0) {
       throw new Error("Brak niepustych segmentów w TextGridzie.");
     }
 
-    const tierSet = buildTierSet(tiers);
+    const tierSet = data.tierSet;
     const slokaTier = getVariantTier(tierSet.sloka, activeTextVariant);
     const padaTier = getVariantTier(tierSet.pada, activeTextVariant);
 
-    if (!slokaTier || !padaTier) {
-      throw new Error("TextGrid musi zawierać warstwy sloka-* i pada-*.");
+    if (!slokaTier) {
+      throw new Error("TextGrid musi zawierać warstwy sloka-*.");
     }
 
-    segmentGroups = buildSegmentGroups(tierSet, slokaTier.intervals, padaTier.intervals);
+    const anuvaka = anuvakaId
+      ? getAnuvakaIntervals(tiers, unit).find((interval) => interval.id === anuvakaId)
+      : null;
+
+    if (anuvakaId && !anuvaka) {
+      throw new Error(`Nie znaleziono ${anuvakaId}.`);
+    }
+
+    activeAnuvaka = anuvaka;
+    updateChantHeader();
+    slokaRatings = loadSlokaRatings();
+    const slokaIntervals = filterIntervalsForRange(withSourceIndexes(slokaTier.intervals), anuvaka);
+    const padaIntervals = filterIntervalsForRange(withSourceIndexes(padaTier?.intervals || []), anuvaka);
+
+    segmentGroups = buildSegmentGroups(tierSet, slokaIntervals, padaIntervals);
     slokaTranslations = await loadAllTranslationSections();
 
     if (requestId !== chantLoadRequestId) {
@@ -259,18 +451,27 @@ async function loadChant(chantId) {
     loadAudioBuffer(playbackRate, pitchShift);
   } catch (error) {
     console.error(error);
-    summary.textContent = `Nie udało się załadować ${chant.textGrid}.`;
+    summary.textContent = `Nie udało się załadować ${unit.textGrid}.`;
     segmentsRoot.innerHTML = `<p class="empty-state">${escapeHtml(error.message)}</p>`;
   }
 }
 
-function getChantIdFromHash() {
-  const id = decodeURIComponent(window.location.hash.replace(/^#/, "").trim());
-  return CHANTS[id] ? id : "";
+function getRouteFromHash() {
+  const parts = decodeURIComponent(window.location.hash.replace(/^#/, "").trim())
+    .split("/")
+    .map((part) => part.trim())
+    .filter(Boolean);
+  const [chantId, sectionId, anuvakaId] = parts;
+
+  return {
+    chantId: CHANTS[chantId] ? chantId : "",
+    sectionId: sectionId || "",
+    anuvakaId: anuvakaId || "",
+  };
 }
 
 function updateChantHeader() {
-  chantTitle.textContent = activeChant.title;
+  chantTitle.textContent = getActiveTitle();
   chantImage.src = activeChant.image;
   chantImage.alt = "";
 
@@ -284,12 +485,78 @@ function updateChantHeader() {
     audioCreditLink.textContent = "";
   }
 
-  document.title = `${activeChant.title} | Vedic Karaoke`;
+  document.title = `${getActiveTitle()} | Vedic Karaoke`;
+}
+
+function getActiveTitle() {
+  return [
+    activeChant?.title,
+    activeSection?.title,
+    activeAnuvaka ? formatAnuvakaLabel(activeAnuvaka) : "",
+  ].filter(Boolean).join(" · ");
+}
+
+async function loadTextGridData(unit) {
+  const response = await fetch(unit.textGrid);
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+
+  const textGrid = await readTextGridResponse(response);
+  const parsedTiers = parseTextGrid(textGrid).filter((tier) => tier.intervals.length > 0);
+  return {
+    tiers: parsedTiers,
+    tierSet: buildTierSet(parsedTiers),
+  };
+}
+
+function getAnuvakaIntervals(sourceTiers, unit) {
+  const tierName = normalizeLabel(unit.anuvakaTier || "anuvaka");
+  const tier = sourceTiers.find((candidate) => normalizeLabel(candidate.name) === tierName);
+
+  if (!tier) {
+    return [];
+  }
+
+  return tier.intervals
+    .map((interval, index) => {
+      const label = String(interval.text || index + 1).trim() || String(index + 1);
+      const number = label.match(/\d+/)?.[0] || String(index + 1);
+
+      return {
+        ...interval,
+        id: `anuvaka-${number}`,
+        label: number,
+        index,
+      };
+    })
+    .filter((interval) => interval.xmax > interval.xmin);
+}
+
+function formatAnuvakaLabel(anuvaka) {
+  return `Anuvaka ${anuvaka.label}`;
+}
+
+function withSourceIndexes(intervals) {
+  return intervals.map((interval, index) => ({ ...interval, sourceIndex: index }));
+}
+
+function filterIntervalsForRange(intervals, range) {
+  if (!range) {
+    return intervals;
+  }
+
+  return intervals.filter((interval) => isInsideInterval(interval, range));
 }
 
 async function loadAudioBuffer(rate, pitch = pitchShift) {
   const key = getAudioKey(rate, pitch);
   const audioFile = getAudioFile(rate, pitch);
+
+  if (!audioFile) {
+    throw new Error("Brak skonfigurowanego pliku audio.");
+  }
 
   if (audioBuffers.has(key)) {
     return audioBuffers.get(key);
@@ -328,19 +595,27 @@ async function loadAudioBuffer(rate, pitch = pitchShift) {
 }
 
 function getAudioKey(rate, pitch = pitchShift) {
-  return `${activeChantId}:${pitch}:${getRateKey(rate)}`;
+  return `${[activeChantId, activeSectionId, pitch, getRateKey(rate)].filter(Boolean).join(":")}`;
 }
 
 function getAudioFile(rate, pitch = pitchShift) {
-  return getAudioFileForChant(activeChant, rate, pitch);
+  return getAudioFileFromMap(getActiveAudioMap(), rate, pitch);
 }
 
 function getAudioFileForChant(chant, rate, pitch = 0) {
-  if (!chant) {
+  return getAudioFileFromMap(chant?.audio, rate, pitch);
+}
+
+function getAudioFileFromMap(audioMap, rate, pitch = 0) {
+  if (!audioMap) {
     return "";
   }
 
-  return chant.audio?.[pitch]?.[getRateKey(rate)] || chant.audio?.[0]?.[getRateKey(rate)] || "";
+  return audioMap[pitch]?.[getRateKey(rate)] || audioMap[0]?.[getRateKey(rate)] || "";
+}
+
+function getActiveAudioMap() {
+  return activeSection?.audio || activeChant?.audio || null;
 }
 
 function getRateKey(rate) {
@@ -422,15 +697,20 @@ function getVariantTier(variantTiers, requestedVariant) {
 function buildSegmentGroups(tierSet, baseSlokaIntervals, basePadaIntervals) {
   return baseSlokaIntervals.map((sloka, index) => {
     const id = createSlokaId(sloka, index);
+    const sourceIndex = Number.isInteger(sloka.sourceIndex) ? sloka.sourceIndex : index;
+
     return {
       id,
-      sloka: createVariantInterval(sloka, tierSet.sloka, index),
+      sloka: createVariantInterval(sloka, tierSet.sloka, sourceIndex),
       rating: getSlokaRating(id),
       padas: basePadaIntervals
-        .map((pada, padaIndex) => createVariantInterval(pada, tierSet.pada, padaIndex))
+        .map((pada, padaIndex) => {
+          const padaSourceIndex = Number.isInteger(pada.sourceIndex) ? pada.sourceIndex : padaIndex;
+          return createVariantInterval(pada, tierSet.pada, padaSourceIndex);
+        })
         .filter((pada) => isInsideInterval(pada, sloka)),
     };
-  });
+  }).filter((group) => getIntervalText(group.sloka));
 }
 
 function isInsideInterval(child, parent) {
@@ -486,7 +766,7 @@ async function loadAllTranslationSections() {
 }
 
 async function loadTranslationSections(language) {
-  const url = activeChant?.translations?.[language];
+  const url = activeSection?.translations?.[language] || activeChant?.translations?.[language];
 
   if (!url) {
     return [];
@@ -567,7 +847,11 @@ function saveSlokaRatings() {
 }
 
 function getRatingsStorageKey() {
-  return `vedic-karaoke:ratings:${activeChantId || DEFAULT_CHANT_ID}`;
+  return `vedic-karaoke:ratings:${[
+    activeChantId || DEFAULT_CHANT_ID,
+    activeSectionId,
+    activeAnuvaka?.id,
+  ].filter(Boolean).join(":")}`;
 }
 
 function getSlokaRating(id) {
@@ -841,8 +1125,13 @@ function renderGroups(groups) {
       const slokaActions = document.createElement("div");
       slokaActions.className = "sloka-actions";
       const translationButton = createTranslationButton(group);
+      const slokaRepeatButton = createRepeatButton(group.sloka, slokaButton);
       slokaActions.replaceChildren(
-        ...[translationButton, createRatingControl(group, groupElement)].filter(Boolean),
+        ...[
+          translationButton,
+          createRatingControl(group, groupElement),
+          slokaRepeatButton,
+        ].filter(Boolean),
       );
       slokaHeader.replaceChildren(slokaButton, slokaActions);
 
@@ -851,7 +1140,9 @@ function renderGroups(groups) {
 
       padasElement.replaceChildren(...renderPadaPairs(group.padas));
 
-      groupElement.replaceChildren(slokaHeader, padasElement);
+      groupElement.replaceChildren(
+        ...[slokaHeader, group.padas.length > 0 ? padasElement : null].filter(Boolean),
+      );
       return groupElement;
     }),
   );
@@ -1181,10 +1472,7 @@ async function playFullChant(selectedRate = playbackRate, triggerButton = fullCh
 
   const selectedPitchShift = pitchShift;
   const requestId = beginPlayback();
-  const firstSloka = segmentGroups[0].sloka;
-  const lastSloka = segmentGroups[segmentGroups.length - 1].sloka;
-  const chantStart = Math.max(0, firstSloka.xmin);
-  const chantEnd = Math.max(chantStart + 0.01, lastSloka.xmax);
+  const textGridStart = activeAnuvaka ? activeAnuvaka.xmin : 0;
 
   activeButton = triggerButton;
   activeProgressButtons = [
@@ -1219,8 +1507,10 @@ async function playFullChant(selectedRate = playbackRate, triggerButton = fullCh
       await context.resume();
     }
 
-    const start = chantStart / selectedRate;
-    const playbackDuration = (chantEnd - chantStart) / selectedRate;
+    const start = activeAnuvaka ? activeAnuvaka.xmin / selectedRate : 0;
+    const playbackDuration = activeAnuvaka
+      ? Math.max(0.01, (activeAnuvaka.xmax - activeAnuvaka.xmin) / selectedRate)
+      : selectedBuffer.duration;
     const sources = playSegmentNormal(context, selectedBuffer, start, playbackDuration);
 
     activeSources = sources;
@@ -1229,7 +1519,13 @@ async function playFullChant(selectedRate = playbackRate, triggerButton = fullCh
         stopPlayback();
       }
     }, playbackDuration * 1000 + 80);
-    animateFullChantProgress(context.currentTime, chantStart, chantEnd, selectedRate, triggerButton);
+    animateFullChantProgress(
+      context.currentTime,
+      textGridStart,
+      playbackDuration,
+      selectedRate,
+      triggerButton,
+    );
   } catch (error) {
     console.error(error);
     summary.textContent = error.message || "Nie udało się odtworzyć całego chant.";
@@ -1383,13 +1679,13 @@ function animateRepeatedProgress(button, startedAt, playbackDuration, repeatCoun
   activeProgressFrame = window.requestAnimationFrame(draw);
 }
 
-function animateFullChantProgress(startedAt, chantStart, chantEnd, rate, button) {
+function animateFullChantProgress(startedAt, textGridStart, playbackDuration, rate, button) {
   if (activeProgressFrame) {
     window.cancelAnimationFrame(activeProgressFrame);
   }
 
   const context = getAudioContext();
-  const playbackDuration = Math.max(0.01, (chantEnd - chantStart) / rate);
+  const duration = Math.max(0.01, playbackDuration);
 
   const draw = () => {
     if (activeButton !== button) {
@@ -1397,8 +1693,8 @@ function animateFullChantProgress(startedAt, chantStart, chantEnd, rate, button)
     }
 
     const elapsed = context.currentTime - startedAt;
-    const progress = Math.min(1, Math.max(0, elapsed / playbackDuration));
-    const textGridTime = chantStart + elapsed * rate;
+    const progress = Math.min(1, Math.max(0, elapsed / duration));
+    const textGridTime = textGridStart + elapsed * rate;
 
     button.style.setProperty("--progress", `${progress * 100}%`);
     updateFullChantSlokaProgress(textGridTime);
@@ -1693,6 +1989,8 @@ function updateFullChantLabel() {
 
 function updateChangeChantLabel() {
   changeChantButton.textContent = activeTranslationLanguage === "pl" ? "Strona główna" : "Main page";
+  collectionHomeButton.textContent = activeTranslationLanguage === "pl" ? "Strona główna" : "Main page";
+  sectionBackButton.textContent = activeChant?.title || "Śri Rudram";
 }
 
 fullChantButton.addEventListener("click", () => playFullChant());
@@ -1703,6 +2001,15 @@ fullChantFastButton.addEventListener("click", () => playFullChant(
 changeChantButton.addEventListener("click", () => {
   window.location.hash = "";
   showChantChooser();
+});
+collectionHomeButton.addEventListener("click", () => {
+  window.location.hash = "";
+  showChantChooser();
+});
+sectionBackButton.addEventListener("click", () => {
+  if (activeChantId) {
+    window.location.hash = activeChantId;
+  }
 });
 stopButton.addEventListener("click", stopPlayback);
 tempoControls.addEventListener("click", (event) => {
