@@ -146,6 +146,7 @@ const chantChoiceButtons = [...document.querySelectorAll("[data-chant-id]")];
 const collectionTitle = document.querySelector("#collectionTitle");
 const collectionImage = document.querySelector("#collectionImage");
 const collectionHomeButton = document.querySelector("#collectionHomeButton");
+const collectionBackButton = document.querySelector("#collectionBackButton");
 const sectionChooserPanel = document.querySelector("#sectionChooserPanel");
 const sectionOptions = document.querySelector("#sectionOptions");
 const anuvakaChooserPanel = document.querySelector("#anuvakaChooserPanel");
@@ -229,13 +230,8 @@ function handleRouteChange() {
   const chant = CHANTS[route.chantId];
 
   if (chant.layout === "collection") {
-    if (!route.sectionId) {
+    if (!route.sectionId || !route.anuvakaId) {
       showCollectionChooser(route.chantId);
-      return;
-    }
-
-    if (!route.anuvakaId) {
-      showAnuvakaChooser(route.chantId, route.sectionId);
       return;
     }
 
@@ -311,24 +307,54 @@ function showCollectionChooser(chantId) {
   updateChangeChantLabel();
   sectionChooserPanel.hidden = false;
   anuvakaChooserPanel.hidden = true;
-  renderSectionOptions(chantId);
+  renderCollectionAnuvakaOptions(chantId);
   document.title = `${chant.title} | Vedic Karaoke`;
 }
 
-function renderSectionOptions(chantId) {
+async function renderCollectionAnuvakaOptions(chantId) {
   const chant = CHANTS[chantId];
-  const buttons = Object.entries(chant.sections || {}).map(([sectionId, section]) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "chant-card section-card";
-    button.innerHTML = `<span>${escapeHtml(section.title)}</span>`;
-    button.addEventListener("click", () => {
-      window.location.hash = `${chantId}/${sectionId}`;
-    });
-    return button;
+  const requestId = chantLoadRequestId;
+  const panels = Object.entries(chant.sections || {}).map(([sectionId, section]) => {
+    const panel = document.createElement("section");
+    panel.className = "section-anuvaka-panel";
+    panel.innerHTML = `
+      <h2 class="section-title">${escapeHtml(section.title)}</h2>
+      <div class="anuvaka-options">
+        <p class="empty-state">Ładowanie anuvak...</p>
+      </div>
+    `;
+    loadSectionAnuvakaButtons(chantId, sectionId, section, panel, requestId);
+    return panel;
   });
 
-  sectionOptions.replaceChildren(...buttons);
+  sectionOptions.replaceChildren(...panels);
+}
+
+async function loadSectionAnuvakaButtons(chantId, sectionId, section, panel, requestId) {
+  const options = panel.querySelector(".anuvaka-options");
+
+  try {
+    const effectiveSection = getEffectiveUnit(section);
+    const data = await loadTextGridData(effectiveSection);
+
+    if (requestId !== chantLoadRequestId) {
+      return;
+    }
+
+    const anuvakas = getAnuvakaIntervals(data.tiers, effectiveSection);
+
+    if (anuvakas.length === 0) {
+      throw new Error("TextGrid nie zawiera warstwy anuvaka.");
+    }
+
+    options.replaceChildren(...createAnuvakaButtons(chantId, sectionId, anuvakas));
+  } catch (error) {
+    console.error(error);
+
+    if (requestId === chantLoadRequestId) {
+      options.innerHTML = `<p class="empty-state">Nie udało się załadować ${escapeHtml(section.title)}: ${escapeHtml(error.message)}</p>`;
+    }
+  }
 }
 
 function getAudioVariantEntries(unit = activeSection || activeChant) {
@@ -432,7 +458,11 @@ async function showAnuvakaChooser(chantId, sectionId) {
 }
 
 function renderAnuvakaOptions(chantId, sectionId, anuvakas) {
-  const buttons = anuvakas.map((anuvaka) => {
+  anuvakaOptions.replaceChildren(...createAnuvakaButtons(chantId, sectionId, anuvakas));
+}
+
+function createAnuvakaButtons(chantId, sectionId, anuvakas) {
+  return anuvakas.map((anuvaka) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "anuvaka-button";
@@ -442,8 +472,6 @@ function renderAnuvakaOptions(chantId, sectionId, anuvakas) {
     });
     return button;
   });
-
-  anuvakaOptions.replaceChildren(...buttons);
 }
 
 async function loadChant(chantId, sectionId = "", anuvakaId = "") {
@@ -554,6 +582,7 @@ function updateChantHeader() {
   chantTitle.textContent = getActiveTitle();
   chantImage.src = activeChant.image;
   chantImage.alt = "";
+  collectionBackButton.hidden = activeChant?.layout !== "collection";
 
   if (activeChant.audioCredit) {
     audioCredit.hidden = false;
@@ -901,6 +930,7 @@ function buildSegmentGroups(tierSet, baseSlokaIntervals, basePadaIntervals) {
 
     return {
       id,
+      slokaNumber: sourceIndex + 1,
       sloka: createVariantInterval(sloka, tierSet.sloka, sourceIndex),
       rating: getSlokaRating(id),
       padas: basePadaIntervals
@@ -1346,6 +1376,7 @@ function renderGroups(groups) {
         "",
         "sloka-button",
       );
+      updateSlokaNumberBadge(slokaButton, group.slokaNumber);
       group.element = groupElement;
       group.slokaButton = slokaButton;
       const slokaHeader = document.createElement("div");
@@ -2203,9 +2234,11 @@ function patchRenderedGroups(nextGroups) {
     const group = segmentGroups[index];
 
     group.sloka = nextGroup.sloka;
+    group.slokaNumber = nextGroup.slokaNumber;
     group.padas = nextGroup.padas;
     group.translations = nextGroup.translations;
     updateSegmentButtonInterval(group.slokaButton, group.sloka, "");
+    updateSlokaNumberBadge(group.slokaButton, group.slokaNumber);
     updateRepeatButtonInterval(
       group.element?.querySelector(".sloka-actions [data-repeat-button='true']"),
       group.sloka,
@@ -2244,6 +2277,23 @@ function updateSegmentButtonInterval(button, interval, label = button?._label ||
   }
 
   button.setAttribute("aria-label", createSegmentAriaLabel(label, interval));
+}
+
+function updateSlokaNumberBadge(button, number) {
+  if (!button) {
+    return;
+  }
+
+  let badge = button.querySelector(".sloka-number");
+
+  if (!badge) {
+    badge = document.createElement("span");
+    badge.className = "sloka-number";
+    badge.setAttribute("aria-hidden", "true");
+    button.append(badge);
+  }
+
+  badge.textContent = String(number);
 }
 
 function updateRepeatButtonInterval(button, interval) {
@@ -2501,6 +2551,7 @@ function updateChangeChantLabel() {
   changeChantButton.textContent = activeTranslationLanguage === "pl" ? "Strona główna" : "Main page";
   collectionHomeButton.textContent = activeTranslationLanguage === "pl" ? "Strona główna" : "Main page";
   sectionBackButton.textContent = activeChant?.title || "Śri Rudram";
+  collectionBackButton.textContent = activeChant?.title || "Śri Rudram";
 }
 
 fullChantButton.addEventListener("click", () => playFullChant());
@@ -2515,6 +2566,11 @@ changeChantButton.addEventListener("click", () => {
 collectionHomeButton.addEventListener("click", () => {
   window.location.hash = "";
   showChantChooser();
+});
+collectionBackButton.addEventListener("click", () => {
+  if (activeChantId) {
+    window.location.hash = activeChantId;
+  }
 });
 sectionBackButton.addEventListener("click", () => {
   if (activeChantId) {
