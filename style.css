@@ -375,6 +375,7 @@ h1 {
 
 .tempo-controls button[aria-pressed="true"],
 #hidePadasButton[aria-pressed="true"],
+#audioVariantButton[aria-pressed="true"],
 .repeat-controls button[aria-pressed="true"],
 .filter-controls button[aria-pressed="true"],
 .script-controls button[aria-pressed="true"],
@@ -930,6 +931,7 @@ body.full-chant-mode .sloka-button {
   .floating-controls .tempo-controls button,
   .floating-controls .text-size-controls button,
   .floating-controls #hidePadasButton,
+  .floating-controls #audioVariantButton,
   .floating-controls .script-controls button {
     grid-column: span 2;
     min-width: 0;
