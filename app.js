@@ -210,13 +210,38 @@ let textSizeLevel = savedSettings.textSizeLevel;
 let padasHidden = savedSettings.padasHidden;
 let activeAudioVariantId = savedSettings.audioVariantId;
 let slokaRatings = {};
+let viewportOrientation = getViewportOrientation();
+let orientationReloadPending = false;
 
 init();
 
 function init() {
+  setupOrientationReload();
   renderChantChooser();
   window.addEventListener("hashchange", handleRouteChange);
   handleRouteChange();
+}
+
+function setupOrientationReload() {
+  window.addEventListener("resize", () => {
+    if (orientationReloadPending) {
+      return;
+    }
+
+    const nextOrientation = getViewportOrientation();
+
+    if (nextOrientation === viewportOrientation) {
+      return;
+    }
+
+    // Mobile browsers can leave the dense karaoke layout broken after rotation.
+    orientationReloadPending = true;
+    location.reload();
+  });
+}
+
+function getViewportOrientation() {
+  return window.innerHeight >= window.innerWidth ? "portrait" : "landscape";
 }
 
 function handleRouteChange() {
