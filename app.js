@@ -138,6 +138,7 @@ const PHRASE_TIER_KEY = "pada";
 const GROUP_TIME_TOLERANCE = 0.08;
 const DEFAULT_REPEAT_COUNT = 5;
 const REPEAT_GAP_SECONDS = 1;
+const ORIENTATION_SCROLL_STORAGE_KEY = "vedic-karaoke:orientation-scroll";
 
 const chantChooser = document.querySelector("#chantChooser");
 const collectionChooser = document.querySelector("#collectionChooser");
@@ -236,6 +237,7 @@ function setupOrientationReload() {
 
     // Mobile browsers can leave the dense karaoke layout broken after rotation.
     orientationReloadPending = true;
+    saveOrientationScrollTarget();
     location.reload();
   });
 }
@@ -580,6 +582,7 @@ async function loadChant(chantId, sectionId = "", anuvakaId = "") {
     attachTranslations(segmentGroups, slokaTranslations);
     renderGroups(segmentGroups);
     applySavedControls();
+    restoreOrientationScrollTarget();
     updateSummary();
     loadAudioBuffer(playbackRate, pitchShift);
   } catch (error) {
@@ -1381,6 +1384,64 @@ function updateSummary() {
       ? `${segmentGroups.length} ślok`
       : `${visibleGroups}/${segmentGroups.length} ślok`;
   summary.textContent = `${slokaSummary} | ${phraseCount} ${phraseLabel} | ${audioStatus}`;
+}
+
+function saveOrientationScrollTarget() {
+  const group = getCenteredSlokaGroupElement();
+
+  if (!group?.dataset.slokaId) {
+    return;
+  }
+
+  try {
+    sessionStorage.setItem(
+      ORIENTATION_SCROLL_STORAGE_KEY,
+      JSON.stringify({
+        hash: window.location.hash,
+        slokaId: group.dataset.slokaId,
+      }),
+    );
+  } catch (error) {
+    console.warn("Nie udało się zapisać pozycji przed zmianą orientacji.", error);
+  }
+}
+
+function getCenteredSlokaGroupElement() {
+  const viewportMiddle = window.innerHeight / 2;
+  const groups = [...document.querySelectorAll(".segment-group[data-sloka-id]")]
+    .filter((group) => !group.hidden);
+
+  return groups.reduce((closest, group) => {
+    const rect = group.getBoundingClientRect();
+    const distance = Math.abs(rect.top + rect.height / 2 - viewportMiddle);
+
+    if (!closest || distance < closest.distance) {
+      return { group, distance };
+    }
+
+    return closest;
+  }, null)?.group || null;
+}
+
+function restoreOrientationScrollTarget() {
+  let saved = null;
+
+  try {
+    saved = JSON.parse(sessionStorage.getItem(ORIENTATION_SCROLL_STORAGE_KEY) || "null");
+    sessionStorage.removeItem(ORIENTATION_SCROLL_STORAGE_KEY);
+  } catch (error) {
+    return;
+  }
+
+  if (!saved || saved.hash !== window.location.hash || !saved.slokaId) {
+    return;
+  }
+
+  window.requestAnimationFrame(() => {
+    [...document.querySelectorAll(".segment-group[data-sloka-id]")]
+      .find((group) => group.dataset.slokaId === saved.slokaId)
+      ?.scrollIntoView({ block: "center" });
+  });
 }
 
 function renderGroups(groups) {
