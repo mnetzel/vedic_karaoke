@@ -265,7 +265,12 @@ h1 {
 
 .top-controls {
   display: grid;
-  grid-template-columns: minmax(76px, 104px) minmax(132px, 170px) minmax(132px, 170px) minmax(86px, 1fr);
+  grid-template-columns:
+    minmax(76px, 104px)
+    minmax(132px, 170px)
+    minmax(132px, 170px)
+    minmax(86px, 1fr)
+    minmax(70px, 96px);
   gap: 8px;
   align-items: stretch;
   margin: 0 0 12px;
@@ -290,6 +295,7 @@ h1 {
 .tempo-controls,
 .text-size-controls,
 .repeat-controls,
+.repeat-gap-controls,
 .filter-controls,
 .script-controls,
 .translation-controls,
@@ -310,6 +316,7 @@ h1 {
 }
 
 .repeat-controls,
+.repeat-gap-controls,
 .filter-controls,
 .translation-controls {
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -317,6 +324,10 @@ h1 {
 }
 
 .translation-controls {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.repeat-gap-controls {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
@@ -362,6 +373,7 @@ h1 {
 }
 
 .repeat-controls button,
+.repeat-gap-controls button,
 .filter-controls button,
 .translation-controls button,
 .pitch-controls button {
@@ -372,6 +384,7 @@ h1 {
 .tempo-controls button,
 .text-size-controls button,
 .repeat-controls button,
+.repeat-gap-controls button,
 .filter-controls button,
 .script-controls button,
 .translation-controls button,
@@ -408,6 +421,7 @@ h1 {
 #hidePadasButton[aria-pressed="true"],
 #audioVariantButton[aria-pressed="true"],
 .repeat-controls button[aria-pressed="true"],
+.repeat-gap-controls button[aria-pressed="true"],
 .filter-controls button[aria-pressed="true"],
 .script-controls button[aria-pressed="true"],
 .translation-controls button[aria-pressed="true"],
@@ -953,6 +967,7 @@ body.full-chant-mode .sloka-button {
   }
 
   .top-controls .repeat-controls,
+  .top-controls .repeat-gap-controls,
   .top-controls .pitch-controls,
   #resetProgressButton {
     grid-column: span 3;

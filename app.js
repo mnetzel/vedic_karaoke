@@ -65,27 +65,25 @@ const CHANTS = {
       },
       camakam: {
         title: "Camakam",
-        textGrid: "input/sri-rudram/Camakam.TextGrid",
-        anuvakaTier: "anuvaka",
+        dataSource: "chapterExport",
+        chapterExport: {
+          folder: "input/sri-rudram/camakam-export",
+          manifest: "input/sri-rudram/camakam-export/manifest.json",
+        },
         translations: {
           pl: "input/sri-rudram/Camakam_translation_pl.md",
           eng: "input/sri-rudram/Camakam_translation_eng.md",
         },
-        audio: {
-          0: {
-            1: "input/sri-rudram/Camakam.ogg",
-            0.7: "input/sri-rudram/Camakam_tempo_70.ogg",
-            1.25: "input/sri-rudram/Camakam_tempo_125.ogg",
+        audioVariants: {
+          default: {
+            label: "Audio 1",
+            exportAudioId: "audio_mpmlg2dg_5z42h8",
+            supportsPitch: false,
           },
-          1: {
-            1: "input/sri-rudram/Camakam_pitch_up_1_semitone.ogg",
-            0.7: "input/sri-rudram/Camakam_pitch_up_1_semitone_70.ogg",
-            1.25: "input/sri-rudram/Camakam_pitch_up_1_semitone_tempo_125.ogg",
-          },
-          2: {
-            1: "input/sri-rudram/Camakam_pitch_up_2_semitones.ogg",
-            0.7: "input/sri-rudram/Camakam_pitch_up_2_semitones_70.ogg",
-            1.25: "input/sri-rudram/Camakam_pitch_up_2_semitones_tempo_125.ogg",
+          challakere: {
+            label: "Audio 2",
+            exportAudioId: "audio_mpmr3wdc_9i572q",
+            supportsPitch: false,
           },
         },
       },
@@ -119,7 +117,8 @@ const LEGACY_PADA_TIER_PREFIX = "pada";
 const PHRASE_TIER_KEY = "pada";
 const GROUP_TIME_TOLERANCE = 0.08;
 const DEFAULT_REPEAT_COUNT = 5;
-const REPEAT_GAP_SECONDS = 1;
+const DEFAULT_REPEAT_GAP_SECONDS = 0.5;
+const REPEAT_GAP_OPTIONS = [0.5, 1];
 const ORIENTATION_SCROLL_STORAGE_KEY = "vedic-karaoke:orientation-scroll";
 
 const chantChooser = document.querySelector("#chantChooser");
@@ -154,6 +153,7 @@ const textSizeButton = document.querySelector("#textSizeButton");
 const hidePadasButton = document.querySelector("#hidePadasButton");
 const audioVariantButton = document.querySelector("#audioVariantButton");
 const repeatControls = document.querySelector("#repeatControls");
+const repeatGapControls = document.querySelector("#repeatGapControls");
 const filterControls = document.querySelector("#filterControls");
 const scriptControls = document.querySelector("#scriptControls");
 const translationControls = document.querySelector("#translationControls");
@@ -189,6 +189,7 @@ let playbackRate = savedSettings.playbackRate;
 let pitchShift = savedSettings.pitchShift;
 let playbackRequestId = 0;
 let repeatCount = savedSettings.repeatCount;
+let repeatGapSeconds = savedSettings.repeatGapSeconds;
 let activeRatingFilter = savedSettings.ratingFilter;
 let activeTextVariant = savedSettings.textVariant;
 let activeTranslationLanguage = savedSettings.translationLanguage;
@@ -820,6 +821,10 @@ function getAnuvakaIntervals(sourceTiers, unit) {
 }
 
 function formatAnuvakaLabel(anuvaka) {
+  if (anuvaka?.title) {
+    return anuvaka.title;
+  }
+
   return `Anuvaka ${anuvaka.label}`;
 }
 
@@ -1349,6 +1354,7 @@ function loadSettings() {
     playbackRate: 1,
     pitchShift: 0,
     repeatCount: DEFAULT_REPEAT_COUNT,
+    repeatGapSeconds: DEFAULT_REPEAT_GAP_SECONDS,
     ratingFilter: "all",
     textVariant: DEFAULT_TEXT_VARIANT,
     translationLanguage: DEFAULT_TRANSLATION_LANGUAGE,
@@ -1371,6 +1377,9 @@ function loadSettings() {
     const repeatCount = [3, 4, 5].includes(Number(saved.repeatCount))
       ? Number(saved.repeatCount)
       : defaults.repeatCount;
+    const repeatGapSeconds = REPEAT_GAP_OPTIONS.includes(Number(saved.repeatGapSeconds))
+      ? Number(saved.repeatGapSeconds)
+      : defaults.repeatGapSeconds;
     const ratingFilter = ["all", "1", "2"].includes(saved.ratingFilter)
       ? saved.ratingFilter
       : defaults.ratingFilter;
@@ -1392,6 +1401,7 @@ function loadSettings() {
       playbackRate,
       pitchShift,
       repeatCount,
+      repeatGapSeconds,
       ratingFilter,
       textVariant,
       translationLanguage,
@@ -1413,6 +1423,7 @@ function saveSettings() {
         playbackRate,
         pitchShift,
         repeatCount,
+        repeatGapSeconds,
         ratingFilter: activeRatingFilter,
         textVariant: activeTextVariant,
         translationLanguage: activeTranslationLanguage,
@@ -1430,6 +1441,7 @@ function applySavedControls() {
   updatePlaybackRateButtons();
   updatePitchButtons();
   updateRepeatButtons();
+  updateRepeatGapButtons();
   updateRepeatButtonLabels();
   updateFilterButtons();
   updateScriptButtons();
@@ -2053,10 +2065,10 @@ async function playRepeatedInterval(interval, segmentButton, repeatButton) {
       start,
       playbackDuration,
       repeatCount,
-      REPEAT_GAP_SECONDS,
+      repeatGapSeconds,
     );
     const totalDuration =
-      playbackDuration * repeatCount + REPEAT_GAP_SECONDS * (repeatCount - 1);
+      playbackDuration * repeatCount + repeatGapSeconds * (repeatCount - 1);
 
     activeSources = sources;
     activeTimer = window.setTimeout(() => {
@@ -2069,7 +2081,7 @@ async function playRepeatedInterval(interval, segmentButton, repeatButton) {
       context.currentTime,
       playbackDuration,
       repeatCount,
-      REPEAT_GAP_SECONDS,
+      repeatGapSeconds,
     );
   } catch (error) {
     console.error(error);
@@ -2677,6 +2689,12 @@ function setRepeatCount(count) {
   updateRepeatButtonLabels();
 }
 
+function setRepeatGapSeconds(seconds) {
+  repeatGapSeconds = seconds;
+  saveSettings();
+  updateRepeatGapButtons();
+}
+
 function updatePlaybackRateButtons() {
   [...tempoControls.querySelectorAll("button")].forEach((button) => {
     const isActive = Number(button.dataset.rate) === playbackRate;
@@ -2767,6 +2785,13 @@ function togglePlaybackRate(rate) {
 function updateRepeatButtons() {
   [...repeatControls.querySelectorAll("button")].forEach((button) => {
     const isActive = Number(button.dataset.repeat) === repeatCount;
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+}
+
+function updateRepeatGapButtons() {
+  [...repeatGapControls.querySelectorAll("button")].forEach((button) => {
+    const isActive = Number(button.dataset.repeatGap) === repeatGapSeconds;
     button.setAttribute("aria-pressed", String(isActive));
   });
 }
@@ -2969,6 +2994,15 @@ repeatControls.addEventListener("click", (event) => {
   }
 
   setRepeatCount(Number(button.dataset.repeat));
+});
+repeatGapControls.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-repeat-gap]");
+
+  if (!button) {
+    return;
+  }
+
+  setRepeatGapSeconds(Number(button.dataset.repeatGap));
 });
 pitchControls.addEventListener("click", (event) => {
   const button = event.target.closest("button");

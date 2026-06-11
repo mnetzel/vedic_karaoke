@@ -1,0 +1,832 @@
+{
+  "version": 1,
+  "type": "praat-replacement-chapter-export",
+  "exportedAt": "2026-06-11T21:59:30.542Z",
+  "project": {
+    "name": "Camakam",
+    "sourceProjectPath": "L:\\VedicKaraoke\\audio_sources\\Camakam.json"
+  },
+  "chapter": {
+    "id": "13:16",
+    "index": 5,
+    "title": "Anuvaka 6",
+    "folder": "06_Anuvaka_6",
+    "startMarkerId": 13,
+    "endMarkerId": 16,
+    "sourceStart": 313.064,
+    "sourceEnd": 376.324,
+    "duration": 63.26
+  },
+  "phraseFields": [
+    "iast",
+    "polish"
+  ],
+  "audio": [
+    {
+      "id": "audio_mpmlg2dg_5z42h8",
+      "name": "Shantala-Sriramaiah_Camakam_mono",
+      "file": "audio/Shantala-Sriramaiah_Camakam_mono.ogg",
+      "duration": 63.26
+    },
+    {
+      "id": "audio_mpmr3wdc_9i572q",
+      "name": "Challakere-Brothers_Camakam_speed80_mono",
+      "file": "audio/Challakere-Brothers_Camakam_speed80_mono.ogg",
+      "duration": 68.967
+    }
+  ],
+  "verses": [
+    {
+      "id": "126:127",
+      "index": 0,
+      "startMarkerId": 126,
+      "endMarkerId": 127,
+      "texts": {
+        "devanagari": "अ॒ग्निश्च॑ म॒ इन्द्र॑श्च मे॒",
+        "iast": "agniśca ma indraśca me",
+        "polish": "agniśca ma indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 0.924,
+          "end": 3.603,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 0.225,
+          "end": 3.359,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "agniśca ma indraśca me",
+            "iast": "agniśca ma indraśca me",
+            "polish": "agniśca ma indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 0.924,
+              "end": 3.603
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 0.225,
+              "end": 3.359
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "127:128",
+      "index": 1,
+      "startMarkerId": 127,
+      "endMarkerId": 128,
+      "texts": {
+        "devanagari": "सोम॑श्च म॒ इन्द्र॑श्च मे",
+        "iast": "somaśca ma indraśca me",
+        "polish": "somaśca ma indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 3.603,
+          "end": 6.316,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 3.359,
+          "end": 6.433,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "somaśca ma indraśca me",
+            "iast": "somaśca ma indraśca me",
+            "polish": "somaśca ma indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 3.603,
+              "end": 6.316
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 3.359,
+              "end": 6.433
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "128:129",
+      "index": 2,
+      "startMarkerId": 128,
+      "endMarkerId": 129,
+      "texts": {
+        "devanagari": "सवि॒ता च॑ म॒ इन्द्र॑श्च मे॒",
+        "iast": "savitā ca ma indraśca me",
+        "polish": "savitā ca ma indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 6.316,
+          "end": 9.018,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 6.433,
+          "end": 9.555,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "savitā ca ma indraśca me",
+            "iast": "savitā ca ma indraśca me",
+            "polish": "savitā ca ma indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 6.316,
+              "end": 9.018
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 6.433,
+              "end": 9.555
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "129:130",
+      "index": 3,
+      "startMarkerId": 129,
+      "endMarkerId": 130,
+      "texts": {
+        "devanagari": "सर॑स्वती च म॒ इन्द्र॑श्च मे",
+        "iast": "sarasvatī ca ma indraśca me",
+        "polish": "sarasvatī ca ma indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 9.018,
+          "end": 13.015,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 9.555,
+          "end": 13.105,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "sarasvatī ca ma indraśca me",
+            "iast": "sarasvatī ca ma indraśca me",
+            "polish": "sarasvatī ca ma indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 9.018,
+              "end": 13.015
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 9.555,
+              "end": 13.105
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "130:131",
+      "index": 4,
+      "startMarkerId": 130,
+      "endMarkerId": 131,
+      "texts": {
+        "devanagari": "पू॒षा च॑ म॒ इन्द्र॑श्च मे॒",
+        "iast": "pūṣā ca ma indraśca me",
+        "polish": "pūṣā ca ma indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 13.015,
+          "end": 15.625,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 13.105,
+          "end": 16.214,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "pūṣā ca ma indraśca me",
+            "iast": "pūṣā ca ma indraśca me",
+            "polish": "pūṣā ca ma indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 13.015,
+              "end": 15.625
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 13.105,
+              "end": 16.214
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "131:132",
+      "index": 5,
+      "startMarkerId": 131,
+      "endMarkerId": 132,
+      "texts": {
+        "devanagari": "बृह॒स्पति॑श्च म॒ इन्द्र॑श्च मे",
+        "iast": "bṛhaspatiśca ma indraśca me",
+        "polish": "bṛhaspatiśca ma indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 15.625,
+          "end": 19.31,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 16.214,
+          "end": 19.901,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "bṛhaspatiśca ma indraśca me",
+            "iast": "bṛhaspatiśca ma indraśca me",
+            "polish": "bṛhaspatiśca ma indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 15.625,
+              "end": 19.31
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 16.214,
+              "end": 19.901
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "132:133",
+      "index": 6,
+      "startMarkerId": 132,
+      "endMarkerId": 133,
+      "texts": {
+        "devanagari": "मि॒त्रश्च॑ म॒ इन्द्र॑श्च मे॒",
+        "iast": "mitraśca ma indraśca me",
+        "polish": "mitraśca ma indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 19.31,
+          "end": 21.885,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 19.901,
+          "end": 23.065,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "mitraśca ma indraśca me",
+            "iast": "mitraśca ma indraśca me",
+            "polish": "mitraśca ma indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 19.31,
+              "end": 21.885
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 19.901,
+              "end": 23.065
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "133:134",
+      "index": 7,
+      "startMarkerId": 133,
+      "endMarkerId": 134,
+      "texts": {
+        "devanagari": "वरु॑णश्च म॒ इन्द्र॑श्च मे॒",
+        "iast": "varuṇaśca ma indraśca me",
+        "polish": "varuṇaśca ma indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 21.885,
+          "end": 24.732,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 23.065,
+          "end": 26.446,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "varuṇaśca ma indraśca me",
+            "iast": "varuṇaśca ma indraśca me",
+            "polish": "varuṇaśca ma indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 21.885,
+              "end": 24.732
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 23.065,
+              "end": 26.446
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "134:135",
+      "index": 8,
+      "startMarkerId": 134,
+      "endMarkerId": 135,
+      "texts": {
+        "devanagari": "त्वष्ठा॑ च म॒ इन्द्र॑श्च मे",
+        "iast": "tvaṣṭhā ca ma indraśca me",
+        "polish": "tvaṣṭhā ca ma indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 24.732,
+          "end": 27.895,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 26.446,
+          "end": 29.677,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "tvaṣṭhā ca ma indraśca me",
+            "iast": "tvaṣṭhā ca ma indraśca me",
+            "polish": "tvaṣṭhā ca ma indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 24.732,
+              "end": 27.895
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 26.446,
+              "end": 29.677
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "135:136",
+      "index": 9,
+      "startMarkerId": 135,
+      "endMarkerId": 136,
+      "texts": {
+        "devanagari": "धा॒ता च॑ म॒ इन्द्र॑श्च मे॒",
+        "iast": "dhātā ca ma indraśca me",
+        "polish": "dhātā ca ma indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 27.895,
+          "end": 30.661,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 29.677,
+          "end": 32.87,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "dhātā ca ma indraśca me",
+            "iast": "dhātā ca ma indraśca me",
+            "polish": "dhātā ca ma indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 27.895,
+              "end": 30.661
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 29.677,
+              "end": 32.87
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "136:137",
+      "index": 10,
+      "startMarkerId": 136,
+      "endMarkerId": 137,
+      "texts": {
+        "devanagari": "विष्णु॑श्च म॒ इन्द्र॑श्च मे-ऽश्विनौ॑ च म॒ इन्द्र॑श्च मे",
+        "iast": "viṣṇuśca ma indraśca me-'śvinau ca ma indraśca me",
+        "polish": "viṣṇuśca ma indraśca me-'śvinau ca ma indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 30.661,
+          "end": 36.382,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 32.87,
+          "end": 39.18,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "viṣṇuśca ma indraśca me-'śvinau ca ma indraśca me",
+            "iast": "viṣṇuśca ma indraśca me-'śvinau ca ma indraśca me",
+            "polish": "viṣṇuśca ma indraśca me-'śvinau ca ma indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 30.661,
+              "end": 36.382
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 32.87,
+              "end": 39.18
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "137:138",
+      "index": 11,
+      "startMarkerId": 137,
+      "endMarkerId": 138,
+      "texts": {
+        "devanagari": "म॒रुत॑श्च म॒ इन्द्र॑श्च मे॒",
+        "iast": "marutaśca ma indraśca me",
+        "polish": "marutaśca ma indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 36.382,
+          "end": 39.01,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 39.18,
+          "end": 42.344,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "marutaśca ma indraśca me",
+            "iast": "marutaśca ma indraśca me",
+            "polish": "marutaśca ma indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 36.382,
+              "end": 39.01
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 39.18,
+              "end": 42.344
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "138:139",
+      "index": 12,
+      "startMarkerId": 138,
+      "endMarkerId": 139,
+      "texts": {
+        "devanagari": "विश्वे॑ च मे दे॒वा इन्द्र॑श्च मे",
+        "iast": "viśve ca me devā indraśca me",
+        "polish": "viśve ca me devā indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 39.01,
+          "end": 43.524,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 42.344,
+          "end": 47.242,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "viśve ca me devā indraśca me",
+            "iast": "viśve ca me devā indraśca me",
+            "polish": "viśve ca me devā indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 39.01,
+              "end": 43.524
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 42.344,
+              "end": 47.242
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "139:141",
+      "index": 13,
+      "startMarkerId": 139,
+      "endMarkerId": 141,
+      "texts": {
+        "devanagari": "पृथि॒वी च॑ म॒ इन्द्र॑श्च मे-ऽन्तरि॑क्ष-ञ्च म॒ इन्द्र॑श्च मे",
+        "iast": "pṛthivī ca ma indraśca me-'ntarikṣa-ñca ma indraśca me",
+        "polish": "pṛthivī ca ma indraśca me-'ntarikṣa-ñca ma indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 43.524,
+          "end": 49.376,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 47.242,
+          "end": 54.357,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "pṛthivī ca ma indraśca me-'ntarikṣa-ñca ma indraśca me",
+            "iast": "pṛthivī ca ma indraśca me-'ntarikṣa-ñca ma indraśca me",
+            "polish": "pṛthivī ca ma indraśca me-'ntarikṣa-ñca ma indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 43.524,
+              "end": 49.376
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 47.242,
+              "end": 54.357
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "141:142",
+      "index": 14,
+      "startMarkerId": 141,
+      "endMarkerId": 142,
+      "texts": {
+        "devanagari": "द्यौश्च॑ म॒ इन्द्र॑श्च मे॒",
+        "iast": "dyauśca ma indraśca me",
+        "polish": "dyauśca ma indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 49.376,
+          "end": 52.636,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 54.357,
+          "end": 57.398,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "dyauśca ma indraśca me",
+            "iast": "dyauśca ma indraśca me",
+            "polish": "dyauśca ma indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 49.376,
+              "end": 52.636
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 54.357,
+              "end": 57.398
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "142:143",
+      "index": 15,
+      "startMarkerId": 142,
+      "endMarkerId": 143,
+      "texts": {
+        "devanagari": "दिश॑श्च म॒ इन्द्र॑श्च मे",
+        "iast": "diśaśca ma indraśca me",
+        "polish": "diśaśca ma indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 52.636,
+          "end": 55.111,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 57.398,
+          "end": 60.242,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "diśaśca ma indraśca me",
+            "iast": "diśaśca ma indraśca me",
+            "polish": "diśaśca ma indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 52.636,
+              "end": 55.111
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 57.398,
+              "end": 60.242
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "143:144",
+      "index": 16,
+      "startMarkerId": 143,
+      "endMarkerId": 144,
+      "texts": {
+        "devanagari": "मू॒र्धा च॑ म॒ इन्द्र॑श्च मे",
+        "iast": "mūrdhā ca ma indraśca me",
+        "polish": "mūrdhā ca ma indraśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 55.111,
+          "end": 58.756,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 60.242,
+          "end": 64.057,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "mūrdhā ca ma indraśca me",
+            "iast": "mūrdhā ca ma indraśca me",
+            "polish": "mūrdhā ca ma indraśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 55.111,
+              "end": 58.756
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 60.242,
+              "end": 64.057
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "144:145",
+      "index": 17,
+      "startMarkerId": 144,
+      "endMarkerId": 145,
+      "texts": {
+        "devanagari": "प्र॒जाप॑तिश्च म॒ इन्द्र॑श्च मे ॥ ६॥",
+        "iast": "prajāpatiśca ma indraśca me || 6||",
+        "polish": "prajāpatiśca ma indraśca me || 6||"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 58.756,
+          "end": 62.584,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 64.057,
+          "end": 68.592,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "prajāpatiśca ma indraśca me || 6||",
+            "iast": "prajāpatiśca ma indraśca me || 6||",
+            "polish": "prajāpatiśca ma indraśca me || 6||"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 58.756,
+              "end": 62.584
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 64.057,
+              "end": 68.592
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

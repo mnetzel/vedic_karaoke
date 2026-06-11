@@ -1,0 +1,788 @@
+{
+  "version": 1,
+  "type": "praat-replacement-chapter-export",
+  "exportedAt": "2026-06-11T21:59:30.539Z",
+  "project": {
+    "name": "Camakam",
+    "sourceProjectPath": "L:\\VedicKaraoke\\audio_sources\\Camakam.json"
+  },
+  "chapter": {
+    "id": "11:12",
+    "index": 3,
+    "title": "Anuvaka 4",
+    "folder": "04_Anuvaka_4",
+    "startMarkerId": 11,
+    "endMarkerId": 12,
+    "sourceStart": 189.535,
+    "sourceEnd": 256.942,
+    "duration": 67.407
+  },
+  "phraseFields": [
+    "iast",
+    "polish"
+  ],
+  "audio": [
+    {
+      "id": "audio_mpmlg2dg_5z42h8",
+      "name": "Shantala-Sriramaiah_Camakam_mono",
+      "file": "audio/Shantala-Sriramaiah_Camakam_mono.ogg",
+      "duration": 67.407
+    },
+    {
+      "id": "audio_mpmr3wdc_9i572q",
+      "name": "Challakere-Brothers_Camakam_speed80_mono",
+      "file": "audio/Challakere-Brothers_Camakam_speed80_mono.ogg",
+      "duration": 76.347
+    }
+  ],
+  "verses": [
+    {
+      "id": "93:94",
+      "index": 0,
+      "startMarkerId": 93,
+      "endMarkerId": 94,
+      "texts": {
+        "devanagari": "ऊर्क्च॑ मे सू॒नृता॑ च मे॒",
+        "iast": "ūrkca me sūnṛtā ca me",
+        "polish": "ūrkca me sūnṛtā ca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 0.797,
+          "end": 3.739,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 0.331,
+          "end": 3.726,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "ūrkca me sūnṛtā ca me",
+            "iast": "ūrkca me sūnṛtā ca me",
+            "polish": "ūrkca me sūnṛtā ca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 0.797,
+              "end": 3.739
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 0.331,
+              "end": 3.726
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "94:95",
+      "index": 1,
+      "startMarkerId": 94,
+      "endMarkerId": 95,
+      "texts": {
+        "devanagari": "पय॑श्च मे॒ रस॑श्च मे",
+        "iast": "payaśca me rasaśca me",
+        "polish": "payaśca me rasaśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 3.739,
+          "end": 6.166,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 3.726,
+          "end": 6.64,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "payaśca me rasaśca me",
+            "iast": "payaśca me rasaśca me",
+            "polish": "payaśca me rasaśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 3.739,
+              "end": 6.166
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 3.726,
+              "end": 6.64
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "95:96",
+      "index": 2,
+      "startMarkerId": 95,
+      "endMarkerId": 96,
+      "texts": {
+        "devanagari": "घृ॒त-ञ्च॑ मे॒ मधु॑ च मे॒",
+        "iast": "ghṛta-ñca me madhu ca me",
+        "polish": "ghṛta-ñca me madhu ca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 6.166,
+          "end": 8.48,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 6.64,
+          "end": 9.35,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "ghṛta-ñca me madhu ca me",
+            "iast": "ghṛta-ñca me madhu ca me",
+            "polish": "ghṛta-ñca me madhu ca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 6.166,
+              "end": 8.48
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 6.64,
+              "end": 9.35
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "96:97",
+      "index": 3,
+      "startMarkerId": 96,
+      "endMarkerId": 97,
+      "texts": {
+        "devanagari": "सग्धि॑श्च मे॒ सपी॑तिश्च मे",
+        "iast": "sagdhiśca me sapītiśca me",
+        "polish": "sagdhiśca me sapītiśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 8.48,
+          "end": 11.979,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 9.35,
+          "end": 12.991,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "sagdhiśca me sapītiśca me",
+            "iast": "sagdhiśca me sapītiśca me",
+            "polish": "sagdhiśca me sapītiśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 8.48,
+              "end": 11.979
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 9.35,
+              "end": 12.991
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "97:98",
+      "index": 4,
+      "startMarkerId": 97,
+      "endMarkerId": 98,
+      "texts": {
+        "devanagari": "कृ॒षिश्च॑ मे॒ वृष्टि॑श्च मे॒",
+        "iast": "kṛṣiśca me vṛṣṭiśca me",
+        "polish": "kṛṣiśca me vṛṣṭiśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 11.979,
+          "end": 14.84,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 12.991,
+          "end": 16.168,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "kṛṣiśca me vṛṣṭiśca me",
+            "iast": "kṛṣiśca me vṛṣṭiśca me",
+            "polish": "kṛṣiśca me vṛṣṭiśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 11.979,
+              "end": 14.84
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 12.991,
+              "end": 16.168
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "98:99",
+      "index": 5,
+      "startMarkerId": 98,
+      "endMarkerId": 99,
+      "texts": {
+        "devanagari": "जैत्र॑-ञ्च म॒ औद्भि॑द्य-ञ्च मे",
+        "iast": "jaitra-ñca ma audbhidya-ñca me",
+        "polish": "jaitra-ñca ma audbhidya-ñca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 14.84,
+          "end": 18.323,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 16.168,
+          "end": 20.318,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "jaitra-ñca ma audbhidya-ñca me",
+            "iast": "jaitra-ñca ma audbhidya-ñca me",
+            "polish": "jaitra-ñca ma audbhidya-ñca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 14.84,
+              "end": 18.323
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 16.168,
+              "end": 20.318
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "99:100",
+      "index": 6,
+      "startMarkerId": 99,
+      "endMarkerId": 100,
+      "texts": {
+        "devanagari": "र॒यिश्च॑ मे॒ राय॑श्च मे",
+        "iast": "rayiśca me rāyaśca me",
+        "polish": "rayiśca me rāyaśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 18.323,
+          "end": 21.303,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 20.318,
+          "end": 23.511,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "rayiśca me rāyaśca me",
+            "iast": "rayiśca me rāyaśca me",
+            "polish": "rayiśca me rāyaśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 18.323,
+              "end": 21.303
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 20.318,
+              "end": 23.511
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "100:101",
+      "index": 7,
+      "startMarkerId": 100,
+      "endMarkerId": 101,
+      "texts": {
+        "devanagari": "पु॒ष्ट-ञ्च मे॒ पुष्टि॑श्च मे",
+        "iast": "puṣṭa-ñca me puṣṭiśca me",
+        "polish": "puṣṭa-ñca me puṣṭiśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 21.303,
+          "end": 24.313,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 23.511,
+          "end": 26.89,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "puṣṭa-ñca me puṣṭiśca me",
+            "iast": "puṣṭa-ñca me puṣṭiśca me",
+            "polish": "puṣṭa-ñca me puṣṭiśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 21.303,
+              "end": 24.313
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 23.511,
+              "end": 26.89
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "101:102",
+      "index": 8,
+      "startMarkerId": 101,
+      "endMarkerId": 102,
+      "texts": {
+        "devanagari": "वि॒भु च॑ मे प्र॒भु च॑ मे",
+        "iast": "vibhu ca me prabhu ca me",
+        "polish": "vibhu ca me prabhu ca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 24.313,
+          "end": 26.613,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 26.89,
+          "end": 29.661,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "vibhu ca me prabhu ca me",
+            "iast": "vibhu ca me prabhu ca me",
+            "polish": "vibhu ca me prabhu ca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 24.313,
+              "end": 26.613
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 26.89,
+              "end": 29.661
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "102:103",
+      "index": 9,
+      "startMarkerId": 102,
+      "endMarkerId": 103,
+      "texts": {
+        "devanagari": "ब॒हु च॑ मे॒ भूय॑श्च मे",
+        "iast": "bahu ca me bhūyaśca me",
+        "polish": "bahu ca me bhūyaśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 26.613,
+          "end": 29.566,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 29.661,
+          "end": 32.624,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "bahu ca me bhūyaśca me",
+            "iast": "bahu ca me bhūyaśca me",
+            "polish": "bahu ca me bhūyaśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 26.613,
+              "end": 29.566
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 29.661,
+              "end": 32.624
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "103:104",
+      "index": 10,
+      "startMarkerId": 103,
+      "endMarkerId": 104,
+      "texts": {
+        "devanagari": "पू॒र्ण-ञ्च॑ मे पू॒र्णत॑र-ञ्च॒ मे-ऽक्षि॑तिश्च मे॒ कूय॑वाश्च॒ मे-ऽन्न॑-ञ्च॒ मे-ऽक्षु॑च्च मे",
+        "iast": "pūrṇa-ñca me pūrṇatara-ñca me-'kṣitiśca me kūyavāśca me-'nna-ñca me-'kṣucca me",
+        "polish": "pūrṇa-ñca me pūrṇatara-ñca me-'kṣitiśca me kūyavāśca me-'nna-ñca me-'kṣucca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 29.566,
+          "end": 39.909,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 32.624,
+          "end": 44.307,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "pūrṇa-ñca me pūrṇatara-ñca me-'kṣitiśca me kūyavāśca me-'nna-ñca me-'kṣucca me",
+            "iast": "pūrṇa-ñca me pūrṇatara-ñca me-'kṣitiśca me kūyavāśca me-'nna-ñca me-'kṣucca me",
+            "polish": "pūrṇa-ñca me pūrṇatara-ñca me-'kṣitiśca me kūyavāśca me-'nna-ñca me-'kṣucca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 29.566,
+              "end": 39.909
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 32.624,
+              "end": 44.307
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "104:105",
+      "index": 11,
+      "startMarkerId": 104,
+      "endMarkerId": 105,
+      "texts": {
+        "devanagari": "व्री॒हय॑श्च मे॒ यवा᳚श्च मे॒",
+        "iast": "vrīhayaśca me yavāśca me",
+        "polish": "vrīhayaśca me yavāśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 39.909,
+          "end": 43.882,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 44.307,
+          "end": 48.898,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "vrīhayaśca me yavāśca me",
+            "iast": "vrīhayaśca me yavāśca me",
+            "polish": "vrīhayaśca me yavāśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 39.909,
+              "end": 43.882
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 44.307,
+              "end": 48.898
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "105:106",
+      "index": 12,
+      "startMarkerId": 105,
+      "endMarkerId": 106,
+      "texts": {
+        "devanagari": "माषा᳚श्च मे॒ तिला᳚श्च मे",
+        "iast": "māṣāśca me tilāśca me",
+        "polish": "māṣāśca me tilāśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 43.882,
+          "end": 48.508,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 48.898,
+          "end": 53.903,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "māṣāśca me tilāśca me",
+            "iast": "māṣāśca me tilāśca me",
+            "polish": "māṣāśca me tilāśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 43.882,
+              "end": 48.508
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 48.898,
+              "end": 53.903
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "106:107",
+      "index": 13,
+      "startMarkerId": 106,
+      "endMarkerId": 107,
+      "texts": {
+        "devanagari": "मु॒द्गाश्च॑ मे ख॒ल्वा᳚श्च मे",
+        "iast": "mudgāśca me khalvāśca me",
+        "polish": "mudgāśca me khalvāśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 48.508,
+          "end": 52.572,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 53.903,
+          "end": 58.604,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "mudgāśca me khalvāśca me",
+            "iast": "mudgāśca me khalvāśca me",
+            "polish": "mudgāśca me khalvāśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 48.508,
+              "end": 52.572
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 53.903,
+              "end": 58.604
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "107:108",
+      "index": 14,
+      "startMarkerId": 107,
+      "endMarkerId": 108,
+      "texts": {
+        "devanagari": "गो॒धूमा᳚श्च मे म॒सुरा᳚श्च मे",
+        "iast": "godhūmāśca me masurāśca me",
+        "polish": "godhūmāśca me masurāśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 52.572,
+          "end": 57.372,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 58.604,
+          "end": 64.639,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "godhūmāśca me masurāśca me",
+            "iast": "godhūmāśca me masurāśca me",
+            "polish": "godhūmāśca me masurāśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 52.572,
+              "end": 57.372
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 58.604,
+              "end": 64.639
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "108:109",
+      "index": 15,
+      "startMarkerId": 108,
+      "endMarkerId": 109,
+      "texts": {
+        "devanagari": "प्रि॒यङ्ग॑वश्च॒ मे-ऽण॑वश्च मे",
+        "iast": "priyaṅgavaśca me-'ṇavaśca me",
+        "polish": "priyaṅgavaśca me-'ṇavaśca me"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 57.372,
+          "end": 60.819,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 64.639,
+          "end": 68.43,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "priyaṅgavaśca me-'ṇavaśca me",
+            "iast": "priyaṅgavaśca me-'ṇavaśca me",
+            "polish": "priyaṅgavaśca me-'ṇavaśca me"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 57.372,
+              "end": 60.819
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 64.639,
+              "end": 68.43
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "109:110",
+      "index": 16,
+      "startMarkerId": 109,
+      "endMarkerId": 110,
+      "texts": {
+        "devanagari": "श्या॒माका᳚श्च मे नी॒वारा᳚श्च मे ॥ ४॥",
+        "iast": "śyāmākāśca me nīvārāśca me || 4||",
+        "polish": "śyāmākāśca me nīvārāśca me || 4||"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpmlg2dg_5z42h8": {
+          "start": 60.819,
+          "end": 66.617,
+          "phraseBoundaries": []
+        },
+        "audio_mpmr3wdc_9i572q": {
+          "start": 68.43,
+          "end": 75.791,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "śyāmākāśca me nīvārāśca me || 4||",
+            "iast": "śyāmākāśca me nīvārāśca me || 4||",
+            "polish": "śyāmākāśca me nīvārāśca me || 4||"
+          },
+          "timings": {
+            "audio_mpmlg2dg_5z42h8": {
+              "start": 60.819,
+              "end": 66.617
+            },
+            "audio_mpmr3wdc_9i572q": {
+              "start": 68.43,
+              "end": 75.791
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
