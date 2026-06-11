@@ -1,0 +1,1717 @@
+{
+  "version": 1,
+  "type": "praat-replacement-chapter-export",
+  "exportedAt": "2026-06-11T21:17:41.304Z",
+  "project": {
+    "name": "Namakam",
+    "sourceProjectPath": "L:\\VedicKaraoke\\audio_sources\\Namakam.json"
+  },
+  "chapter": {
+    "id": "2:3",
+    "index": 1,
+    "title": "Anuvaka 2",
+    "folder": "02_Anuvaka_2",
+    "startMarkerId": 2,
+    "endMarkerId": 3,
+    "sourceStart": 270.279,
+    "sourceEnd": 364.816,
+    "duration": 94.537
+  },
+  "phraseFields": [
+    "iast",
+    "polish"
+  ],
+  "audio": [
+    {
+      "id": "audio_mpn28w6y_21szfb",
+      "name": "Shantala-Sriramaiah_Namakam_mono",
+      "file": "audio/Shantala-Sriramaiah_Namakam_mono.ogg",
+      "duration": 95.547
+    },
+    {
+      "id": "audio_mpn2fso9_2oov2x",
+      "name": "Challakere-Brothers_Namakam_speed80_mono",
+      "file": "audio/Challakere-Brothers_Namakam_speed80_mono.ogg",
+      "duration": 94.537
+    }
+  ],
+  "verses": [
+    {
+      "id": "86:87",
+      "index": 0,
+      "startMarkerId": 86,
+      "endMarkerId": 87,
+      "texts": {
+        "devanagari": "नमो हिरण्य बाहवे सेनान्ये दिशा-ञ्च पतये नमो",
+        "iast": "namo hiraṇya bāhave senānye diśā-ñca pataye namo",
+        "polish": "namo hiraṇja bāhawe senā nje diśāń ciapataje namo"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 13,
+            "polish": 13
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 24,
+            "polish": 25
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 34,
+            "polish": 35
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 0.627,
+          "end": 7.892,
+          "phraseBoundaries": [
+            2.297,
+            4.42,
+            6.118
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 0.484,
+          "end": 7.939,
+          "phraseBoundaries": [
+            2.149,
+            4.638,
+            6.119
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namo hiraṇya",
+            "iast": "namo hiraṇya",
+            "polish": "namo hiraṇja"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 0.627,
+              "end": 2.297
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 0.484,
+              "end": 2.149
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "bāhave senā",
+            "iast": "bāhave senā",
+            "polish": "bāhawe senā"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 2.297,
+              "end": 4.42
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 2.149,
+              "end": 4.638
+            }
+          }
+        },
+        {
+          "index": 2,
+          "texts": {
+            "devanagari": "nye diśā-ñ",
+            "iast": "nye diśā-ñ",
+            "polish": "nje diśāń"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 4.42,
+              "end": 6.118
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 4.638,
+              "end": 6.119
+            }
+          }
+        },
+        {
+          "index": 3,
+          "texts": {
+            "devanagari": "ca pataye namo",
+            "iast": "ca pataye namo",
+            "polish": "ciapataje namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 6.118,
+              "end": 7.892
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 6.119,
+              "end": 7.939
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "87:88",
+      "index": 1,
+      "startMarkerId": 87,
+      "endMarkerId": 88,
+      "texts": {
+        "devanagari": "नमो वृक्षेभ्यो हरिकेशेभ्यः पशूना-म्पतये नमो",
+        "iast": "namo vṛkṣebhyo harikeśebhyaḥ paśūnā-mpataye namo",
+        "polish": "namo wṛksze bhjo harikeśe bhjaf paśūnām pataje namo"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 5,
+            "polish": 5
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 23,
+            "polish": 26
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 37,
+            "polish": 40
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 7.892,
+          "end": 16.059,
+          "phraseBoundaries": [
+            9.068,
+            12.149,
+            14.465
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 7.939,
+          "end": 15.77,
+          "phraseBoundaries": [
+            8.639,
+            12.021,
+            14.174
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namo",
+            "iast": "namo",
+            "polish": "namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 7.892,
+              "end": 9.068
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 7.939,
+              "end": 8.639
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "vṛkṣebhyo harikeśe",
+            "iast": "vṛkṣebhyo harikeśe",
+            "polish": "wṛksze bhjo harikeśe"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 9.068,
+              "end": 12.149
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 8.639,
+              "end": 12.021
+            }
+          }
+        },
+        {
+          "index": 2,
+          "texts": {
+            "devanagari": "bhyaḥ paśūnā-m",
+            "iast": "bhyaḥ paśūnā-m",
+            "polish": "bhjaf paśūnām"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 12.149,
+              "end": 14.465
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 12.021,
+              "end": 14.174
+            }
+          }
+        },
+        {
+          "index": 3,
+          "texts": {
+            "devanagari": "pataye namo",
+            "iast": "pataye namo",
+            "polish": "pataje namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 14.465,
+              "end": 16.059
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 14.174,
+              "end": 15.77
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "88:89",
+      "index": 2,
+      "startMarkerId": 88,
+      "endMarkerId": 89,
+      "texts": {
+        "devanagari": "नमः सस्पिञ्जराय त्विषीमते पथीना-म्पतये नमो",
+        "iast": "namaḥ saspiñjarāya tviṣīmate pathīnā-mpataye namo",
+        "polish": "nama sas piń dziarāja twiszī mate pathīnām pataje namo"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 6,
+            "polish": 5
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 19,
+            "polish": 22
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 38,
+            "polish": 43
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 16.059,
+          "end": 23.332,
+          "phraseBoundaries": [
+            16.497,
+            18.604,
+            21.78
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 15.77,
+          "end": 23.103,
+          "phraseBoundaries": [
+            16.193,
+            18.46,
+            21.538
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namaḥ",
+            "iast": "namaḥ",
+            "polish": "nama"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 16.059,
+              "end": 16.497
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 15.77,
+              "end": 16.193
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "saspiñjarāya",
+            "iast": "saspiñjarāya",
+            "polish": "sas piń dziarāja"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 16.497,
+              "end": 18.604
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 16.193,
+              "end": 18.46
+            }
+          }
+        },
+        {
+          "index": 2,
+          "texts": {
+            "devanagari": "tviṣīmate pathīnā-m",
+            "iast": "tviṣīmate pathīnā-m",
+            "polish": "twiszī mate pathīnām"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 18.604,
+              "end": 21.78
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 18.46,
+              "end": 21.538
+            }
+          }
+        },
+        {
+          "index": 3,
+          "texts": {
+            "devanagari": "pataye namo",
+            "iast": "pataye namo",
+            "polish": "pataje namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 21.78,
+              "end": 23.332
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 21.538,
+              "end": 23.103
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "89:90",
+      "index": 3,
+      "startMarkerId": 89,
+      "endMarkerId": 90,
+      "texts": {
+        "devanagari": "नमो बभ्लुशाय विव्याधिने-ऽन्नाना-म्पतये नमो",
+        "iast": "namo babhluśāya vivyādhine-'nnānā-mpataye namo",
+        "polish": "namo ba bhlu śāja wiwjā dhinen nānām pataje namo"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 5,
+            "polish": 5
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 16,
+            "polish": 18
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 29,
+            "polish": 31
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 35,
+            "polish": 37
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 23.332,
+          "end": 30.327,
+          "phraseBoundaries": [
+            24.018,
+            25.398,
+            27.254,
+            28.786
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 23.103,
+          "end": 30.002,
+          "phraseBoundaries": [
+            23.78,
+            25.233,
+            27.064,
+            28.443
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namo",
+            "iast": "namo",
+            "polish": "namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 23.332,
+              "end": 24.018
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 23.103,
+              "end": 23.78
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "babhluśāya",
+            "iast": "babhluśāya",
+            "polish": "ba bhlu śāja"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 24.018,
+              "end": 25.398
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 23.78,
+              "end": 25.233
+            }
+          }
+        },
+        {
+          "index": 2,
+          "texts": {
+            "devanagari": "vivyādhine-'n",
+            "iast": "vivyādhine-'n",
+            "polish": "wiwjā dhinen"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 25.398,
+              "end": 27.254
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 25.233,
+              "end": 27.064
+            }
+          }
+        },
+        {
+          "index": 3,
+          "texts": {
+            "devanagari": "nānā-m",
+            "iast": "nānā-m",
+            "polish": "nānām"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 27.254,
+              "end": 28.786
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 27.064,
+              "end": 28.443
+            }
+          }
+        },
+        {
+          "index": 4,
+          "texts": {
+            "devanagari": "pataye namo",
+            "iast": "pataye namo",
+            "polish": "pataje namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 28.786,
+              "end": 30.327
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 28.443,
+              "end": 30.002
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "90:91",
+      "index": 4,
+      "startMarkerId": 90,
+      "endMarkerId": 91,
+      "texts": {
+        "devanagari": "नमो हरिकेशायोपवीतिने पुष्टाना-म्पतये नमो",
+        "iast": "namo harikeśāyopavītine puṣṭānā-mpataye namo",
+        "polish": "namo harike śājo pawītine puszṭānām pataje namo"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 5,
+            "polish": 5
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 15,
+            "polish": 17
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 24,
+            "polish": 26
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 33,
+            "polish": 37
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 30.327,
+          "end": 38.018,
+          "phraseBoundaries": [
+            31.051,
+            32.875,
+            34.269,
+            36.471
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 30.002,
+          "end": 37.376,
+          "phraseBoundaries": [
+            30.747,
+            32.621,
+            33.996,
+            35.784
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namo",
+            "iast": "namo",
+            "polish": "namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 30.327,
+              "end": 31.051
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 30.002,
+              "end": 30.747
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "harikeśāyo",
+            "iast": "harikeśāyo",
+            "polish": "harike śājo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 31.051,
+              "end": 32.875
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 30.747,
+              "end": 32.621
+            }
+          }
+        },
+        {
+          "index": 2,
+          "texts": {
+            "devanagari": "pavītine",
+            "iast": "pavītine",
+            "polish": "pawītine"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 32.875,
+              "end": 34.269
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 32.621,
+              "end": 33.996
+            }
+          }
+        },
+        {
+          "index": 3,
+          "texts": {
+            "devanagari": "puṣṭānā-m",
+            "iast": "puṣṭānā-m",
+            "polish": "puszṭānām p"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 34.269,
+              "end": 36.471
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 33.996,
+              "end": 35.784
+            }
+          }
+        },
+        {
+          "index": 4,
+          "texts": {
+            "devanagari": "pataye namo",
+            "iast": "pataye namo",
+            "polish": "ataje namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 36.471,
+              "end": 38.018
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 35.784,
+              "end": 37.376
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "91:92",
+      "index": 5,
+      "startMarkerId": 91,
+      "endMarkerId": 92,
+      "texts": {
+        "devanagari": "नमो भवस्य हेत्यै जगता-म्पतये नमो",
+        "iast": "namo bhavasya hetyai jagatā-mpataye namo",
+        "polish": "namo bhawasja he tjai dziagatām pataje namo"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 5,
+            "polish": 5
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 16,
+            "polish": 17
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 29,
+            "polish": 32
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 38.018,
+          "end": 43.819,
+          "phraseBoundaries": [
+            38.72,
+            40.327,
+            42.274
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 37.376,
+          "end": 43.171,
+          "phraseBoundaries": [
+            38.102,
+            39.681,
+            41.628
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namo",
+            "iast": "namo",
+            "polish": "namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 38.018,
+              "end": 38.72
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 37.376,
+              "end": 38.102
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "bhavasya he",
+            "iast": "bhavasya he",
+            "polish": "bhawasja he"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 38.72,
+              "end": 40.327
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 38.102,
+              "end": 39.681
+            }
+          }
+        },
+        {
+          "index": 2,
+          "texts": {
+            "devanagari": "tyai jagatā-m",
+            "iast": "tyai jagatā-m",
+            "polish": "tjai dziagatām"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 40.327,
+              "end": 42.274
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 39.681,
+              "end": 41.628
+            }
+          }
+        },
+        {
+          "index": 3,
+          "texts": {
+            "devanagari": "pataye namo",
+            "iast": "pataye namo",
+            "polish": "pataje namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 42.274,
+              "end": 43.819
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 41.628,
+              "end": 43.171
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "92:93",
+      "index": 6,
+      "startMarkerId": 92,
+      "endMarkerId": 93,
+      "texts": {
+        "devanagari": "नमो रुद्रायातताविने क्षेत्राणा-म्पतये नमो",
+        "iast": "namo rudrāyātatāvine kṣetrāṇā-mpataye namo",
+        "polish": "namo rudrājā tatāwine ksze trāṇām pataje namo"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 4,
+            "polish": 4
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 21,
+            "polish": 22
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 31,
+            "polish": 34
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 43.819,
+          "end": 51.339,
+          "phraseBoundaries": [
+            44.507,
+            47.387,
+            49.761
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 43.171,
+          "end": 50.634,
+          "phraseBoundaries": [
+            43.857,
+            46.903,
+            49.068
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namo",
+            "iast": "namo",
+            "polish": "namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 43.819,
+              "end": 44.507
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 43.171,
+              "end": 43.857
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "rudrāyātatāvine",
+            "iast": "rudrāyātatāvine",
+            "polish": "rudrājā tatāwine"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 44.507,
+              "end": 47.387
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 43.857,
+              "end": 46.903
+            }
+          }
+        },
+        {
+          "index": 2,
+          "texts": {
+            "devanagari": "kṣetrāṇā-m",
+            "iast": "kṣetrāṇā-m",
+            "polish": "ksze trāṇām"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 47.387,
+              "end": 49.761
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 46.903,
+              "end": 49.068
+            }
+          }
+        },
+        {
+          "index": 3,
+          "texts": {
+            "devanagari": "pataye namo",
+            "iast": "pataye namo",
+            "polish": "pataje namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 49.761,
+              "end": 51.339
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 49.068,
+              "end": 50.634
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "93:94",
+      "index": 7,
+      "startMarkerId": 93,
+      "endMarkerId": 94,
+      "texts": {
+        "devanagari": "नमस्सूतायाहन्त्याय वनाना-म्पतये नमो",
+        "iast": "namassūtāyāhantyāya vanānā-mpataye namo",
+        "polish": "namas sūtājā hantjāja wanānām pataje namo"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 11,
+            "polish": 13
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 28,
+            "polish": 30
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 51.339,
+          "end": 57.609,
+          "phraseBoundaries": [
+            53.316,
+            56.043
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 50.634,
+          "end": 57.035,
+          "phraseBoundaries": [
+            52.771,
+            55.42
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namassūtāyā",
+            "iast": "namassūtāyā",
+            "polish": "namas sūtājā"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 51.339,
+              "end": 53.316
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 50.634,
+              "end": 52.771
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "hantyāya vanānā-m",
+            "iast": "hantyāya vanānā-m",
+            "polish": "hantjāja wanānām"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 53.316,
+              "end": 56.043
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 52.771,
+              "end": 55.42
+            }
+          }
+        },
+        {
+          "index": 2,
+          "texts": {
+            "devanagari": "pataye namo",
+            "iast": "pataye namo",
+            "polish": "pataje namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 56.043,
+              "end": 57.609
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 55.42,
+              "end": 57.035
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "94:95",
+      "index": 8,
+      "startMarkerId": 94,
+      "endMarkerId": 95,
+      "texts": {
+        "devanagari": "नमो रोहिताय स्थपतये वृक्षाणा-म्पतये नमो",
+        "iast": "namo rohitāya sthapataye vṛkṣāṇā-mpataye namo",
+        "polish": "namo rohitāja sthapataje wṛkszāṇām pataje namo"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 5,
+            "polish": 5
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 25,
+            "polish": 25
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 34,
+            "polish": 35
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 57.609,
+          "end": 64.673,
+          "phraseBoundaries": [
+            58.28,
+            61.242,
+            63.148
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 57.035,
+          "end": 63.896,
+          "phraseBoundaries": [
+            57.767,
+            60.564,
+            62.322
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namo",
+            "iast": "namo",
+            "polish": "namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 57.609,
+              "end": 58.28
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 57.035,
+              "end": 57.767
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "rohitāya sthapataye",
+            "iast": "rohitāya sthapataye",
+            "polish": "rohitāja sthapataje"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 58.28,
+              "end": 61.242
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 57.767,
+              "end": 60.564
+            }
+          }
+        },
+        {
+          "index": 2,
+          "texts": {
+            "devanagari": "vṛkṣāṇā-m",
+            "iast": "vṛkṣāṇā-m",
+            "polish": "wṛkszāṇām"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 61.242,
+              "end": 63.148
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 60.564,
+              "end": 62.322
+            }
+          }
+        },
+        {
+          "index": 3,
+          "texts": {
+            "devanagari": "pataye namo",
+            "iast": "pataye namo",
+            "polish": "pataje namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 63.148,
+              "end": 64.673
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 62.322,
+              "end": 63.896
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "95:96",
+      "index": 9,
+      "startMarkerId": 95,
+      "endMarkerId": 96,
+      "texts": {
+        "devanagari": "नमो मन्त्रिणे वाणिजाय कक्षाणा-म्पतये नमो",
+        "iast": "namo mantriṇe vāṇijāya kakṣāṇā-mpataye namo",
+        "polish": "namo mantriṇe wāṇidziāja kak szāṇām pataje namo"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 5,
+            "polish": 5
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 14,
+            "polish": 14
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 23,
+            "polish": 25
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 32,
+            "polish": 36
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 64.673,
+          "end": 71.109,
+          "phraseBoundaries": [
+            65.287,
+            66.507,
+            67.891,
+            69.588
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 63.896,
+          "end": 70.468,
+          "phraseBoundaries": [
+            64.654,
+            65.783,
+            67.134,
+            68.915
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namo",
+            "iast": "namo",
+            "polish": "namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 64.673,
+              "end": 65.287
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 63.896,
+              "end": 64.654
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "mantriṇe",
+            "iast": "mantriṇe",
+            "polish": "mantriṇe"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 65.287,
+              "end": 66.507
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 64.654,
+              "end": 65.783
+            }
+          }
+        },
+        {
+          "index": 2,
+          "texts": {
+            "devanagari": "vāṇijāya",
+            "iast": "vāṇijāya",
+            "polish": "wāṇidziāja"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 66.507,
+              "end": 67.891
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 65.783,
+              "end": 67.134
+            }
+          }
+        },
+        {
+          "index": 3,
+          "texts": {
+            "devanagari": "kakṣāṇā-m",
+            "iast": "kakṣāṇā-m",
+            "polish": "kak szāṇām"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 67.891,
+              "end": 69.588
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 67.134,
+              "end": 68.915
+            }
+          }
+        },
+        {
+          "index": 4,
+          "texts": {
+            "devanagari": "pataye namo",
+            "iast": "pataye namo",
+            "polish": "pataje namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 69.588,
+              "end": 71.109
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 68.915,
+              "end": 70.468
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "96:97",
+      "index": 10,
+      "startMarkerId": 96,
+      "endMarkerId": 97,
+      "texts": {
+        "devanagari": "नमो भुवन्तये वारिवस्कृता-यौषधीना-म्पतये नमो",
+        "iast": "namo bhuvantaye vārivaskṛtā-yauṣadhīnā-mpataye namo",
+        "polish": "namo bhuwantaje wāri waskṛtā jauszadhīnām pataje namo"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 16,
+            "polish": 16
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 28,
+            "polish": 29
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 40,
+            "polish": 42
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 71.109,
+          "end": 79,
+          "phraseBoundaries": [
+            73.487,
+            75.321,
+            77.402
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 70.468,
+          "end": 77.983,
+          "phraseBoundaries": [
+            72.603,
+            74.444,
+            76.435
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namo bhuvantaye",
+            "iast": "namo bhuvantaye",
+            "polish": "namo bhuwantaje"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 71.109,
+              "end": 73.487
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 70.468,
+              "end": 72.603
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "vārivaskṛtā-",
+            "iast": "vārivaskṛtā-",
+            "polish": "wāri waskṛtā"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 73.487,
+              "end": 75.321
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 72.603,
+              "end": 74.444
+            }
+          }
+        },
+        {
+          "index": 2,
+          "texts": {
+            "devanagari": "yauṣadhīnā-m",
+            "iast": "yauṣadhīnā-m",
+            "polish": "jauszadhīnām"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 75.321,
+              "end": 77.402
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 74.444,
+              "end": 76.435
+            }
+          }
+        },
+        {
+          "index": 3,
+          "texts": {
+            "devanagari": "pataye namo",
+            "iast": "pataye namo",
+            "polish": "pataje namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 77.402,
+              "end": 79
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 76.435,
+              "end": 77.983
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "97:98",
+      "index": 11,
+      "startMarkerId": 97,
+      "endMarkerId": 98,
+      "texts": {
+        "devanagari": "नम उच्चैर्घोषायाक्रन्दयते पत्तीना-म्पतये नमो",
+        "iast": "nama uccairghoṣāyākrandayate pattīnā-mpataye namo",
+        "polish": "nama ucciair ghoszājā krandajate pattīnām pataje namo"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 11,
+            "polish": 13
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 18,
+            "polish": 22
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 29,
+            "polish": 33
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 38,
+            "polish": 42
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 79,
+          "end": 87.059,
+          "phraseBoundaries": [
+            80.587,
+            82.285,
+            83.631,
+            85.525
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 77.983,
+          "end": 86.306,
+          "phraseBoundaries": [
+            79.687,
+            81.376,
+            82.928,
+            84.722
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "nama uccair",
+            "iast": "nama uccair",
+            "polish": "nama ucciair"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 79,
+              "end": 80.587
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 77.983,
+              "end": 79.687
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "ghoṣāyā",
+            "iast": "ghoṣāyā",
+            "polish": "ghoszājā"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 80.587,
+              "end": 82.285
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 79.687,
+              "end": 81.376
+            }
+          }
+        },
+        {
+          "index": 2,
+          "texts": {
+            "devanagari": "krandayate",
+            "iast": "krandayate",
+            "polish": "krandajate"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 82.285,
+              "end": 83.631
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 81.376,
+              "end": 82.928
+            }
+          }
+        },
+        {
+          "index": 3,
+          "texts": {
+            "devanagari": "pattīnā-m",
+            "iast": "pattīnā-m",
+            "polish": "pattīnām"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 83.631,
+              "end": 85.525
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 82.928,
+              "end": 84.722
+            }
+          }
+        },
+        {
+          "index": 4,
+          "texts": {
+            "devanagari": "pataye namo",
+            "iast": "pataye namo",
+            "polish": "pataje namo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 85.525,
+              "end": 87.059
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 84.722,
+              "end": 86.306
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "98:99",
+      "index": 12,
+      "startMarkerId": 98,
+      "endMarkerId": 99,
+      "texts": {
+        "devanagari": "नमः कृत्स्नवीताय धावते सत्त्वना-म्पतये नमः ॥२॥",
+        "iast": "namaḥ kṛtsnavītāya dhāvate sattvanā-mpataye namaḥ ||2||",
+        "polish": "namah kṛtsnawītāja dhāwate sattwanām pataje namaha"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 19,
+            "polish": 18
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 37,
+            "polish": 36
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 87.059,
+          "end": 94.414,
+          "phraseBoundaries": [
+            89.611,
+            92.242
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 86.306,
+          "end": 94.24,
+          "phraseBoundaries": [
+            88.952,
+            91.677
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namaḥ kṛtsnavītāya",
+            "iast": "namaḥ kṛtsnavītāya",
+            "polish": "namah kṛtsnawītāja"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 87.059,
+              "end": 89.611
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 86.306,
+              "end": 88.952
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "dhāvate sattvanā-m",
+            "iast": "dhāvate sattvanā-m",
+            "polish": "dhāwate sattwanām"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 89.611,
+              "end": 92.242
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 88.952,
+              "end": 91.677
+            }
+          }
+        },
+        {
+          "index": 2,
+          "texts": {
+            "devanagari": "pataye namaḥ ||2||",
+            "iast": "pataye namaḥ ||2||",
+            "polish": "pataje namaha"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 92.242,
+              "end": 94.414
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 91.677,
+              "end": 94.24
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

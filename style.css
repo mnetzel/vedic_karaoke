@@ -195,6 +195,24 @@ h1 {
   border-color: var(--accent);
 }
 
+.anuvaka-navigation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  width: min(620px, 100%);
+}
+
+.anuvaka-navigation .change-chant-button {
+  min-width: 0;
+  width: 100%;
+}
+
+.anuvaka-navigation .is-placeholder {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .chant-heading {
   display: grid;
   align-items: center;

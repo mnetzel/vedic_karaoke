@@ -41,43 +41,25 @@ const CHANTS = {
     sections: {
       namakam: {
         title: "Namakam",
-        textGrid: "input/sri-rudram/Namakam.TextGrid",
-        anuvakaTier: "anuvaka",
+        dataSource: "chapterExport",
+        chapterExport: {
+          folder: "input/sri-rudram/namakam-export",
+          manifest: "input/sri-rudram/namakam-export/manifest.json",
+        },
         translations: {
           pl: "input/sri-rudram/Namakam_translation_pl.md",
           eng: "input/sri-rudram/Namakam_translation_eng.md",
         },
-        anuvakaAudio: {
-          folder: "input/sri-rudram/namakam-anuvakas",
-          prefix: "Namakam_anuvaka_",
-        },
         audioVariants: {
           default: {
             label: "Audio 1",
-            textGrid: "input/sri-rudram/Namakam.TextGrid",
-            anuvakaAudio: {
-              folder: "input/sri-rudram/namakam-anuvakas",
-              prefix: "Namakam_anuvaka_",
-              slowRate: 0.7,
-            },
+            exportAudioId: "audio_mpn28w6y_21szfb",
+            supportsPitch: false,
           },
           challakere: {
             label: "Audio 2",
-            textGrid: "input/sri-rudram/Namakam2.TextGrid",
-            anuvakaAudio: {
-              folder: "input/sri-rudram/namakam2-anuvakas",
-              prefix: "Namakam_anuvaka_",
-              slowRate: 0.8,
-              rateSuffixes: {
-                1: "",
-                0.8: "_tempo_80",
-              },
-              timeScaleByRate: {
-                1: 0.8,
-                0.8: 1,
-              },
-              supportsPitch: false,
-            },
+            exportAudioId: "audio_mpn2fso9_2oov2x",
+            supportsPitch: false,
           },
         },
       },
@@ -147,7 +129,10 @@ const chantChoiceButtons = [...document.querySelectorAll("[data-chant-id]")];
 const collectionTitle = document.querySelector("#collectionTitle");
 const collectionImage = document.querySelector("#collectionImage");
 const collectionHomeButton = document.querySelector("#collectionHomeButton");
+const anuvakaNavigation = document.querySelector("#anuvakaNavigation");
+const previousAnuvakaButton = document.querySelector("#previousAnuvakaButton");
 const collectionBackButton = document.querySelector("#collectionBackButton");
+const nextAnuvakaButton = document.querySelector("#nextAnuvakaButton");
 const sectionChooserPanel = document.querySelector("#sectionChooserPanel");
 const sectionOptions = document.querySelector("#sectionOptions");
 const anuvakaChooserPanel = document.querySelector("#anuvakaChooserPanel");
@@ -362,16 +347,16 @@ async function loadSectionAnuvakaButtons(chantId, sectionId, section, panel, req
 
   try {
     const effectiveSection = getEffectiveUnit(section);
-    const data = await loadTextGridData(effectiveSection);
+    const anuvakas = usesChapterExport(effectiveSection)
+      ? getChapterExportAnuvakas(await loadChapterExportManifest(effectiveSection))
+      : getAnuvakaIntervals((await loadTextGridData(effectiveSection)).tiers, effectiveSection);
 
     if (requestId !== chantLoadRequestId) {
       return;
     }
 
-    const anuvakas = getAnuvakaIntervals(data.tiers, effectiveSection);
-
     if (anuvakas.length === 0) {
-      throw new Error("TextGrid nie zawiera warstwy anuvaka.");
+      throw new Error("Brak anuvak.");
     }
 
     options.replaceChildren(...createAnuvakaButtons(chantId, sectionId, anuvakas));
@@ -430,6 +415,61 @@ function getEffectiveUnit(unit) {
     translations: unit.translations || variant.translations,
     anuvakaTier: variant.anuvakaTier || unit.anuvakaTier,
   };
+}
+
+function usesChapterExport(unit) {
+  return unit?.dataSource === "chapterExport" && Boolean(unit.chapterExport);
+}
+
+function getChapterExportFolder(unit) {
+  return unit.chapterExport.folder.replace(/\/$/, "");
+}
+
+async function loadChapterExportManifest(unit) {
+  const response = await fetch(unit.chapterExport.manifest);
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+
+  return response.json();
+}
+
+function getChapterExportAnuvakas(manifest) {
+  return (manifest.chapters || []).map((chapter) => {
+    const label = String(chapter.index + 1);
+    return {
+      id: `anuvaka-${label}`,
+      label,
+      xmin: 0,
+      xmax: 0,
+      title: chapter.title,
+      exportFile: chapter.file,
+      exportFolder: chapter.folder,
+      audioFiles: Object.fromEntries((chapter.audio || []).map((audio) => [audio.id, audio.file])),
+    };
+  });
+}
+
+async function loadChapterExportChapter(unit, anuvaka) {
+  const response = await fetch(`${getChapterExportFolder(unit)}/${anuvaka.exportFile}`);
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+
+  return response.json();
+}
+
+function getActiveExportAudioId(unit = getEffectiveUnit(activeSection || activeChant)) {
+  const audioId = unit?.exportAudioId;
+
+  if (audioId) {
+    return audioId;
+  }
+
+  const variant = getActiveAudioVariantConfig(activeSection || activeChant);
+  return variant?.exportAudioId || "";
 }
 
 async function showAnuvakaChooser(chantId, sectionId) {
@@ -501,6 +541,75 @@ function createAnuvakaButtons(chantId, sectionId, anuvakas) {
   });
 }
 
+function withAnuvakaNavigation(anuvaka, anuvakas) {
+  if (!anuvaka) {
+    return null;
+  }
+
+  const index = anuvakas.findIndex((candidate) => candidate.id === anuvaka.id);
+  const previous = index > 0 ? anuvakas[index - 1] : null;
+  const next = index >= 0 && index < anuvakas.length - 1 ? anuvakas[index + 1] : null;
+
+  return {
+    ...anuvaka,
+    previousAnuvaka: previous
+      ? { id: previous.id, label: previous.label, title: previous.title }
+      : null,
+    nextAnuvaka: next
+      ? { id: next.id, label: next.label, title: next.title }
+      : null,
+  };
+}
+
+async function loadChapterExportChant(effectiveUnit, anuvakaId, requestId) {
+  const manifest = await loadChapterExportManifest(effectiveUnit);
+
+  if (requestId !== chantLoadRequestId) {
+    return;
+  }
+
+  const anuvakas = getChapterExportAnuvakas(manifest);
+  const anuvaka = anuvakas.find((interval) => interval.id === anuvakaId);
+
+  if (anuvakaId && !anuvaka) {
+    throw new Error(`Nie znaleziono ${anuvakaId}.`);
+  }
+
+  if (!anuvaka) {
+    throw new Error("Brak wybranej anuvaki.");
+  }
+
+  const chapter = await loadChapterExportChapter(effectiveUnit, anuvaka);
+
+  if (requestId !== chantLoadRequestId) {
+    return;
+  }
+
+  const audioId = getActiveExportAudioId(effectiveUnit);
+  activeAnuvaka = {
+    ...withAnuvakaNavigation(anuvaka, anuvakas),
+    xmin: 0,
+    xmax: getChapterExportAudioDuration(chapter, audioId),
+  };
+  padasHidden = false;
+  normalizePlaybackSettingsForActiveAudio();
+  updateChantHeader();
+  slokaRatings = loadSlokaRatings();
+  segmentGroups = buildSegmentGroupsFromChapterExport(chapter, audioId);
+  slokaTranslations = await loadAllTranslationSections();
+
+  if (requestId !== chantLoadRequestId) {
+    return;
+  }
+
+  attachTranslations(segmentGroups, slokaTranslations);
+  renderGroups(segmentGroups);
+  applySavedControls();
+  restoreOrientationScrollTarget();
+  updateSummary();
+  loadAudioBuffer(playbackRate, pitchShift);
+}
+
 async function loadChant(chantId, sectionId = "", anuvakaId = "") {
   const chant = CHANTS[chantId];
   const section = sectionId ? chant?.sections?.[sectionId] : null;
@@ -537,6 +646,12 @@ async function loadChant(chantId, sectionId = "", anuvakaId = "") {
 
   try {
     const effectiveUnit = getEffectiveUnit(unit);
+
+    if (usesChapterExport(effectiveUnit)) {
+      await loadChapterExportChant(effectiveUnit, anuvakaId, requestId);
+      return;
+    }
+
     const data = await loadTextGridData(effectiveUnit);
 
     if (requestId !== chantLoadRequestId) {
@@ -557,15 +672,16 @@ async function loadChant(chantId, sectionId = "", anuvakaId = "") {
       throw new Error("TextGrid musi zawierać warstwy sloka-*.");
     }
 
+    const anuvakas = getAnuvakaIntervals(tiers, effectiveUnit);
     const anuvaka = anuvakaId
-      ? getAnuvakaIntervals(tiers, effectiveUnit).find((interval) => interval.id === anuvakaId)
+      ? anuvakas.find((interval) => interval.id === anuvakaId)
       : null;
 
     if (anuvakaId && !anuvaka) {
       throw new Error(`Nie znaleziono ${anuvakaId}.`);
     }
 
-    activeAnuvaka = anuvaka;
+    activeAnuvaka = withAnuvakaNavigation(anuvaka, anuvakas);
     normalizePlaybackSettingsForActiveAudio();
     updateChantHeader();
     slokaRatings = loadSlokaRatings();
@@ -587,7 +703,10 @@ async function loadChant(chantId, sectionId = "", anuvakaId = "") {
     loadAudioBuffer(playbackRate, pitchShift);
   } catch (error) {
     console.error(error);
-    summary.textContent = `Nie udało się załadować ${getEffectiveUnit(unit).textGrid}.`;
+    const failedSource = getEffectiveUnit(unit).textGrid ||
+      getEffectiveUnit(unit).chapterExport?.manifest ||
+      getActiveTitle();
+    summary.textContent = `Nie udało się załadować ${failedSource}.`;
     segmentsRoot.innerHTML = `<p class="empty-state">${escapeHtml(error.message)}</p>`;
   }
 }
@@ -610,7 +729,7 @@ function updateChantHeader() {
   chantTitle.textContent = getActiveTitle();
   chantImage.src = activeChant.image;
   chantImage.alt = "";
-  collectionBackButton.hidden = activeChant?.layout !== "collection";
+  updateAnuvakaNavigation();
 
   if (activeChant.audioCredit) {
     audioCredit.hidden = false;
@@ -623,6 +742,35 @@ function updateChantHeader() {
   }
 
   document.title = `${getActiveTitle()} | Vedic Karaoke`;
+}
+
+function updateAnuvakaNavigation() {
+  const shouldShow = activeChant?.layout === "collection" && activeAnuvaka;
+
+  anuvakaNavigation.hidden = !shouldShow;
+
+  if (!shouldShow) {
+    return;
+  }
+
+  updateAnuvakaNavigationButton(previousAnuvakaButton, activeAnuvaka.previousAnuvaka, "previous");
+  updateAnuvakaNavigationButton(nextAnuvakaButton, activeAnuvaka.nextAnuvaka, "next");
+}
+
+function updateAnuvakaNavigationButton(button, anuvaka, direction) {
+  button.disabled = !anuvaka;
+  button.classList.toggle("is-placeholder", !anuvaka);
+
+  if (!anuvaka) {
+    button.removeAttribute("data-anuvaka-id");
+    button.textContent = "";
+    return;
+  }
+
+  button.dataset.anuvakaId = anuvaka.id;
+  button.textContent = direction === "previous"
+    ? `← ${formatAnuvakaLabel(anuvaka)}`
+    : `${formatAnuvakaLabel(anuvaka)} →`;
 }
 
 function getActiveTitle() {
@@ -745,6 +893,10 @@ function getAudioKey(rate, pitch = pitchShift) {
 function getAudioFile(rate, pitch = pitchShift) {
   const effectiveUnit = getEffectiveUnit(activeSection || activeChant);
 
+  if (activeAnuvaka && usesChapterExport(effectiveUnit)) {
+    return getChapterExportAudioFile(effectiveUnit, activeAnuvaka, rate, pitch);
+  }
+
   if (activeAnuvaka && effectiveUnit?.anuvakaAudio) {
     return getAnuvakaAudioFile(effectiveUnit.anuvakaAudio, activeAnuvaka, rate, pitch);
   }
@@ -784,7 +936,8 @@ function getActiveSlowRate() {
 
 function activeAudioSupportsPitch() {
   const effectiveUnit = getEffectiveUnit(activeSection || activeChant);
-  return effectiveUnit?.anuvakaAudio?.supportsPitch !== false;
+  return effectiveUnit?.supportsPitch !== false &&
+    effectiveUnit?.anuvakaAudio?.supportsPitch !== false;
 }
 
 function normalizePlaybackSettingsForActiveAudio() {
@@ -816,6 +969,23 @@ function getAnuvakaAudioFile(audioConfig, anuvaka, rate, pitch = 0) {
 
   const number = String(anuvaka.label).padStart(2, "0");
   return `${audioConfig.folder}/${audioConfig.prefix}${number}${suffix}.ogg`;
+}
+
+function getChapterExportAudioFile(unit, anuvaka, rate, pitch = 0) {
+  if (Number(rate) !== 1 || Number(pitch) !== 0) {
+    return "";
+  }
+
+  const audioId = getActiveExportAudioId(unit);
+  const file = anuvaka.audioFiles?.[audioId];
+
+  return file ? `${getChapterExportFolder(unit)}/${file}` : "";
+}
+
+function getChapterExportAudioDuration(chapter, audioId) {
+  return Number((chapter.audio || []).find((audio) => audio.id === audioId)?.duration) ||
+    Number(chapter.chapter?.duration) ||
+    0;
 }
 
 function getAudioVariantSuffix(rate, pitch = 0, audioConfig = null) {
@@ -969,6 +1139,63 @@ function buildSegmentGroups(tierSet, baseSlokaIntervals, basePadaIntervals) {
         .filter((pada) => isInsideInterval(pada, sloka)),
     };
   }).filter((group) => getIntervalText(group.sloka));
+}
+
+function buildSegmentGroupsFromChapterExport(chapter, audioId) {
+  let slokaNumber = 0;
+
+  return (chapter.verses || []).reduce((groups, verse) => {
+    const texts = mapExportTexts(verse.texts);
+    const timing = verse.timings?.[audioId];
+
+    if (!hasAnyText(texts) || !isValidTiming(timing)) {
+      return groups;
+    }
+
+    slokaNumber += 1;
+    const id = `export:${chapter.chapter?.index ?? 0}:${verse.id || verse.index}`;
+    const sloka = createExportInterval(timing, texts);
+    const padas = (verse.phrases || [])
+      .map((phrase) => createExportInterval(phrase.timings?.[audioId], mapExportTexts(phrase.texts)))
+      .filter((phrase) => hasAnyText(phrase.texts) && phrase.xmax > phrase.xmin);
+
+    groups.push({
+      id,
+      slokaNumber,
+      sloka,
+      rating: getSlokaRating(id),
+      padas,
+    });
+
+    return groups;
+  }, []);
+}
+
+function mapExportTexts(texts = {}) {
+  return {
+    Devanagari: texts.devanagari || "",
+    IAST: texts.iast || "",
+    PL: texts.polish || "",
+  };
+}
+
+function createExportInterval(timing, texts) {
+  return {
+    xmin: Number(timing?.start || 0),
+    xmax: Number(timing?.end || 0),
+    text: resolveVariantText(texts),
+    texts,
+  };
+}
+
+function hasAnyText(texts = {}) {
+  return Object.values(texts).some(Boolean);
+}
+
+function isValidTiming(timing) {
+  return Number.isFinite(Number(timing?.start)) &&
+    Number.isFinite(Number(timing?.end)) &&
+    Number(timing.end) > Number(timing.start);
 }
 
 function isInsideInterval(child, parent) {
@@ -1901,7 +2128,9 @@ async function playFullChant(selectedRate = playbackRate, triggerButton = fullCh
     const start = getActiveAudioOffset() > 0
       ? 0
       : textGridStart * getAudioTimingScale(selectedRate);
-    const playbackDuration = activeAnuvaka
+    const playbackDuration = usesChapterExport(getEffectiveUnit(activeSection || activeChant))
+      ? selectedBuffer.duration
+      : activeAnuvaka
       ? getAudioDurationForInterval(activeAnuvaka, selectedRate)
       : selectedBuffer.duration;
     const sources = playSegmentNormal(context, selectedBuffer, start, playbackDuration);
@@ -2181,8 +2410,10 @@ function escapeHtml(value) {
 function setPlaybackRate(rate) {
   stopPlayback();
   playbackRate = rate;
+  normalizePlaybackSettingsForActiveAudio();
   saveSettings();
   updatePlaybackRateButtons();
+  updatePlaybackRateLabel();
 
   updateSummary();
   loadAudioBuffer(playbackRate, pitchShift);
@@ -2262,6 +2493,52 @@ async function refreshAudioVariant(anuvakaId = activeAnuvaka?.id || "") {
 
   try {
     const effectiveUnit = getEffectiveUnit(unit);
+
+    if (usesChapterExport(effectiveUnit)) {
+      const manifest = await loadChapterExportManifest(effectiveUnit);
+
+      if (requestId !== chantLoadRequestId) {
+        return;
+      }
+
+      const anuvakas = getChapterExportAnuvakas(manifest);
+      const anuvaka = anuvakaId
+        ? anuvakas.find((interval) => interval.id === anuvakaId)
+        : null;
+
+      if (anuvakaId && !anuvaka) {
+        throw new Error(`Nie znaleziono ${anuvakaId}.`);
+      }
+
+      const chapter = await loadChapterExportChapter(effectiveUnit, anuvaka);
+
+      if (requestId !== chantLoadRequestId) {
+        return;
+      }
+
+      const audioId = getActiveExportAudioId(effectiveUnit);
+      activeAnuvaka = {
+        ...withAnuvakaNavigation(anuvaka, anuvakas),
+        xmin: 0,
+        xmax: getChapterExportAudioDuration(chapter, audioId),
+      };
+      normalizePlaybackSettingsForActiveAudio();
+      const nextGroups = buildSegmentGroupsFromChapterExport(chapter, audioId);
+
+      attachTranslations(nextGroups, slokaTranslations);
+
+      if (!patchRenderedGroups(nextGroups)) {
+        segmentGroups = nextGroups;
+        renderGroups(segmentGroups);
+      }
+
+      updateChantHeader();
+      applySavedControls();
+      updateSummary();
+      loadAudioBuffer(playbackRate, pitchShift);
+      return;
+    }
+
     const data = await loadTextGridData(effectiveUnit);
 
     if (requestId !== chantLoadRequestId) {
@@ -2277,15 +2554,16 @@ async function refreshAudioVariant(anuvakaId = activeAnuvaka?.id || "") {
       throw new Error("TextGrid musi zawierać warstwy sloka-*.");
     }
 
+    const anuvakas = getAnuvakaIntervals(tiers, effectiveUnit);
     const anuvaka = anuvakaId
-      ? getAnuvakaIntervals(tiers, effectiveUnit).find((interval) => interval.id === anuvakaId)
+      ? anuvakas.find((interval) => interval.id === anuvakaId)
       : null;
 
     if (anuvakaId && !anuvaka) {
       throw new Error(`Nie znaleziono ${anuvakaId}.`);
     }
 
-    activeAnuvaka = anuvaka;
+    activeAnuvaka = withAnuvakaNavigation(anuvaka, anuvakas);
     normalizePlaybackSettingsForActiveAudio();
     const slokaIntervals = filterIntervalsForRange(withSourceIndexes(slokaTier.intervals), anuvaka);
     const padaIntervals = filterIntervalsForRange(withSourceIndexes(padaTier?.intervals || []), anuvaka);
@@ -2638,6 +2916,7 @@ function updateChangeChantLabel() {
   collectionHomeButton.textContent = activeTranslationLanguage === "pl" ? "Strona główna" : "Main page";
   sectionBackButton.textContent = activeChant?.title || "Śri Rudram";
   collectionBackButton.textContent = activeChant?.title || "Śri Rudram";
+  updateAnuvakaNavigation();
 }
 
 fullChantButton.addEventListener("click", () => playFullChant());
@@ -2657,6 +2936,13 @@ collectionBackButton.addEventListener("click", () => {
   if (activeChantId) {
     window.location.hash = activeChantId;
   }
+});
+[previousAnuvakaButton, nextAnuvakaButton].forEach((button) => {
+  button.addEventListener("click", () => {
+    if (activeChantId && activeSectionId && button.dataset.anuvakaId) {
+      window.location.hash = `${activeChantId}/${activeSectionId}/${button.dataset.anuvakaId}`;
+    }
+  });
 });
 sectionBackButton.addEventListener("click", () => {
   if (activeChantId) {

@@ -1,0 +1,1330 @@
+{
+  "version": 1,
+  "type": "praat-replacement-chapter-export",
+  "exportedAt": "2026-06-11T21:17:41.320Z",
+  "project": {
+    "name": "Namakam",
+    "sourceProjectPath": "L:\\VedicKaraoke\\audio_sources\\Namakam.json"
+  },
+  "chapter": {
+    "id": "8:9",
+    "index": 7,
+    "title": "Anuvaka 8",
+    "folder": "08_Anuvaka_8",
+    "startMarkerId": 8,
+    "endMarkerId": 9,
+    "sourceStart": 783.217,
+    "sourceEnd": 854.933,
+    "duration": 71.716
+  },
+  "phraseFields": [
+    "iast",
+    "polish"
+  ],
+  "audio": [
+    {
+      "id": "audio_mpn28w6y_21szfb",
+      "name": "Shantala-Sriramaiah_Namakam_mono",
+      "file": "audio/Shantala-Sriramaiah_Namakam_mono.ogg",
+      "duration": 70.456
+    },
+    {
+      "id": "audio_mpn2fso9_2oov2x",
+      "name": "Challakere-Brothers_Namakam_speed80_mono",
+      "file": "audio/Challakere-Brothers_Namakam_speed80_mono.ogg",
+      "duration": 71.716
+    }
+  ],
+  "verses": [
+    {
+      "id": "188:189",
+      "index": 0,
+      "startMarkerId": 188,
+      "endMarkerId": 189,
+      "texts": {
+        "devanagari": "नम॒-स्सोमा॑य च रु॒द्राय॑ च॒",
+        "iast": "nama-ssomāya ca rudrāya ca",
+        "polish": "namassomāja cia rudrāja cia"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 16,
+            "polish": 16
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 1.088,
+          "end": 4.437,
+          "phraseBoundaries": [
+            3.166
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 0.465,
+          "end": 4.118,
+          "phraseBoundaries": [
+            2.702
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "nama-ssomāya ca",
+            "iast": "nama-ssomāya ca",
+            "polish": "namassomāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 1.088,
+              "end": 3.166
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 0.465,
+              "end": 2.702
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "rudrāya ca",
+            "iast": "rudrāya ca",
+            "polish": "rudrāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 3.166,
+              "end": 4.437
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 2.702,
+              "end": 4.118
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "189:190",
+      "index": 1,
+      "startMarkerId": 189,
+      "endMarkerId": 190,
+      "texts": {
+        "devanagari": "नम॑स्ता॒म्राय॑ चारु॒णाय॑ च॒",
+        "iast": "namastāmrāya cāruṇāya ca",
+        "polish": "namas tāmrāja ciā ruṇāja cia"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 15,
+            "polish": 18
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 4.437,
+          "end": 8.068,
+          "phraseBoundaries": [
+            6.98
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 4.118,
+          "end": 8.138,
+          "phraseBoundaries": [
+            6.949
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namastāmrāya cā",
+            "iast": "namastāmrāya cā",
+            "polish": "namas tāmrāja ciā"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 4.437,
+              "end": 6.98
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 4.118,
+              "end": 6.949
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "ruṇāya ca",
+            "iast": "ruṇāya ca",
+            "polish": "ruṇāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 6.98,
+              "end": 8.068
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 6.949,
+              "end": 8.138
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "190:191",
+      "index": 2,
+      "startMarkerId": 190,
+      "endMarkerId": 191,
+      "texts": {
+        "devanagari": "नमः॑ श॒ङ्गाय॑ च पशु॒पत॑ये च॒",
+        "iast": "namaḥ śaṅgāya ca paśupataye ca",
+        "polish": "nama śaṅgāja cia paśupataje cia"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 17,
+            "polish": 17
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 8.068,
+          "end": 12.099,
+          "phraseBoundaries": [
+            10.396
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 8.138,
+          "end": 12.042,
+          "phraseBoundaries": [
+            10.371
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namaḥ śaṅgāya ca",
+            "iast": "namaḥ śaṅgāya ca",
+            "polish": "nama śaṅgāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 8.068,
+              "end": 10.396
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 8.138,
+              "end": 10.371
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "paśupataye ca",
+            "iast": "paśupataye ca",
+            "polish": "paśupataje cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 10.396,
+              "end": 12.099
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 10.371,
+              "end": 12.042
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "191:192",
+      "index": 3,
+      "startMarkerId": 191,
+      "endMarkerId": 192,
+      "texts": {
+        "devanagari": "नम॑ उ॒ग्राय॑ च भी॒माय॑ च॒",
+        "iast": "nama ugrāya ca bhīmāya ca",
+        "polish": "nama ugrāja cia bhīmāja cia"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 15,
+            "polish": 16
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 12.099,
+          "end": 15.23,
+          "phraseBoundaries": [
+            13.87
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 12.042,
+          "end": 15.564,
+          "phraseBoundaries": [
+            14.066
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "nama ugrāya ca",
+            "iast": "nama ugrāya ca",
+            "polish": "nama ugrāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 12.099,
+              "end": 13.87
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 12.042,
+              "end": 14.066
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "bhīmāya ca",
+            "iast": "bhīmāya ca",
+            "polish": "bhīmāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 13.87,
+              "end": 15.23
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 14.066,
+              "end": 15.564
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "192:193",
+      "index": 4,
+      "startMarkerId": 192,
+      "endMarkerId": 193,
+      "texts": {
+        "devanagari": "नमो॑ अग्रेव॒धाय॑ च दूरेव॒धाय॑ च॒",
+        "iast": "namo agrevadhāya ca dūrevadhāya ca",
+        "polish": "namo agre wadhāja cia dūre wadhāja cia"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 19,
+            "polish": 22
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 15.23,
+          "end": 20.497,
+          "phraseBoundaries": [
+            18.435
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 15.564,
+          "end": 21.065,
+          "phraseBoundaries": [
+            18.913
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namo agrevadhāya ca",
+            "iast": "namo agrevadhāya ca",
+            "polish": "namo agre wadhāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 15.23,
+              "end": 18.435
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 15.564,
+              "end": 18.913
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "dūrevadhāya ca",
+            "iast": "dūrevadhāya ca",
+            "polish": "dūre wadhāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 18.435,
+              "end": 20.497
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 18.913,
+              "end": 21.065
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "193:194",
+      "index": 5,
+      "startMarkerId": 193,
+      "endMarkerId": 194,
+      "texts": {
+        "devanagari": "नमो॑ ह॒न्त्रे च॒ हनी॑यसे च॒",
+        "iast": "namo hantre ca hanīyase ca",
+        "polish": "namo hantre cia hanījase cia"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 12,
+            "polish": 16
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 20.497,
+          "end": 23.903,
+          "phraseBoundaries": [
+            22.327
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 21.065,
+          "end": 24.742,
+          "phraseBoundaries": [
+            23.047
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namo hantre",
+            "iast": "namo hantre",
+            "polish": "namo hantre cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 20.497,
+              "end": 22.327
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 21.065,
+              "end": 23.047
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "ca hanīyase ca",
+            "iast": "ca hanīyase ca",
+            "polish": "hanījase cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 22.327,
+              "end": 23.903
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 23.047,
+              "end": 24.742
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "195:196",
+      "index": 6,
+      "startMarkerId": 195,
+      "endMarkerId": 196,
+      "texts": {
+        "devanagari": "नमो॑ वृ॒क्षेभ्यो॒ हरि॑केशेभ्यो॒",
+        "iast": "namo vṛkṣebhyo harikeśebhyo",
+        "polish": "namo wṛksze bhjo harikeśe bhjo"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 15,
+            "polish": 17
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 24.418,
+          "end": 28.703,
+          "phraseBoundaries": [
+            26.633
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 24.742,
+          "end": 29.645,
+          "phraseBoundaries": [
+            27.389
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namo vṛkṣebhyo",
+            "iast": "namo vṛkṣebhyo",
+            "polish": "namo wṛksze bhjo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 24.418,
+              "end": 26.633
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 24.742,
+              "end": 27.389
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "harikeśebhyo",
+            "iast": "harikeśebhyo",
+            "polish": "harikeśe bhjo"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 26.633,
+              "end": 28.703
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 27.389,
+              "end": 29.645
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "196:197",
+      "index": 7,
+      "startMarkerId": 196,
+      "endMarkerId": 197,
+      "texts": {
+        "devanagari": "नम॑स्ता॒राय॒",
+        "iast": "namastārāya",
+        "polish": "namastārāja"
+      },
+      "phraseTextBoundaries": [],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 28.703,
+          "end": 30.496,
+          "phraseBoundaries": []
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 29.645,
+          "end": 31.622,
+          "phraseBoundaries": []
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namastārāya",
+            "iast": "namastārāya",
+            "polish": "namastārāja"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 28.703,
+              "end": 30.496
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 29.645,
+              "end": 31.622
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "197:198",
+      "index": 8,
+      "startMarkerId": 197,
+      "endMarkerId": 198,
+      "texts": {
+        "devanagari": "नम॑श्श॒म्भवे॑ च मयो॒भवे॑ च॒",
+        "iast": "namaśśambhave ca mayobhave ca",
+        "polish": "namaśśambhawe cia majobhawe cia"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 17,
+            "polish": 18
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 30.496,
+          "end": 34.846,
+          "phraseBoundaries": [
+            33.045
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 31.622,
+          "end": 35.563,
+          "phraseBoundaries": [
+            33.818
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namaśśambhave ca",
+            "iast": "namaśśambhave ca",
+            "polish": "namaśśambhawe cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 30.496,
+              "end": 33.045
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 31.622,
+              "end": 33.818
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "mayobhave ca",
+            "iast": "mayobhave ca",
+            "polish": "majobhawe cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 33.045,
+              "end": 34.846
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 33.818,
+              "end": 35.563
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "198:199",
+      "index": 9,
+      "startMarkerId": 198,
+      "endMarkerId": 199,
+      "texts": {
+        "devanagari": "नमः॑ शङ्क॒राय॑ च मयस्क॒राय॑ च॒",
+        "iast": "namaḥ śaṅkarāya ca mayaskarāya ca",
+        "polish": "nama śaṅkarāja cia majaskarāja cia"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 19,
+            "polish": 19
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 34.846,
+          "end": 38.873,
+          "phraseBoundaries": [
+            37.064
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 35.563,
+          "end": 40.008,
+          "phraseBoundaries": [
+            38.003
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namaḥ śaṅkarāya ca",
+            "iast": "namaḥ śaṅkarāya ca",
+            "polish": "nama śaṅkarāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 34.846,
+              "end": 37.064
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 35.563,
+              "end": 38.003
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "mayaskarāya ca",
+            "iast": "mayaskarāya ca",
+            "polish": "majaskarāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 37.064,
+              "end": 38.873
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 38.003,
+              "end": 40.008
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "199:200",
+      "index": 10,
+      "startMarkerId": 199,
+      "endMarkerId": 200,
+      "texts": {
+        "devanagari": "नमः॑ शि॒वाय॑ च शि॒वत॑राय च॒",
+        "iast": "namaḥ śivāya ca śivatarāya ca",
+        "polish": "nama śiwāja cia śiwatarāja cia"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 16,
+            "polish": 16
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 38.873,
+          "end": 42.27,
+          "phraseBoundaries": [
+            40.645
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 40.008,
+          "end": 43.691,
+          "phraseBoundaries": [
+            41.942
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namaḥ śivāya ca",
+            "iast": "namaḥ śivāya ca",
+            "polish": "nama śiwāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 38.873,
+              "end": 40.645
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 40.008,
+              "end": 41.942
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "śivatarāya ca",
+            "iast": "śivatarāya ca",
+            "polish": "śiwatarāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 40.645,
+              "end": 42.27
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 41.942,
+              "end": 43.691
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "201:202",
+      "index": 11,
+      "startMarkerId": 201,
+      "endMarkerId": 202,
+      "texts": {
+        "devanagari": "नम॒स्तीर्थ्या॑य च॒ कूल्या॑य च॒",
+        "iast": "namastīrthyāya ca kūlyāya ca",
+        "polish": "namastīrthjāja cia kūljāja cia"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 18,
+            "polish": 19
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 43.072,
+          "end": 47.021,
+          "phraseBoundaries": [
+            45.423
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 43.691,
+          "end": 47.932,
+          "phraseBoundaries": [
+            46.236
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namastīrthyāya ca",
+            "iast": "namastīrthyāya ca",
+            "polish": "namastīrthjāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 43.072,
+              "end": 45.423
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 43.691,
+              "end": 46.236
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "kūlyāya ca",
+            "iast": "kūlyāya ca",
+            "polish": "kūljāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 45.423,
+              "end": 47.021
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 46.236,
+              "end": 47.932
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "202:203",
+      "index": 12,
+      "startMarkerId": 202,
+      "endMarkerId": 203,
+      "texts": {
+        "devanagari": "नमः॑ पा॒र्या॑य चावा॒र्या॑य च॒",
+        "iast": "namaḥ pāryāya cāvāryāya ca",
+        "polish": "namaf pārjāja ciā wārjāja cia"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 16,
+            "polish": 18
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 47.021,
+          "end": 50.935,
+          "phraseBoundaries": [
+            49.45
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 47.932,
+          "end": 52.391,
+          "phraseBoundaries": [
+            50.734
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namaḥ pāryāya cā",
+            "iast": "namaḥ pāryāya cā",
+            "polish": "namaf pārjāja ciā"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 47.021,
+              "end": 49.45
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 47.932,
+              "end": 50.734
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "vāryāya ca",
+            "iast": "vāryāya ca",
+            "polish": "wārjāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 49.45,
+              "end": 50.935
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 50.734,
+              "end": 52.391
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "203:204",
+      "index": 13,
+      "startMarkerId": 203,
+      "endMarkerId": 204,
+      "texts": {
+        "devanagari": "नमः॑ प्र॒तर॑णाय चो॒त्तर॑णाय च॒",
+        "iast": "namaḥ prataraṇāya cottaraṇāya ca",
+        "polish": "namaf prataraṇāja ciot taraṇāja cia"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 21,
+            "polish": 23
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 50.935,
+          "end": 55.442,
+          "phraseBoundaries": [
+            53.935
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 52.391,
+          "end": 56.799,
+          "phraseBoundaries": [
+            55.325
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namaḥ prataraṇāya cot",
+            "iast": "namaḥ prataraṇāya cot",
+            "polish": "namaf prataraṇāja ciot"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 50.935,
+              "end": 53.935
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 52.391,
+              "end": 55.325
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "taraṇāya ca",
+            "iast": "taraṇāya ca",
+            "polish": "taraṇāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 53.935,
+              "end": 55.442
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 55.325,
+              "end": 56.799
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "204:205",
+      "index": 14,
+      "startMarkerId": 204,
+      "endMarkerId": 205,
+      "texts": {
+        "devanagari": "नम॑ आता॒र्या॑य चाला॒द्या॑य च॒",
+        "iast": "nama ātāryāya cālādyāya ca",
+        "polish": "nama-ātār jāja ciālā djāja cia"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 9,
+            "polish": 10
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 18,
+            "polish": 21
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 55.442,
+          "end": 59.992,
+          "phraseBoundaries": [
+            57.287,
+            58.962
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 56.799,
+          "end": 61.606,
+          "phraseBoundaries": [
+            58.475,
+            60.497
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "nama ātār",
+            "iast": "nama ātār",
+            "polish": "nama-ātār"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 55.442,
+              "end": 57.287
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 56.799,
+              "end": 58.475
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "yāya cālā",
+            "iast": "yāya cālā",
+            "polish": "jāja ciālā"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 57.287,
+              "end": 58.962
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 58.475,
+              "end": 60.497
+            }
+          }
+        },
+        {
+          "index": 2,
+          "texts": {
+            "devanagari": "dyāya ca",
+            "iast": "dyāya ca",
+            "polish": "djāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 58.962,
+              "end": 59.992
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 60.497,
+              "end": 61.606
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "205:206",
+      "index": 15,
+      "startMarkerId": 205,
+      "endMarkerId": 206,
+      "texts": {
+        "devanagari": "नम॒-श्शष्प्या॑य च॒ फेन्या॑य च॒",
+        "iast": "nama-śśaṣpyāya ca phenyāya ca",
+        "polish": "namaś-śasz pjāja cia phen-jāja cia"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 9,
+            "polish": 11
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 18,
+            "polish": 21
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 59.992,
+          "end": 63.61,
+          "phraseBoundaries": [
+            61.071,
+            61.991
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 61.606,
+          "end": 65.651,
+          "phraseBoundaries": [
+            62.815,
+            63.871
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "nama-śśaṣ",
+            "iast": "nama-śśaṣ",
+            "polish": "namaś-śasz"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 59.992,
+              "end": 61.071
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 61.606,
+              "end": 62.815
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "pyāya ca",
+            "iast": "pyāya ca",
+            "polish": "pjāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 61.071,
+              "end": 61.991
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 62.815,
+              "end": 63.871
+            }
+          }
+        },
+        {
+          "index": 2,
+          "texts": {
+            "devanagari": "phenyāya ca",
+            "iast": "phenyāya ca",
+            "polish": "phen-jāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 61.991,
+              "end": 63.61
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 63.871,
+              "end": 65.651
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "206:207",
+      "index": 16,
+      "startMarkerId": 206,
+      "endMarkerId": 207,
+      "texts": {
+        "devanagari": "नमः॑ सिक॒त्या॑य च प्रवा॒ह्या॑य च ॥ ८॥",
+        "iast": "namaḥ sikatyāya ca pravāhyāya ca || 8||",
+        "polish": "namas-sikatjāja cia prawāhjāja cia"
+      },
+      "phraseTextBoundaries": [
+        {
+          "textIndexes": {
+            "iast": 10,
+            "polish": 10
+          }
+        },
+        {
+          "textIndexes": {
+            "iast": 19,
+            "polish": 20
+          }
+        }
+      ],
+      "timings": {
+        "audio_mpn28w6y_21szfb": {
+          "start": 63.61,
+          "end": 69.537,
+          "phraseBoundaries": [
+            64.882,
+            66.782
+          ]
+        },
+        "audio_mpn2fso9_2oov2x": {
+          "start": 65.651,
+          "end": 71.25,
+          "phraseBoundaries": [
+            66.945,
+            68.268
+          ]
+        }
+      },
+      "phrases": [
+        {
+          "index": 0,
+          "texts": {
+            "devanagari": "namaḥ sika",
+            "iast": "namaḥ sika",
+            "polish": "namas-sika"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 63.61,
+              "end": 64.882
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 65.651,
+              "end": 66.945
+            }
+          }
+        },
+        {
+          "index": 1,
+          "texts": {
+            "devanagari": "tyāya ca",
+            "iast": "tyāya ca",
+            "polish": "tjāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 64.882,
+              "end": 66.782
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 66.945,
+              "end": 68.268
+            }
+          }
+        },
+        {
+          "index": 2,
+          "texts": {
+            "devanagari": "pravāhyāya ca || 8||",
+            "iast": "pravāhyāya ca || 8||",
+            "polish": "prawāhjāja cia"
+          },
+          "timings": {
+            "audio_mpn28w6y_21szfb": {
+              "start": 66.782,
+              "end": 69.537
+            },
+            "audio_mpn2fso9_2oov2x": {
+              "start": 68.268,
+              "end": 71.25
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

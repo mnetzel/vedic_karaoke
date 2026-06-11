@@ -1,0 +1,209 @@
+{
+  "version": 1,
+  "type": "praat-replacement-export-manifest",
+  "exportedAt": "2026-06-11T21:17:41.340Z",
+  "project": {
+    "name": "Namakam",
+    "sourceProjectPath": "L:\\VedicKaraoke\\audio_sources\\Namakam.json"
+  },
+  "chapters": [
+    {
+      "index": 0,
+      "title": "Anuvaka 1",
+      "folder": "01_Anuvaka_1",
+      "file": "01_Anuvaka_1/chapter.json",
+      "audio": [
+        {
+          "id": "audio_mpn28w6y_21szfb",
+          "name": "Shantala-Sriramaiah_Namakam_mono",
+          "file": "01_Anuvaka_1/audio/Shantala-Sriramaiah_Namakam_mono.ogg"
+        },
+        {
+          "id": "audio_mpn2fso9_2oov2x",
+          "name": "Challakere-Brothers_Namakam_speed80_mono",
+          "file": "01_Anuvaka_1/audio/Challakere-Brothers_Namakam_speed80_mono.ogg"
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "title": "Anuvaka 2",
+      "folder": "02_Anuvaka_2",
+      "file": "02_Anuvaka_2/chapter.json",
+      "audio": [
+        {
+          "id": "audio_mpn28w6y_21szfb",
+          "name": "Shantala-Sriramaiah_Namakam_mono",
+          "file": "02_Anuvaka_2/audio/Shantala-Sriramaiah_Namakam_mono.ogg"
+        },
+        {
+          "id": "audio_mpn2fso9_2oov2x",
+          "name": "Challakere-Brothers_Namakam_speed80_mono",
+          "file": "02_Anuvaka_2/audio/Challakere-Brothers_Namakam_speed80_mono.ogg"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "title": "Anuvaka 3",
+      "folder": "03_Anuvaka_3",
+      "file": "03_Anuvaka_3/chapter.json",
+      "audio": [
+        {
+          "id": "audio_mpn28w6y_21szfb",
+          "name": "Shantala-Sriramaiah_Namakam_mono",
+          "file": "03_Anuvaka_3/audio/Shantala-Sriramaiah_Namakam_mono.ogg"
+        },
+        {
+          "id": "audio_mpn2fso9_2oov2x",
+          "name": "Challakere-Brothers_Namakam_speed80_mono",
+          "file": "03_Anuvaka_3/audio/Challakere-Brothers_Namakam_speed80_mono.ogg"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "title": "Anuvaka 4",
+      "folder": "04_Anuvaka_4",
+      "file": "04_Anuvaka_4/chapter.json",
+      "audio": [
+        {
+          "id": "audio_mpn28w6y_21szfb",
+          "name": "Shantala-Sriramaiah_Namakam_mono",
+          "file": "04_Anuvaka_4/audio/Shantala-Sriramaiah_Namakam_mono.ogg"
+        },
+        {
+          "id": "audio_mpn2fso9_2oov2x",
+          "name": "Challakere-Brothers_Namakam_speed80_mono",
+          "file": "04_Anuvaka_4/audio/Challakere-Brothers_Namakam_speed80_mono.ogg"
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "title": "Anuvaka 5",
+      "folder": "05_Anuvaka_5",
+      "file": "05_Anuvaka_5/chapter.json",
+      "audio": [
+        {
+          "id": "audio_mpn28w6y_21szfb",
+          "name": "Shantala-Sriramaiah_Namakam_mono",
+          "file": "05_Anuvaka_5/audio/Shantala-Sriramaiah_Namakam_mono.ogg"
+        },
+        {
+          "id": "audio_mpn2fso9_2oov2x",
+          "name": "Challakere-Brothers_Namakam_speed80_mono",
+          "file": "05_Anuvaka_5/audio/Challakere-Brothers_Namakam_speed80_mono.ogg"
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "title": "Anuvaka 6",
+      "folder": "06_Anuvaka_6",
+      "file": "06_Anuvaka_6/chapter.json",
+      "audio": [
+        {
+          "id": "audio_mpn28w6y_21szfb",
+          "name": "Shantala-Sriramaiah_Namakam_mono",
+          "file": "06_Anuvaka_6/audio/Shantala-Sriramaiah_Namakam_mono.ogg"
+        },
+        {
+          "id": "audio_mpn2fso9_2oov2x",
+          "name": "Challakere-Brothers_Namakam_speed80_mono",
+          "file": "06_Anuvaka_6/audio/Challakere-Brothers_Namakam_speed80_mono.ogg"
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "title": "Anuvaka 7",
+      "folder": "07_Anuvaka_7",
+      "file": "07_Anuvaka_7/chapter.json",
+      "audio": [
+        {
+          "id": "audio_mpn28w6y_21szfb",
+          "name": "Shantala-Sriramaiah_Namakam_mono",
+          "file": "07_Anuvaka_7/audio/Shantala-Sriramaiah_Namakam_mono.ogg"
+        },
+        {
+          "id": "audio_mpn2fso9_2oov2x",
+          "name": "Challakere-Brothers_Namakam_speed80_mono",
+          "file": "07_Anuvaka_7/audio/Challakere-Brothers_Namakam_speed80_mono.ogg"
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "title": "Anuvaka 8",
+      "folder": "08_Anuvaka_8",
+      "file": "08_Anuvaka_8/chapter.json",
+      "audio": [
+        {
+          "id": "audio_mpn28w6y_21szfb",
+          "name": "Shantala-Sriramaiah_Namakam_mono",
+          "file": "08_Anuvaka_8/audio/Shantala-Sriramaiah_Namakam_mono.ogg"
+        },
+        {
+          "id": "audio_mpn2fso9_2oov2x",
+          "name": "Challakere-Brothers_Namakam_speed80_mono",
+          "file": "08_Anuvaka_8/audio/Challakere-Brothers_Namakam_speed80_mono.ogg"
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "title": "Anuvaka 9",
+      "folder": "09_Anuvaka_9",
+      "file": "09_Anuvaka_9/chapter.json",
+      "audio": [
+        {
+          "id": "audio_mpn28w6y_21szfb",
+          "name": "Shantala-Sriramaiah_Namakam_mono",
+          "file": "09_Anuvaka_9/audio/Shantala-Sriramaiah_Namakam_mono.ogg"
+        },
+        {
+          "id": "audio_mpn2fso9_2oov2x",
+          "name": "Challakere-Brothers_Namakam_speed80_mono",
+          "file": "09_Anuvaka_9/audio/Challakere-Brothers_Namakam_speed80_mono.ogg"
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "title": "Anuvaka 10",
+      "folder": "10_Anuvaka_10",
+      "file": "10_Anuvaka_10/chapter.json",
+      "audio": [
+        {
+          "id": "audio_mpn28w6y_21szfb",
+          "name": "Shantala-Sriramaiah_Namakam_mono",
+          "file": "10_Anuvaka_10/audio/Shantala-Sriramaiah_Namakam_mono.ogg"
+        },
+        {
+          "id": "audio_mpn2fso9_2oov2x",
+          "name": "Challakere-Brothers_Namakam_speed80_mono",
+          "file": "10_Anuvaka_10/audio/Challakere-Brothers_Namakam_speed80_mono.ogg"
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "title": "Anuvaka 11",
+      "folder": "11_Anuvaka_11",
+      "file": "11_Anuvaka_11/chapter.json",
+      "audio": [
+        {
+          "id": "audio_mpn28w6y_21szfb",
+          "name": "Shantala-Sriramaiah_Namakam_mono",
+          "file": "11_Anuvaka_11/audio/Shantala-Sriramaiah_Namakam_mono.ogg"
+        },
+        {
+          "id": "audio_mpn2fso9_2oov2x",
+          "name": "Challakere-Brothers_Namakam_speed80_mono",
+          "file": "11_Anuvaka_11/audio/Challakere-Brothers_Namakam_speed80_mono.ogg"
+        }
+      ]
+    }
+  ]
+}
