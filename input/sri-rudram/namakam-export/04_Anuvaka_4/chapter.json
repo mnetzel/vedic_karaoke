@@ -1,7 +1,7 @@
 {
   "version": 1,
   "type": "praat-replacement-chapter-export",
-  "exportedAt": "2026-06-11T21:17:41.311Z",
+  "exportedAt": "2026-09-15T20:01:53.433Z",
   "project": {
     "name": "Namakam",
     "sourceProjectPath": "L:\\VedicKaraoke\\audio_sources\\Namakam.json"
@@ -1258,7 +1258,7 @@
       "texts": {
         "devanagari": "नमः॒ कुला॑लेभ्यः क॒र्मारे᳚भ्यश्च वो॒ नमो॒",
         "iast": "namaḥ kulālebhyaḥ karmārebhyaśca vo namo",
-        "polish": "namah kulāle bhja karmāre e bhjaścia wo namo"
+        "polish": "namah kulāle bhjah karmāre e bhjaścia wo namo"
       },
       "phraseTextBoundaries": [
         {
@@ -1270,7 +1270,7 @@
         {
           "textIndexes": {
             "iast": 25,
-            "polish": 28
+            "polish": 29
           }
         }
       ],
@@ -1316,7 +1316,7 @@
           "texts": {
             "devanagari": "bhyaḥ karmāre",
             "iast": "bhyaḥ karmāre",
-            "polish": "bhja karmāre e"
+            "polish": "bhjah karmāre e"
           },
           "timings": {
             "audio_mpn28w6y_21szfb": {
