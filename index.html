@@ -3,14 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <title>Vedic Karaoke</title>
-    <script>
-      window.__assetVersion = Date.now();
-      document.write(`<link rel="stylesheet" href="style.css?v=${window.__assetVersion}">`);
-    </script>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div class="controls floating-controls" aria-label="Sterowanie">
@@ -158,9 +152,16 @@
       </section>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
-    <script>
-      document.write(`<script src="app.js?v=${window.__assetVersion}" charset="utf-8"><\/script>`);
-    </script>
+    <aside id="offlineStatus" class="offline-status" aria-label="Offline download" hidden>
+      <span id="offlineMessage" role="status"></span>
+      <div id="offlineDownload" hidden>
+        <progress id="offlineProgress" max="100" aria-label="Offline download progress"></progress>
+        <span id="offlineAmount"></span>
+      </div>
+      <button id="offlineRetry" type="button" hidden>Retry</button>
+    </aside>
+    <script src="vendor/marked.min.js" defer></script>
+    <script src="app.js" defer></script>
+    <script src="offline.js" defer></script>
   </body>
 </html>

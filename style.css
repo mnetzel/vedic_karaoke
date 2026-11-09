@@ -1114,3 +1114,26 @@ body.text-size-large .pada-combined {
 body.padas-hidden .pada-list {
   display: none;
 }
+.offline-status {
+  position: fixed;
+  z-index: 20;
+  left: max(10px, env(safe-area-inset-left));
+  bottom: max(10px, env(safe-area-inset-bottom));
+  max-width: min(18rem, calc(100% - 20px));
+  padding: 7px 10px;
+  border: 1px solid #c8ccc9;
+  border-radius: 6px;
+  background: #fff;
+  color: #262626;
+  box-shadow: 0 1px 6px #0002;
+  font-size: 0.8rem;
+}
+
+.offline-status progress {
+  width: 100%;
+  accent-color: #276946;
+}
+
+.offline-status button {
+  margin-top: 4px;
+}
